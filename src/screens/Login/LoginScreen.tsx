@@ -8,7 +8,7 @@ export function LoginScreen(props: any) {
 
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>LoginScreen......!</Text>
+      <Text>Login</Text>
       <Button onPress={handleLoginButton} title="Open AfterLogin" />
     </View>
   );

@@ -6,7 +6,7 @@ import {
   Image,
 } from 'react-native';
 
-export default function HeaderComponent(props: any) {
+export function ScreenHeader(props: any) {
   return (
     <View
       style={{flexDirection: 'row', height: 50, backgroundColor: '#2EB6AE'}}>
