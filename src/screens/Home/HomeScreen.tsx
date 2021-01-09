@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import MapView, {Region} from 'react-native-maps';
 import {ScreenHeader} from '../../common/ScreenHeader';
+import Geolocation from '@react-native-community/geolocation'; 
+
+const {width, height} = Dimensions.get('window')
+
+const ASPECT_RATIO = width / height
+const LATITUDE_DELTA = 0.0922
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 const styles = StyleSheet.create({
   container: {
@@ -27,11 +34,7 @@ export class HomeScreen extends Component<any, any> {
 
   constructor(props: any) {
     super(props);
-    this.state = this.getInitialState();
-  }
-
-  getInitialState() {
-    return {
+    this.state = {
       region: {
         latitude: 37.78825,
         longitude: -122.4324,
@@ -41,8 +44,18 @@ export class HomeScreen extends Component<any, any> {
     };
   }
 
-  onRegionChange(region: Region) {
-    this.setState({region});
+  componentDidMount() {
+    Geolocation.getCurrentPosition((position) => {
+      var initialRegion = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      }
+      this.setState({region: initialRegion})
+    },
+    (error) => console.log(JSON.stringify(error)),
+    { enableHighAccuracy: true, timeout: 20000 });
   }
 
   render() {

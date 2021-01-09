@@ -12,7 +12,7 @@ export class JourneyScreen extends Component<any> {
       <View style={{flex: 1, flexDirection: 'column'}}>
         <ScreenHeader {...this.props} showName="Itinerari e viaggi" />
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text>Second Screen......!</Text>
+          <Text>Itinerari e viaggi... Work in Progress!!!</Text>
         </View>
       </View>
     );
