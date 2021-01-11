@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
-import MapView, {Region} from 'react-native-maps';
+import MapView, {Marker, Region} from 'react-native-maps';
 import {ScreenHeader} from '../../common/ScreenHeader';
-import Geolocation from '@react-native-community/geolocation'; 
+import Geolocation from '@react-native-community/geolocation';
 
-const {width, height} = Dimensions.get('window')
+const {width, height} = Dimensions.get('window');
 
-const ASPECT_RATIO = width / height
-const LATITUDE_DELTA = 0.0922
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+const ASPECT_RATIO = width / height;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const styles = StyleSheet.create({
   container: {
@@ -45,17 +45,19 @@ export class HomeScreen extends Component<any, any> {
   }
 
   componentDidMount() {
-    Geolocation.getCurrentPosition((position) => {
-      var initialRegion = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      }
-      this.setState({region: initialRegion})
-    },
-    (error) => console.log(JSON.stringify(error)),
-    { enableHighAccuracy: true, timeout: 20000 });
+    Geolocation.getCurrentPosition(
+      (position) => {
+        var initialRegion = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        };
+        this.setState({region: initialRegion});
+      },
+      (error) => console.debug(JSON.stringify(error)),
+      {enableHighAccuracy: true, timeout: 20000},
+    );
   }
 
   render() {
@@ -64,7 +66,8 @@ export class HomeScreen extends Component<any, any> {
         <MapView
           region={this.state.region}
           style={styles.map}
-        />
+          showsUserLocation
+          showsMyLocationButton></MapView>
         <ScreenHeader {...this.props} showName="Home" />
       </View>
     );
