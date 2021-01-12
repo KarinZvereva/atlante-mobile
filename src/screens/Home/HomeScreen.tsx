@@ -1,35 +1,34 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
-import MapView, {Marker, Region} from 'react-native-maps';
+import {View, StyleSheet} from 'react-native';
+import MapView, {Region} from 'react-native-maps';
 import {ScreenHeader} from '../../common/ScreenHeader';
 import Geolocation from '@react-native-community/geolocation';
+import {COORDINATES_DELTA} from '../../constants/coordinates';
 
-const {width, height} = Dimensions.get('window');
-
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
 const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    height: 400,
-    width: 400,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
+  pageContainer: {flex: 1, flexDirection: 'column'},
+  // container: {
+  //   ...StyleSheet.absoluteFillObject,
+  //   height: 400,
+  //   width: 400,
+  //   justifyContent: 'flex-end',
+  //   alignItems: 'center',
+  // },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
 });
 
-export class HomeScreen extends Component<any, any> {
+interface HomeScreenState {
+  region: Region;
+  watchId?: number;
+}
+
+export class HomeScreen extends Component<any, HomeScreenState> {
   static navigationOptions = {
     drawerLabel: 'Home',
-  };
-
-  handleButton = () => {
-    this.props.navigation.navigate('JourneyScreen');
   };
 
   constructor(props: any) {
@@ -38,31 +37,44 @@ export class HomeScreen extends Component<any, any> {
       region: {
         latitude: 37.78825,
         longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
       },
     };
   }
 
   componentDidMount() {
-    Geolocation.getCurrentPosition(
+    const watchId = Geolocation.watchPosition(
       (position) => {
-        var initialRegion = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        };
-        this.setState({region: initialRegion});
+        console.debug(JSON.stringify(position));
+        this.setState({
+          region: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          },
+          watchId
+        });
       },
       (error) => console.debug(JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000},
     );
   }
 
+  componentWillUnmount() {
+    const {watchId} = this.state;
+    if (watchId) {
+      try {
+        Geolocation.stopObserving();
+        Geolocation.clearWatch(watchId);
+      } catch {}
+    }
+  }
+
   render() {
     return (
-      <View style={{flex: 1, flexDirection: 'column'}}>
+      <View style={styles.pageContainer}>
         <MapView
           region={this.state.region}
           style={styles.map}

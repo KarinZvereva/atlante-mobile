@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const DrawerMenuContent: React.FC<any> = (props) => (
+const DrawerMenuContent: React.FC<any> = props => (
   <Container>
     <Header style={styles.drawerHeader}>
       <Body>
