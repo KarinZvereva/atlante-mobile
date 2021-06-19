@@ -8,14 +8,10 @@ import {COORDINATES_DELTA} from '../../constants/coordinates';
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
 const styles = StyleSheet.create({
-  pageContainer: {flex: 1, flexDirection: 'column'},
-  // container: {
-  //   ...StyleSheet.absoluteFillObject,
-  //   height: 400,
-  //   width: 400,
-  //   justifyContent: 'flex-end',
-  //   alignItems: 'center',
-  // },
+  pageContainer: { 
+    flex: 1, 
+    flexDirection: 'column' 
+  },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
