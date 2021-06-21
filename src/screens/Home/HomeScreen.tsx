@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import MapView, {Region} from 'react-native-maps';
-import {ScreenHeader} from '../../common/ScreenHeader';
+import {Header} from '../../common/components/Header/Header';
 import Geolocation from '@react-native-community/geolocation';
-import {COORDINATES_DELTA} from '../../constants/coordinates';
+import {COORDINATES_DELTA} from '../../common/constants/coordinates';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
 const styles = StyleSheet.create({
-  pageContainer: { 
-    flex: 1, 
-    flexDirection: 'column' 
+  pageContainer: {
+    flex: 1,
+    flexDirection: 'column',
   },
   map: {
     ...StyleSheet.absoluteFillObject,
@@ -31,8 +31,8 @@ export class HomeScreen extends Component<any, HomeScreenState> {
     super(props);
     this.state = {
       region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: 45.78825,
+        longitude: 13.4324,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
@@ -42,7 +42,6 @@ export class HomeScreen extends Component<any, HomeScreenState> {
   componentDidMount() {
     const watchId = Geolocation.watchPosition(
       (position) => {
-        console.debug(JSON.stringify(position));
         this.setState({
           region: {
             latitude: position.coords.latitude,
@@ -50,7 +49,7 @@ export class HomeScreen extends Component<any, HomeScreenState> {
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
           },
-          watchId
+          watchId,
         });
       },
       (error) => console.debug(JSON.stringify(error)),
@@ -69,14 +68,11 @@ export class HomeScreen extends Component<any, HomeScreenState> {
   }
 
   render() {
+    const {region} = this.state;
     return (
       <View style={styles.pageContainer}>
-        <MapView
-          region={this.state.region}
-          style={styles.map}
-          showsUserLocation
-          showsMyLocationButton></MapView>
-        <ScreenHeader {...this.props} showName="Home" />
+        <MapView region={region} style={styles.map} showsUserLocation></MapView>
+        <Header {...this.props} showName="Home" />
       </View>
     );
   }

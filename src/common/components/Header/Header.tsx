@@ -1,19 +1,15 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {Text, View, TouchableOpacity, Image} from 'react-native';
 
-export function ScreenHeader(props: any) {
+export function Header(props: any) {
+  const {navigation, showName} = props;
   return (
     <View
       style={{flexDirection: 'row', height: 50, backgroundColor: '#2EB6AE'}}>
       <TouchableOpacity
         style={{marginLeft: 10, alignContent: 'center', alignSelf: 'center'}}
         onPress={() => {
-          props.navigation.openDrawer();
+          navigation.openDrawer();
         }}>
         <Image
           source={{
@@ -30,7 +26,7 @@ export function ScreenHeader(props: any) {
           alignSelf: 'center',
           marginLeft: 20,
         }}>
-        {props.showName}
+        {showName}
       </Text>
     </View>
   );

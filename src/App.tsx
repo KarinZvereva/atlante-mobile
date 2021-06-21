@@ -6,9 +6,9 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {Text, StyleSheet, Image, View} from 'react-native';
 import {Container, Content, Header, Body} from 'native-base';
 
-import { HomeScreen } from './screens/Home/HomeScreen';
-import { JourneyScreen } from './screens/Journey/JourneyScreen';
-import { LoginScreen } from './screens/Login/LoginScreen';
+import {HomeScreen} from './screens/Home/HomeScreen';
+import {JourneyScreen} from './screens/Journey/JourneyScreen';
+import {LoginScreen} from './screens/Login/LoginScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const DrawerMenuContent: React.FC<any> = props => (
+const DrawerMenuContent: React.FC<any> = (props) => (
   <Container>
     <Header style={styles.drawerHeader}>
       <Body>
@@ -60,7 +60,7 @@ const MyDrawerNavigator = createDrawerNavigator(
       screen: HomeScreen,
     },
     JourneyScreen: {
-      screen: JourneyScreen, 
+      screen: JourneyScreen,
     },
   },
   {
