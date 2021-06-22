@@ -16,7 +16,7 @@ export function Header(props: any) {
             uri:
               'https://reactnativecode.com/wp-content/uploads/2018/04/hamburger_icon.png',
           }}
-          style={{width: 25, height: 25, marginLeft: 5}}
+          style={{width: 25, height: 25, marginLeft: 5, resizeMode: 'contain'}}
         />
       </TouchableOpacity>
       <Text

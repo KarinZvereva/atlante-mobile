@@ -22,11 +22,7 @@ interface HomeScreenState {
   watchId?: number;
 }
 
-export class HomeScreen extends Component<any, HomeScreenState> {
-  static navigationOptions = {
-    drawerLabel: 'Home',
-  };
-
+export class Home extends Component<any, HomeScreenState> {
   constructor(props: any) {
     super(props);
     this.state = {

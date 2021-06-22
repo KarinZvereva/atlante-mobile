@@ -1,94 +1,110 @@
-import React from 'react';
+import React, {useEffect, useMemo} from 'react';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {Home} from './screens/Home/Home';
+import {Journey} from './screens/Journey/Journey';
+import {StorageManager} from './common/storage';
+import {AuthContext} from './common/context/AuthContext';
+import {Login} from './screens/Login';
 
-import {createAppContainer} from 'react-navigation';
-import {createDrawerNavigator, DrawerItems} from 'react-navigation-drawer';
-import {createStackNavigator} from 'react-navigation-stack';
-import {Text, StyleSheet, Image, View} from 'react-native';
-import {Container, Content, Header, Body} from 'native-base';
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
-import {HomeScreen} from './screens/Home/HomeScreen';
-import {JourneyScreen} from './screens/Journey/JourneyScreen';
-import {LoginScreen} from './screens/Login/LoginScreen';
+const LoggedRoot = () => {
+  return (
+    <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Screen
+        name="Home"
+        component={Home}
+        options={{headerShown: false}}
+      />
+      <Drawer.Screen
+        name="Journey"
+        component={Journey}
+        options={{headerShown: false}}
+      />
+    </Drawer.Navigator>
+  );
+};
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  drawerHeader: {
-    height: 100,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-  },
-  drawerImage: {
-    height: 50,
-    width: 50,
-    borderRadius: 75,
-  },
-});
-
-const DrawerMenuContent: React.FC<any> = (props) => (
-  <Container>
-    <Header style={styles.drawerHeader}>
-      <Body>
-        <View style={{flexDirection: 'row'}}>
-          <Image
-            style={styles.drawerImage}
-            source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}}
-          />
-          <Text
-            style={{
-              marginLeft: 20,
-              alignContent: 'center',
-              alignSelf: 'center',
-            }}>
-            User name
-          </Text>
-        </View>
-      </Body>
-    </Header>
-    <Content>
-      <DrawerItems {...props} />
-    </Content>
-  </Container>
-);
-
-const MyDrawerNavigator = createDrawerNavigator(
-  {
-    HomeScreen: {
-      screen: HomeScreen,
+export default function App() {
+  const [state, dispatch] = React.useReducer(
+    (prevState: any, action: any) => {
+      switch (action.type) {
+        case 'RESTORE_TOKEN':
+          return {
+            ...prevState,
+            userToken: action.token,
+            isLoading: false,
+          };
+        case 'SIGN_IN':
+          return {
+            ...prevState,
+            isSignout: false,
+            userToken: action.token,
+          };
+        case 'SIGN_OUT':
+          return {
+            ...prevState,
+            isSignout: true,
+            userToken: null,
+          };
+      }
     },
-    JourneyScreen: {
-      screen: JourneyScreen,
+    {
+      isLoading: true,
+      isSignout: false,
+      userToken: null,
     },
-  },
-  {
-    drawerPosition: 'left',
-    initialRouteName: 'HomeScreen',
-    drawerBackgroundColor: 'white',
-    drawerWidth: 200,
-    contentComponent: DrawerMenuContent,
-    contentOptions: {
-      activeTintColor: '#2EB6AE',
-      inactiveTintColor: '#939393',
-    },
-  },
-);
+  );
 
-const RootNavigator = createStackNavigator({
-  Login: {
-    screen: LoginScreen,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  AfterLogin: {
-    screen: MyDrawerNavigator,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-});
+  useEffect(() => {
+    // Fetch the token from storage then navigate to our appropriate place
+    const bootstrapAsync = async () => {
+      let userToken;
 
-export default createAppContainer(RootNavigator);
+      try {
+        userToken = await StorageManager.retrieveData('userToken');
+      } catch (e) {
+        // Restoring token failed
+      }
+
+      // After restoring token, we may need to validate it in production apps
+
+      // This will switch to the App screen or Auth screen and this loading
+      // screen will be unmounted and thrown away.
+      dispatch({type: 'RESTORE_TOKEN', token: userToken});
+    };
+
+    bootstrapAsync();
+  }, []);
+
+  const authContext = useMemo(
+    () => ({
+      signIn: async (token: string) => {
+        dispatch({type: 'SIGN_IN', token});
+      },
+      signOut: () => dispatch({type: 'SIGN_OUT'}),
+    }),
+    [],
+  );
+
+  return (
+    <AuthContext.Provider value={authContext}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {state.userToken == null ? (
+            <Stack.Screen
+              name="SignIn"
+              component={Login}
+              options={{headerShown: false}}
+            />
+          ) : (
+            <Stack.Screen name="App" component={LoggedRoot} />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthContext.Provider>
+  );
+}

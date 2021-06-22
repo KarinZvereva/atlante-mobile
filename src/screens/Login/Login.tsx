@@ -3,13 +3,15 @@ import SplashScreen from 'react-native-splash-screen';
 import {
   Text,
   View,
-  Button,
   TextInput,
   ActivityIndicator,
   StyleSheet,
   Image,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
+import {LoginDal} from './Login.dal';
+import {AuthContext} from '../../common/context';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,12 +21,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    marginBottom: 40,
-    height: 256,
-    width: 256,
+    marginBottom: 20,
+    height: 320,
+    width: 320,
+    resizeMode: 'contain',
   },
   inputView: {
-    backgroundColor: '#FFC0CB',
+    backgroundColor: '#659a4a',
     borderRadius: 30,
     width: '70%',
     height: 45,
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 40,
-    backgroundColor: '#FF1493',
+    //backgroundColor: '#1B5D28',
   },
   loginText: {
     color: 'white',
@@ -58,10 +61,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export function LoginScreen() {
+export function Login() {
   const [userName, setUserName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const {signIn} = React.useContext(AuthContext);
 
   // Initial loading
   useEffect(() => {
@@ -71,39 +77,63 @@ export function LoginScreen() {
     };
   }, []);
 
-  useEffect(() => {}, [isLoading]);
+  const Login = () => {
+    setLoading(true);
+    LoginDal.login({userName, password})
+      .then((res) => {
+        console.log('login success!');
+        console.log(`token: ${res}`);
+        signIn(res);
+      })
+      .catch((err) => {
+        console.log(JSON.stringify(err));
+        setError(JSON.stringify(err));
+        setIsError(true);
+        setLoading(false);
+      });
+  };
 
   return (
     <View style={styles.container}>
       <Image
         style={styles.image}
-        source={require('../../assets/img/logo.png')}
+        source={require('../../assets/img/login_logo.jpeg')}
       />
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
           placeholder="Username..."
-          placeholderTextColor="#003f5c"
-          onChangeText={(username) => setUserName(username)}
+          placeholderTextColor="#fff"
+          onChangeText={(value) => setUserName(value)}
         />
       </View>
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
           placeholder="Password..."
-          placeholderTextColor="#003f5c"
+          placeholderTextColor="#fff"
           secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
+          onChangeText={(value) => setPassword(value)}
         />
       </View>
       <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
-      <View style={styles.loginBtn}>
-        <TouchableOpacity>
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableOpacity>
-      </View>
+      <LinearGradient
+        colors={['#ce8a86', '#bd6665', '#a92a3f']}
+        style={styles.loginBtn}>
+        <View>
+          <TouchableOpacity onPress={() => Login()}>
+            <Text style={styles.loginText}>Login</Text>
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
+      {isLoading && <ActivityIndicator size="small" />}
+      {isError && (
+        <View>
+          <Text>{error}</Text>
+        </View>
+      )}
     </View>
   );
 }
