@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import {
   Text,
@@ -11,7 +11,7 @@ import {
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {LoginDal} from './Login.dal';
-import {AuthContext} from '../../common/context';
+import {AuthContext} from '../../common/auth';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   TextInput: {
+    color: 'white',
     height: 50,
     flex: 1,
     padding: 10,
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 40,
-    //backgroundColor: '#1B5D28',
+    // backgroundColor: '#1B5D28',
   },
   loginText: {
     color: 'white',
@@ -67,15 +68,7 @@ export function Login() {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const {signIn} = React.useContext(AuthContext);
-
-  // Initial loading
-  useEffect(() => {
-    let timer = setTimeout(() => SplashScreen.hide(), 3000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+  const {actionsProvider} = useContext(AuthContext);
 
   const Login = () => {
     setLoading(true);
@@ -83,7 +76,9 @@ export function Login() {
       .then((res) => {
         console.log('login success!');
         console.log(`token: ${res}`);
-        signIn(res);
+        if (actionsProvider) {
+          actionsProvider.signIn(res);
+        }
       })
       .catch((err) => {
         console.log(JSON.stringify(err));

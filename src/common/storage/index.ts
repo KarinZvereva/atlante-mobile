@@ -1,1 +1,1 @@
-export * from './AsyncStorageManager';
+export * from './Storage';

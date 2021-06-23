@@ -1,12 +1,21 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useReducer} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Home} from './screens/Home/Home';
 import {Journey} from './screens/Journey/Journey';
-import {StorageManager} from './common/storage';
-import {AuthContext} from './common/context/AuthContext';
+import {Storage} from './common/storage';
+import {AuthContext} from './common/auth/AuthContext';
 import {Login} from './screens/Login';
+import {tokenKey} from './common/constants';
+import {
+  AuthActionsType,
+  AuthReducer,
+  checkExpiredToken,
+  InitialAuthState,
+} from './common/auth';
+import {LoginApiOutputData} from './common/interfaces';
+import SplashScreen from 'react-native-splash-screen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -29,69 +38,56 @@ const LoggedRoot = () => {
 };
 
 export default function App() {
-  const [state, dispatch] = React.useReducer(
-    (prevState: any, action: any) => {
-      switch (action.type) {
-        case 'RESTORE_TOKEN':
-          return {
-            ...prevState,
-            userToken: action.token,
-            isLoading: false,
-          };
-        case 'SIGN_IN':
-          return {
-            ...prevState,
-            isSignout: false,
-            userToken: action.token,
-          };
-        case 'SIGN_OUT':
-          return {
-            ...prevState,
-            isSignout: true,
-            userToken: null,
-          };
-      }
-    },
-    {
-      isLoading: true,
-      isSignout: false,
-      userToken: null,
-    },
-  );
+  const [state, dispatch] = useReducer(AuthReducer, InitialAuthState);
 
   useEffect(() => {
-    // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
       let userToken;
-
       try {
-        userToken = await StorageManager.retrieveData('userToken');
+        userToken = await Storage.getObject<LoginApiOutputData>(tokenKey);
       } catch (e) {
-        // Restoring token failed
+        console.error(JSON.stringify(e));
+        dispatch({type: AuthActionsType.SIGN_OUT});
+        return;
       }
 
-      // After restoring token, we may need to validate it in production apps
-
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      dispatch({type: 'RESTORE_TOKEN', token: userToken});
+      if (!checkExpiredToken(userToken?.token))
+        dispatch({
+          type: AuthActionsType.RESTORE_TOKEN,
+          token: userToken?.token,
+          refreshToken: userToken?.refreshToken,
+        });
+      else dispatch({type: AuthActionsType.SIGN_OUT});
     };
 
     bootstrapAsync();
   }, []);
 
+  useEffect(() => {
+    if (!state.isLoading) SplashScreen.hide();
+  }, [state.isLoading]);
+
   const authContext = useMemo(
     () => ({
-      signIn: async (token: string) => {
-        dispatch({type: 'SIGN_IN', token});
+      signIn: async (token: LoginApiOutputData) => {
+        if (!(await Storage.storeObject(tokenKey, token)))
+          console.error('error when saving token on storage');
+
+        dispatch({
+          type: AuthActionsType.SIGN_IN,
+          token: token?.token,
+          refreshToken: token?.refreshToken,
+        });
       },
-      signOut: () => dispatch({type: 'SIGN_OUT'}),
+      signOut: () => {
+        dispatch({type: AuthActionsType.SIGN_OUT});
+      },
     }),
     [],
   );
 
   return (
-    <AuthContext.Provider value={authContext}>
+    <AuthContext.Provider value={{state, actionsProvider: authContext}}>
       <NavigationContainer>
         <Stack.Navigator>
           {state.userToken == null ? (
