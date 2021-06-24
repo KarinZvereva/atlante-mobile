@@ -30,9 +30,17 @@ export const AuthReducer: React.Reducer<AuthState, AuthActions> = (
     case AuthActionsType.SIGN_OUT:
       return {
         ...prevState,
+        isLoading: false,
         isSignout: true,
         userToken: null,
         refreshToken: null,
+      };
+    case AuthActionsType.REFRESH_TOKEN:
+      return {
+        ...prevState,
+        isLoading: false,
+        userToken: action.token,
+        refreshToken: action.refreshToken,
       };
     default:
       return {...prevState};

@@ -19,6 +19,15 @@ export const Storage = {
       return false;
     }
   },
+  updateObject: async <T extends {}>(key: string, item: T) => {
+    try {
+      await AsyncStorage.mergeItem(key, JSON.stringify(item));
+      return true;
+    } catch (error) {
+      console.error(JSON.stringify(error));
+      return false;
+    }
+  },
   getData: async (key: string) => {
     try {
       const value = await AsyncStorage.getItem(key);

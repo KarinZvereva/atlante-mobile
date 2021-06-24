@@ -14,8 +14,10 @@ import {
   checkExpiredToken,
   InitialAuthState,
 } from './common/auth';
-import {LoginApiOutputData} from './common/interfaces';
+import {LoginApiInputData, LoginApiOutputData} from './common/interfaces';
 import SplashScreen from 'react-native-splash-screen';
+import {SignUp} from './screens/SignUp/SignUp';
+import {WineryMap} from './screens/WineryMap/WineryMap';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -26,6 +28,11 @@ const LoggedRoot = () => {
       <Drawer.Screen
         name="Home"
         component={Home}
+        options={{headerShown: false}}
+      />
+      <Drawer.Screen
+        name="Winery Map"
+        component={WineryMap}
         options={{headerShown: false}}
       />
       <Drawer.Screen
@@ -46,11 +53,10 @@ export default function App() {
       try {
         userToken = await Storage.getObject<LoginApiOutputData>(tokenKey);
       } catch (e) {
-        console.error(JSON.stringify(e));
+        console.log(JSON.stringify(e));
         dispatch({type: AuthActionsType.SIGN_OUT});
         return;
       }
-
       if (!checkExpiredToken(userToken?.token))
         dispatch({
           type: AuthActionsType.RESTORE_TOKEN,
@@ -82,6 +88,16 @@ export default function App() {
       signOut: () => {
         dispatch({type: AuthActionsType.SIGN_OUT});
       },
+      refresh: async (token: LoginApiOutputData) => {
+        if (!(await Storage.updateObject(tokenKey, token)))
+          console.error('error when saving token on storage');
+
+        dispatch({
+          type: AuthActionsType.REFRESH_TOKEN,
+          token: token?.token,
+          refreshToken: token?.refreshToken,
+        });
+      },
     }),
     [],
   );
@@ -91,13 +107,20 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           {state.userToken == null ? (
+            <>
+              <Stack.Screen
+                name="SignIn"
+                component={Login}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen name="SignUp" component={SignUp} />
+            </>
+          ) : (
             <Stack.Screen
-              name="SignIn"
-              component={Login}
+              name="App"
+              component={LoggedRoot}
               options={{headerShown: false}}
             />
-          ) : (
-            <Stack.Screen name="App" component={LoggedRoot} />
           )}
         </Stack.Navigator>
       </NavigationContainer>

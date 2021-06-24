@@ -1,5 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
-import SplashScreen from 'react-native-splash-screen';
+import React, {useContext, useState} from 'react';
 import {
   Text,
   View,
@@ -10,8 +9,7 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import {LoginDal} from './Login.dal';
-import {AuthContext} from '../../common/auth';
+import {AuthContext, AuthDal} from '../../common/auth';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,14 +34,15 @@ const styles = StyleSheet.create({
   },
   TextInput: {
     color: 'white',
-    height: 50,
+    textAlign: 'center',
     flex: 1,
-    padding: 10,
-    marginLeft: 20,
+    fontFamily: 'Novecento Sans',
   },
   forgot_button: {
-    height: 30,
-    marginBottom: 30,
+    height: 45,
+    borderRadius: 30,
+    width: '70%',
+    alignItems: 'center',
   },
   loginBtn: {
     width: '80%',
@@ -52,17 +51,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 40,
-    // backgroundColor: '#1B5D28',
   },
   loginText: {
     color: 'white',
     fontSize: 18,
     justifyContent: 'center',
     textAlign: 'center',
+    fontFamily: 'Novecento Sans',
   },
 });
 
-export function Login() {
+export function Login(props: any) {
   const [userName, setUserName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -72,12 +71,12 @@ export function Login() {
 
   const Login = () => {
     setLoading(true);
-    LoginDal.login({userName, password})
+    AuthDal.login({userName, password})
       .then((res) => {
-        console.log('login success!');
-        console.log(`token: ${res}`);
         if (actionsProvider) {
-          actionsProvider.signIn(res);
+          actionsProvider.signIn(res).then(() => {
+            setLoading(false);
+          });
         }
       })
       .catch((err) => {
@@ -97,23 +96,34 @@ export function Login() {
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Username..."
-          placeholderTextColor="#fff"
+          placeholder="Username"
+          placeholderTextColor="#ffffff"
           onChangeText={(value) => setUserName(value)}
         />
       </View>
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Password..."
-          placeholderTextColor="#fff"
-          secureTextEntry={true}
+          placeholder="Password"
+          placeholderTextColor="#ffffff"
+          secureTextEntry
           onChangeText={(value) => setPassword(value)}
         />
       </View>
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity>
+      <View style={styles.forgot_button}>
+        <TouchableOpacity>
+          <Text style={{flex: 1, textAlign: 'center', color: '#2191b0'}}>
+            Forgot Password?
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.forgot_button}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('SignUp')}>
+          <Text style={{flex: 1, textAlign: 'center', color: '#2191b0'}}>
+            Not registered yet? Sign Up!
+          </Text>
+        </TouchableOpacity>
+      </View>
       <LinearGradient
         colors={['#ce8a86', '#bd6665', '#a92a3f']}
         style={styles.loginBtn}>
@@ -123,7 +133,7 @@ export function Login() {
           </TouchableOpacity>
         </View>
       </LinearGradient>
-      {isLoading && <ActivityIndicator size="small" />}
+      {isLoading && <ActivityIndicator size="large" />}
       {isError && (
         <View>
           <Text>{error}</Text>

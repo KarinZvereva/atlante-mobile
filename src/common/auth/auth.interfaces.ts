@@ -4,6 +4,7 @@ import {AuthActionsType} from './auth.constants';
 export interface AuthActionsProvider {
   signIn: (loginOutput: LoginApiOutputData) => Promise<void>;
   signOut: () => void;
+  refresh: (data: LoginApiOutputData) => Promise<void>;
 }
 
 export interface AuthContextData {
