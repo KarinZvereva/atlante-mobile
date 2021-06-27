@@ -6,6 +6,7 @@ export const InitialAuthState: AuthState = {
   isSignout: false,
   userToken: null,
   refreshToken: null,
+  userData: null,
 };
 
 export const AuthReducer: React.Reducer<AuthState, AuthActions> = (
@@ -18,6 +19,7 @@ export const AuthReducer: React.Reducer<AuthState, AuthActions> = (
         ...prevState,
         userToken: action.token,
         refreshToken: action.refreshToken,
+        userData: action.userData,
         isLoading: false,
       };
     case AuthActionsType.SIGN_IN:
@@ -26,6 +28,7 @@ export const AuthReducer: React.Reducer<AuthState, AuthActions> = (
         isSignout: false,
         userToken: action.token,
         refreshToken: action.refreshToken,
+        userData: action.userData,
       };
     case AuthActionsType.SIGN_OUT:
       return {
@@ -34,6 +37,7 @@ export const AuthReducer: React.Reducer<AuthState, AuthActions> = (
         isSignout: true,
         userToken: null,
         refreshToken: null,
+        userData: null,
       };
     case AuthActionsType.REFRESH_TOKEN:
       return {
@@ -41,6 +45,7 @@ export const AuthReducer: React.Reducer<AuthState, AuthActions> = (
         isLoading: false,
         userToken: action.token,
         refreshToken: action.refreshToken,
+        userData: action.userData,
       };
     default:
       return {...prevState};

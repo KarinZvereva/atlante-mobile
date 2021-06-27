@@ -136,9 +136,3 @@ export interface IDalFactoryOptions {
 }
 
 export interface IDalCancelToken {}
-
-export const entityDalFactoryR = <T>(entityName: Entities) =>
-  entityDalFactory<T, IDalR<T>>({
-    enableOperation: GenericDalOperation.READ,
-    entityName,
-  });

@@ -6,8 +6,9 @@ import {
   IDalBaseEntity,
   ServerResponse,
   ILookupResultDTO,
+  IDalR,
 } from './entityDalFactory.interfaces';
-import {webApiBaseUrl} from '../../constants';
+import {Entities, webApiBaseUrl} from '../../constants';
 import {ServerError400} from './entityDalFactory.interfaces';
 import {
   GenericDalOperation,
@@ -90,10 +91,16 @@ export const entityDalFactory = <T, TOut extends IDalBaseEntity>(
       const url = `${entityUrlBuilder(entityName)}${
         filters ? `?${queryString.stringify(filters)}` : ''
       }`;
-      const result = await fetcher(url);
-      const data: TRes = await result.json();
+      const result = await fetcher(url, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = (await result.json()) as TRes;
       return {data};
     } catch (error) {
+      console.log(JSON.stringify(error));
       return {error};
     }
   };
@@ -105,6 +112,12 @@ export const entityDalFactory = <T, TOut extends IDalBaseEntity>(
     try {
       const result = await fetcher(
         `${entityUrlBuilder(entityName)}${id !== '' ? `/${id}` : ''}`,
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
       );
       const data: T = await result.json();
       return {data};

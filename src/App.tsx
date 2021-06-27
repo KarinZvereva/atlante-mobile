@@ -4,10 +4,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Home} from './screens/Home/Home';
 import {Journey} from './screens/Journey/Journey';
-import {Storage} from './common/modules/storage';
 import {AuthContext} from './common/modules/auth/AuthContext';
 import {Login} from './screens/Login';
-import {tokenKey} from './common/constants';
 import {
   AuthActionsType,
   AuthReducer,
@@ -82,6 +80,7 @@ export default function App() {
             type: AuthActionsType.SIGN_IN,
             token: token?.token,
             refreshToken: token?.refreshToken,
+            userData: AuthTokenManager.decodeToken(token.token),
           });
         }
         return result;
@@ -98,6 +97,7 @@ export default function App() {
             type: AuthActionsType.REFRESH_TOKEN,
             token: token?.token,
             refreshToken: token?.refreshToken,
+            userData: AuthTokenManager.decodeToken(token.token),
           });
         }
         return result;
@@ -108,27 +108,32 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={{state, actionsProvider: authContext}}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          {state.userToken == null ? (
-            <>
+      {!state.isLoading && (
+        <NavigationContainer>
+          <Stack.Navigator>
+            {state.userToken == null ? (
+              <>
+                <Stack.Screen
+                  name="SignIn"
+                  component={Login}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen name="SignUp" component={SignUp} />
+                <Stack.Screen
+                  name="AccountRestore"
+                  component={AccountRestore}
+                />
+              </>
+            ) : (
               <Stack.Screen
-                name="SignIn"
-                component={Login}
+                name="App"
+                component={LoggedRoot}
                 options={{headerShown: false}}
               />
-              <Stack.Screen name="SignUp" component={SignUp} />
-              <Stack.Screen name="AccountRestore" component={AccountRestore} />
-            </>
-          ) : (
-            <Stack.Screen
-              name="App"
-              component={LoggedRoot}
-              options={{headerShown: false}}
-            />
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      )}
     </AuthContext.Provider>
   );
 }

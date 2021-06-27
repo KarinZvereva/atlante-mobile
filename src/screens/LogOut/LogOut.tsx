@@ -6,9 +6,13 @@ import {AuthContext} from '../../common/modules/auth';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
   },
 });
 
@@ -20,7 +24,7 @@ export function LogOut() {
   }, [actionsProvider]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, styles.horizontal]}>
       <ActivityIndicator size="large" />
     </View>
   );

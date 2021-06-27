@@ -16,6 +16,7 @@ export interface AuthActions {
   type: AuthActionsType;
   token?: string | null;
   refreshToken?: string | null;
+  userData?: ITokenData | null;
 }
 
 export interface AuthState {
@@ -23,6 +24,7 @@ export interface AuthState {
   isSignout: boolean;
   userToken?: string | null;
   refreshToken?: string | null;
+  userData?: ITokenData | null;
 }
 
 /**

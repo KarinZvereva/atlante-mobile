@@ -74,9 +74,7 @@ export function Login(props: any) {
     AuthDal.login({userName, password})
       .then((res) => {
         if (actionsProvider) {
-          actionsProvider.signIn(res).then(() => {
-            setLoading(false);
-          });
+          actionsProvider.signIn(res);
         }
       })
       .catch((err) => {
@@ -89,52 +87,61 @@ export function Login(props: any) {
 
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={require('../../assets/img/login_logo.jpeg')}
-      />
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Username"
-          placeholderTextColor="#ffffff"
-          onChangeText={(value) => setUserName(value)}
-        />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password"
-          placeholderTextColor="#ffffff"
-          secureTextEntry
-          onChangeText={(value) => setPassword(value)}
-        />
-      </View>
-      <View style={styles.forgot_button}>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('AccountRestore')}>
-          <Text style={{flex: 1, textAlign: 'center', color: '#2191b0'}}>
-            Forgot Password?
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.forgot_button}>
-        <TouchableOpacity onPress={() => props.navigation.navigate('SignUp')}>
-          <Text style={{flex: 1, textAlign: 'center', color: '#2191b0'}}>
-            Not registered yet? Sign Up!
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <LinearGradient
-        colors={['#ce8a86', '#bd6665', '#a92a3f']}
-        style={styles.loginBtn}>
+      {!isLoading && (
+        <>
+          <Image
+            style={styles.image}
+            source={require('../../assets/img/login_logo.jpeg')}
+          />
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Username"
+              placeholderTextColor="#ffffff"
+              onChangeText={(value) => setUserName(value)}
+            />
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Password"
+              placeholderTextColor="#ffffff"
+              secureTextEntry
+              onChangeText={(value) => setPassword(value)}
+            />
+          </View>
+          <View style={styles.forgot_button}>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('AccountRestore')}>
+              <Text style={{flex: 1, textAlign: 'center', color: '#2191b0'}}>
+                Forgot Password?
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.forgot_button}>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('SignUp')}>
+              <Text style={{flex: 1, textAlign: 'center', color: '#2191b0'}}>
+                Not registered yet? Sign Up!
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <LinearGradient
+            colors={['#ce8a86', '#bd6665', '#a92a3f']}
+            style={styles.loginBtn}>
+            <View>
+              <TouchableOpacity onPress={() => Login()}>
+                <Text style={styles.loginText}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+        </>
+      )}
+      {isLoading && (
         <View>
-          <TouchableOpacity onPress={() => Login()}>
-            <Text style={styles.loginText}>Login</Text>
-          </TouchableOpacity>
+          <ActivityIndicator size="large" />
         </View>
-      </LinearGradient>
-      {isLoading && <ActivityIndicator size="large" />}
+      )}
       {isError && (
         <View>
           <Text>{error}</Text>
