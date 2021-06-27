@@ -1,4 +1,4 @@
-import {AbsDecoder} from '../../utils/AbsDecoder';
+import {AbsDecoder} from '../../../utils/AbsDecoder';
 import {ITokenData} from './auth.interfaces';
 
 export class TokenDecoder extends AbsDecoder<string, ITokenData | undefined> {

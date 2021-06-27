@@ -1,4 +1,4 @@
-import {Entities, webApiBaseUrl} from '../constants';
+import {Entities, webApiBaseUrl} from '../../constants';
 
 export const entityPostBuilder = (controller: Entities) => <Tin, Tout>(
   action: string,

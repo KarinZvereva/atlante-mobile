@@ -1,10 +1,10 @@
-import {LoginApiOutputData} from '../interfaces';
+import {LoginApiOutputData} from '../../interfaces';
 import {AuthActionsType} from './auth.constants';
 
 export interface AuthActionsProvider {
-  signIn: (loginOutput: LoginApiOutputData) => Promise<void>;
-  signOut: () => void;
-  refresh: (data: LoginApiOutputData) => Promise<void>;
+  signIn: (loginOutput: LoginApiOutputData) => Promise<boolean>;
+  signOut: () => Promise<boolean>;
+  refresh: (data: LoginApiOutputData) => Promise<boolean>;
 }
 
 export interface AuthContextData {

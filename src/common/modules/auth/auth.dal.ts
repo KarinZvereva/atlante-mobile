@@ -1,6 +1,6 @@
 import {entityPostBuilder} from '../builders/entityPostBuilder';
-import {Entities} from '../constants';
-import {LoginApiInputData, LoginApiOutputData} from '../interfaces/web-api';
+import {Entities} from '../../constants';
+import {LoginApiInputData, LoginApiOutputData} from '../../interfaces/web-api';
 
 const authFetchBuilder = entityPostBuilder(Entities.Auth);
 

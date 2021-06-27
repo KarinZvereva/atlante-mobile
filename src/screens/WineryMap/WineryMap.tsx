@@ -1,11 +1,20 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import MapView, {Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
 import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
+import {useState} from 'react';
+import {useEffect} from 'react';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
+
+const InitialRegion: Region = {
+  latitude: 45.78825,
+  longitude: 13.4324,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
+};
 
 const styles = StyleSheet.create({
   pageContainer: {
@@ -17,59 +26,35 @@ const styles = StyleSheet.create({
   },
 });
 
-interface HomeScreenState {
-  region: Region;
-  watchId?: number;
-}
+export const WineryMap = (props: any) => {
+  const [region, setRegion] = useState<Region>(InitialRegion);
 
-export class WineryMap extends Component<any, HomeScreenState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      region: {
-        latitude: 45.78825,
-        longitude: 13.4324,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-    };
-  }
-
-  componentDidMount() {
-    const watchId = Geolocation.watchPosition(
+  useEffect(() => {
+    const id = Geolocation.watchPosition(
       (position) => {
-        this.setState({
-          region: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          },
-          watchId,
+        setRegion({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
         });
       },
       (error) => console.debug(JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000},
     );
-  }
 
-  componentWillUnmount() {
-    const {watchId} = this.state;
-    if (watchId) {
+    return () => {
       try {
         Geolocation.stopObserving();
-        Geolocation.clearWatch(watchId);
+        Geolocation.clearWatch(id);
       } catch {}
-    }
-  }
+    };
+  }, []);
 
-  render() {
-    const {region} = this.state;
-    return (
-      <View style={styles.pageContainer}>
-        <MapView region={region} style={styles.map} showsUserLocation></MapView>
-        <Header {...this.props} showName="Winery Map" />
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.pageContainer}>
+      <MapView region={region} style={styles.map} showsUserLocation></MapView>
+      <Header {...props} showName="Winery Map" />
+    </View>
+  );
+};

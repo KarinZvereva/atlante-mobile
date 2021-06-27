@@ -51,15 +51,19 @@ export const Storage = {
   removeEntry: async (key: string) => {
     try {
       await AsyncStorage.removeItem(key);
+      return true;
     } catch (error) {
       console.error(JSON.stringify(error));
+      return false;
     }
   },
   removeEntries: async (keys: string[]) => {
     try {
       await AsyncStorage.multiRemove(keys);
+      return true;
     } catch (error) {
       console.error(JSON.stringify(error));
+      return false;
     }
   },
 };

@@ -10,10 +10,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export function SignUp() {
+export function AccountRestore() {
   return (
     <View style={styles.container}>
-      <Text>Sign Up to NaTourWine</Text>
+      <Text>Restore Account password</Text>
     </View>
   );
 }

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import {AuthContext, AuthDal} from '../../common/auth';
+import {AuthContext, AuthDal} from '../../common/modules/auth';
 
 const styles = StyleSheet.create({
   container: {
@@ -111,7 +111,8 @@ export function Login(props: any) {
         />
       </View>
       <View style={styles.forgot_button}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('AccountRestore')}>
           <Text style={{flex: 1, textAlign: 'center', color: '#2191b0'}}>
             Forgot Password?
           </Text>
