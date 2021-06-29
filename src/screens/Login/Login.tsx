@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
+import {markerDefaultGreen} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 
 const styles = StyleSheet.create({
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   inputView: {
-    backgroundColor: '#659a4a',
+    backgroundColor: markerDefaultGreen,
     borderRadius: 30,
     width: '70%',
     height: 45,
@@ -70,9 +71,24 @@ export function Login(props: any) {
   const {actionsProvider} = useContext(AuthContext);
 
   const Login = () => {
+    if (!userName || !password) {
+      setError('Username o password non inseriti');
+      setIsError(true);
+      return;
+    }
+
+    setError('');
+    setIsError(false);
     setLoading(true);
     AuthDal.login({userName, password})
       .then((res) => {
+        if (!res.token || !res.refreshToken) {
+          setError('Dati errati');
+          setIsError(true);
+          setLoading(false);
+          return;
+        }
+
         if (actionsProvider) {
           actionsProvider.signIn(res);
         }
@@ -130,7 +146,9 @@ export function Login(props: any) {
             colors={['#ce8a86', '#bd6665', '#a92a3f']}
             style={styles.loginBtn}>
             <View>
-              <TouchableOpacity onPress={() => Login()}>
+              <TouchableOpacity
+                onPress={() => Login()}
+                disabled={!actionsProvider}>
                 <Text style={styles.loginText}>Login</Text>
               </TouchableOpacity>
             </View>
@@ -139,12 +157,12 @@ export function Login(props: any) {
       )}
       {isLoading && (
         <View>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color={markerDefaultGreen} />
         </View>
       )}
       {isError && (
         <View>
-          <Text>{error}</Text>
+          <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
         </View>
       )}
     </View>

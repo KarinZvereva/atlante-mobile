@@ -214,6 +214,12 @@ export interface FormSchemaPreviousVersion {
   schemaVersion?: Version;
 }
 
+export interface WineryLogoOutputData {
+  wineryId: string;
+  logo?: string | null;
+  lastUpdated?: string | null;
+}
+
 export enum WineryType {
   Not_Natural = 0,
   Winery = 1,

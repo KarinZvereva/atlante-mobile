@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {useEffect} from 'react';
 import {StyleSheet, View, ActivityIndicator} from 'react-native';
+import {markerDefaultGreen} from '../../common/constants';
 import {AuthContext} from '../../common/modules/auth';
 
 const styles = StyleSheet.create({
@@ -25,7 +26,7 @@ export function LogOut() {
 
   return (
     <View style={[styles.container, styles.horizontal]}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color={markerDefaultGreen} />
     </View>
   );
 }
