@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import MapView, {Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
 import Geolocation from '@react-native-community/geolocation';
@@ -10,8 +18,8 @@ import {useEffect} from 'react';
 import {Asset, Winery} from '../../common/interfaces';
 import {wineryDal, markerDal, wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
-import {ActivityIndicator} from 'react-native';
 import {markerDefaultGreen} from '../../common/constants';
+import {useRef} from 'react';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
@@ -29,9 +37,21 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
+    paddingTop: 50,
   },
   centerContainer: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  alignJustifyCenter: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    borderRadius: 30,
+    backgroundColor: '#d2d2d2',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -82,6 +102,7 @@ export const WineryMap = (props: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Winery[]>();
   const [markers, setMarker] = useState<Asset[]>();
+  const map = useRef<MapView>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -120,12 +141,32 @@ export const WineryMap = (props: any) => {
     }
   }, [data, markers, loading]);
 
+  const gotToMyLocation = () => {
+    console.log('gotToMyLocation is called');
+    Geolocation.getCurrentPosition(
+      ({coords}) => {
+        console.log('curent location: ', coords);
+        if (map && map.current) {
+          map.current.animateToRegion({
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            latitudeDelta: 1,
+            longitudeDelta: 1,
+          });
+        }
+      },
+      (error) => console.log(JSON.stringify(error)),
+      {enableHighAccuracy: true},
+    );
+  };
+
   return (
     <View style={styles.pageContainer}>
       {data && (
         <MapView
           initialRegion={InitialRegion}
           style={styles.map}
+          ref={map}
           showsUserLocation={true}
           showsMyLocationButton={true}>
           {data &&
@@ -151,6 +192,14 @@ export const WineryMap = (props: any) => {
           <ActivityIndicator size="large" color={markerDefaultGreen} />
         </View>
       )}
+      <TouchableOpacity
+        onPress={() => gotToMyLocation()}
+        style={styles.alignJustifyCenter}>
+        <Image
+          style={{width: 40, height: 40}}
+          source={require('../../assets/icon/goToMyLocation.png')}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
