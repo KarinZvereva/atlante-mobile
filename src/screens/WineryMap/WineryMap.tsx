@@ -98,7 +98,6 @@ const MarkerPopup = ({winery}: {winery: Winery}) => {
 // };
 
 export const WineryMap = (props: any) => {
-  const [region, setRegion] = useState<Region>(InitialRegion);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Winery[]>();
   const [markers, setMarker] = useState<Asset[]>();
@@ -178,6 +177,7 @@ export const WineryMap = (props: any) => {
                   latitude: d.location?.latitude || 0,
                   longitude: d.location?.longitude || 0,
                 }}
+                tracksViewChanges={false}
                 image={require('../../assets/icon/default.png')}>
                 <Callout>
                   <MarkerPopup winery={d} />
@@ -197,7 +197,7 @@ export const WineryMap = (props: any) => {
         style={styles.alignJustifyCenter}>
         <Image
           style={{width: 40, height: 40}}
-          source={require('../../assets/icon/goToMyLocation.png')}
+          source={require('../../assets/icon/posizione.png')}
         />
       </TouchableOpacity>
     </View>

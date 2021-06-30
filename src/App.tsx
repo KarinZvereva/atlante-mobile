@@ -1,4 +1,5 @@
 import React, {useEffect, useMemo, useReducer} from 'react';
+import {Image} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -18,6 +19,7 @@ import {SignUp} from './screens/SignUp/SignUp';
 import {WineryMap} from './screens/WineryMap/WineryMap';
 import {LogOut} from './screens/LogOut/LogOut';
 import {AccountRestore} from './screens/AccountRestore/AccountRestore';
+import {Restaurant} from './screens/Restaurant/Restaurant';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -28,22 +30,67 @@ const LoggedRoot = () => {
       <Drawer.Screen
         name="Home"
         component={Home}
-        options={{headerShown: false}}
+        options={{
+          headerShown: false,
+          drawerIcon: ({size}) => (
+            <Image
+              source={require('./assets/icon/home.png')}
+              style={{height: size, width: size}}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="Winery Map"
         component={WineryMap}
-        options={{headerShown: false}}
+        options={{
+          headerShown: false,
+          drawerIcon: ({size}) => (
+            <Image
+              source={require('./assets/icon/wineries_map.png')}
+              style={{height: size, width: size}}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="Journey"
         component={Journey}
-        options={{headerShown: false}}
+        options={{
+          headerShown: false,
+          drawerIcon: ({size}) => (
+            <Image
+              source={require('./assets/icon/journey.png')}
+              style={{height: size, width: size}}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Tavern"
+        component={Restaurant}
+        options={{
+          headerShown: false,
+          drawerIcon: ({size}) => (
+            <Image
+              source={require('./assets/icon/ristori.png')}
+              style={{height: size, width: size}}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="Logout"
         component={LogOut}
-        options={{headerShown: false}}
+        options={{
+          headerShown: false,
+          drawerIcon: ({size}) => (
+            <Image
+              source={require('./assets/icon/logout.png')}
+              style={{height: size, width: size}}
+            />
+          ),
+        }}
       />
     </Drawer.Navigator>
   );
