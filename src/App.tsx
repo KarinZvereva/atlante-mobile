@@ -20,6 +20,7 @@ import {WineryMap} from './screens/WineryMap';
 import {LogOut} from './screens/LogOut/LogOut';
 import {AccountRestore} from './screens/AccountRestore';
 import {Restaurant} from './screens/Restaurant';
+import {Info} from './screens/Info';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -74,6 +75,19 @@ const LoggedRoot = () => {
           drawerIcon: ({size}) => (
             <Image
               source={require('./assets/icon/ristori.png')}
+              style={{height: size, width: size}}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Info"
+        component={Info}
+        options={{
+          headerShown: false,
+          drawerIcon: ({size}) => (
+            <Image
+              source={require('./assets/icon/info.png')}
               style={{height: size, width: size}}
             />
           ),

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {AuthContext} from '../../common/modules/auth';
 
@@ -10,26 +10,103 @@ const styles = StyleSheet.create({
   },
   centered_container: {
     flex: 1,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
 });
 
 export function Home(props: any) {
-  const {state} = useContext(AuthContext);
-  const [given_name, setGivenName] = useState<string>();
-
-  useEffect(() => {
-    if (state && state.userData && !given_name)
-      setGivenName(state.userData.nameid);
-  }, [state]);
-
   return (
     <View style={styles.page}>
-      <Header {...props} showName="Home" />
+      <View>
+        <Header {...props} showName="Home" />
+      </View>
       <View style={styles.centered_container}>
-        {!given_name && <Text>Welcome Wine Traveler!</Text>}
-        {given_name && <Text>Welcome {given_name}!</Text>}
+        <Image
+          source={require('../../assets/img/logo_calice.png')}
+          style={{height: 240, width: 240, resizeMode: 'center'}}
+        />
+        <Text
+          style={{
+            fontSize: 21,
+            justifyContent: 'center',
+            textAlign: 'center',
+            fontFamily: 'Novecento Sans',
+          }}>
+          Benvenuto
+        </Text>
+        <Text
+          style={{
+            fontSize: 21,
+            justifyContent: 'center',
+            textAlign: 'center',
+            fontFamily: 'Novecento Sans',
+            marginBottom: 40,
+          }}>
+          Bevitore Ramingo
+        </Text>
+        <Text
+          style={{
+            fontSize: 18,
+            justifyContent: 'center',
+            textAlign: 'center',
+            fontFamily: 'Novecento Sans',
+          }}>
+          Resta in contatto con noi
+        </Text>
+        <Text
+          style={{
+            fontSize: 18,
+            justifyContent: 'center',
+            textAlign: 'center',
+            fontFamily: 'Novecento Sans',
+          }}>
+          I nostri canali social
+        </Text>
+        <View style={{flexDirection: 'row', margin: 40}}>
+          <Image
+            source={require('../../assets/icon/facebook-ico.png')}
+            style={{height: 60, width: 60, resizeMode: 'center'}}
+          />
+          <Image
+            source={require('../../assets/icon/instagram-ico.png')}
+            style={{
+              height: 60,
+              width: 60,
+              resizeMode: 'center',
+              marginRight: 20,
+              marginLeft: 20,
+            }}
+          />
+          <Image
+            source={require('../../assets/icon/youtube-ico.png')}
+            style={{height: 60, width: 60, resizeMode: 'center'}}
+          />
+        </View>
+        <Text
+          style={{
+            fontSize: 18,
+            justifyContent: 'center',
+            textAlign: 'center',
+            fontFamily: 'Novecento Sans',
+            marginBottom: 10,
+          }}>
+          Visita il blog dell'atlante
+        </Text>
+        <TouchableOpacity
+          style={{
+            height: 60,
+            width: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 30,
+          }}>
+          <Image
+            source={require('../../assets/icon/web.png')}
+            style={{height: 60, width: 60, resizeMode: 'center', margin: 20}}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
