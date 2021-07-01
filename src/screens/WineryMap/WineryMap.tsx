@@ -143,29 +143,27 @@ export const WineryMap = (props: any) => {
 
   return (
     <View style={styles.pageContainer}>
-      {data && (
-        <MapView
-          initialRegion={InitialRegion}
-          style={styles.map}
-          ref={map}
-          showsUserLocation={true}>
-          {data &&
-            data.map((d) => (
-              <Marker
-                key={d._id}
-                coordinate={{
-                  latitude: d.location?.latitude || 0,
-                  longitude: d.location?.longitude || 0,
-                }}
-                tracksViewChanges={false}
-                image={require('../../assets/icon/default.png')}>
-                <Callout>
-                  <MarkerPopup winery={d} />
-                </Callout>
-              </Marker>
-            ))}
-        </MapView>
-      )}
+      <MapView
+        initialRegion={InitialRegion}
+        style={styles.map}
+        ref={map}
+        showsUserLocation={true}>
+        {data &&
+          data.map((d) => (
+            <Marker
+              key={d._id}
+              coordinate={{
+                latitude: d.location?.latitude || 0,
+                longitude: d.location?.longitude || 0,
+              }}
+              tracksViewChanges={false}
+              image={require('../../assets/icon/default.png')}>
+              <Callout>
+                <MarkerPopup winery={d} />
+              </Callout>
+            </Marker>
+          ))}
+      </MapView>
       <Header {...props} showName="Winery Map" />
       {loading && (
         <View style={styles.centerContainer}>
