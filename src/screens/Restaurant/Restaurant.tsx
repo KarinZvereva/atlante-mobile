@@ -1,19 +1,21 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {Header} from '../../common/components/Header/Header';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'column',
   },
 });
 
-export function Restaurant() {
+export function Restaurant(props: any) {
   return (
     <View style={styles.container}>
-      <Text>Restaurant WIP</Text>
+      <Header {...props} showName="Osti e ristori" />
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text>Osti e ristori WIP</Text>
+      </View>
     </View>
   );
 }

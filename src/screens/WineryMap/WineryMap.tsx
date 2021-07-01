@@ -9,14 +9,15 @@ import {
   Alert,
 } from 'react-native';
 import MapView, {Region} from 'react-native-maps';
+// import MapView from 'react-native-map-clustering';
 import {Header} from '../../common/components/Header/Header';
 import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
 import {Marker, Callout} from 'react-native-maps';
 import {useState} from 'react';
 import {useEffect} from 'react';
-import {Asset, Winery} from '../../common/interfaces';
-import {wineryDal, markerDal, wineryDataDal} from './WineriesMap.dal';
+import {Winery} from '../../common/interfaces';
+import {wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
 import {markerDefaultGreen} from '../../common/constants';
 import {useRef} from 'react';
@@ -57,14 +58,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const getMarkerIcon = (iconName?: string | null, markers?: Asset[]) => {
-  const selectedAsset = markers?.find((m) => iconName === m.name);
-  return (
-    (selectedAsset && selectedAsset.base64Data) ||
-    require('../../assets/icon/default.png')
-  );
-};
-
 const MarkerPopup = ({winery}: {winery: Winery}) => {
   return (
     <View>
@@ -100,22 +93,10 @@ const MarkerPopup = ({winery}: {winery: Winery}) => {
 export const WineryMap = (props: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Winery[]>();
-  const [markers, setMarker] = useState<Asset[]>();
   const map = useRef<MapView>(null);
 
   useEffect(() => {
     setLoading(true);
-    markerDal
-      .get()
-      .then((result) => {
-        if (result && result.data) {
-          setMarker(result.data.data || []);
-        }
-      })
-      .catch((e) => {
-        console.log(JSON.stringify(e));
-      });
-
     wineryDataDal
       .get({
         filter: `${nameof<Winery>('type')} = 1 OR ${nameof<Winery>(
@@ -135,23 +116,24 @@ export const WineryMap = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (data && markers && loading) {
+    if (data && loading) {
       setLoading(false);
     }
-  }, [data, markers, loading]);
+  }, [data, loading]);
 
   const gotToMyLocation = () => {
-    console.log('gotToMyLocation is called');
     Geolocation.getCurrentPosition(
       ({coords}) => {
-        console.log('curent location: ', coords);
         if (map && map.current) {
-          map.current.animateToRegion({
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-            latitudeDelta: 1,
-            longitudeDelta: 1,
-          });
+          map.current.animateToRegion(
+            {
+              latitude: coords.latitude,
+              longitude: coords.longitude,
+              latitudeDelta: 1,
+              longitudeDelta: 1,
+            },
+            2000,
+          );
         }
       },
       (error) => console.log(JSON.stringify(error)),
@@ -166,10 +148,8 @@ export const WineryMap = (props: any) => {
           initialRegion={InitialRegion}
           style={styles.map}
           ref={map}
-          showsUserLocation={true}
-          showsMyLocationButton={true}>
+          showsUserLocation={true}>
           {data &&
-            markers &&
             data.map((d) => (
               <Marker
                 key={d._id}

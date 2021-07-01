@@ -5,7 +5,7 @@ import {
   IDalR,
 } from '../../common/hoc/dalFactory';
 import {GenericDalOperation} from '../../common/hoc/dalFactory/entityDalFactory.constants';
-import {Asset, Winery, WineryLogoOutputData} from '../../common/interfaces';
+import {Winery, WineryLogoOutputData} from '../../common/interfaces';
 
 export const wineryDal = entityDalFactory<Winery, IDalCRUDSchema<Winery>>({
   enableOperation: GenericDalOperation.CRUD,
@@ -26,10 +26,4 @@ export const wineryLogoDal = entityDalFactory<
   enableOperation: GenericDalOperation.READ,
   entityName: `${Entities.Wineries}/logo`,
   enableSchema: false,
-});
-
-export const markerDal = entityDalFactory<Asset, IDalCRUDSchema<Asset>>({
-  enableOperation: GenericDalOperation.CRUD,
-  entityName: Entities.Assets,
-  enableSchema: true,
 });

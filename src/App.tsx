@@ -16,10 +16,10 @@ import {
 import {LoginApiOutputData} from './common/interfaces';
 import SplashScreen from 'react-native-splash-screen';
 import {SignUp} from './screens/SignUp/SignUp';
-import {WineryMap} from './screens/WineryMap/WineryMap';
+import {WineryMap} from './screens/WineryMap';
 import {LogOut} from './screens/LogOut/LogOut';
-import {AccountRestore} from './screens/AccountRestore/AccountRestore';
-import {Restaurant} from './screens/Restaurant/Restaurant';
+import {AccountRestore} from './screens/AccountRestore';
+import {Restaurant} from './screens/Restaurant';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();

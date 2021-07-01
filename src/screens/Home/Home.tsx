@@ -21,7 +21,7 @@ export function Home(props: any) {
 
   useEffect(() => {
     if (state && state.userData && !given_name)
-      setGivenName(state.userData.unique_name);
+      setGivenName(state.userData.nameid);
   }, [state]);
 
   return (
