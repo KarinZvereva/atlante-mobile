@@ -119,8 +119,7 @@ export const WineryMap = (props: any) => {
                 latitude: d.location?.latitude || 0,
                 longitude: d.location?.longitude || 0,
               }}
-              tracksViewChanges={false}
-              image={require('../../assets/icon/default.png')}>
+              icon={require('../../assets/icon/default.png')}>
               <Callout>
                 <MarkerPopup winery={d} />
               </Callout>

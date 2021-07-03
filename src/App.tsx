@@ -3,6 +3,7 @@ import {Image} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {Appearance} from 'react-native-appearance';
 import {Home} from './screens/Home/Home';
 import {Journey} from './screens/Journey/Journey';
 import {AuthContext} from './common/modules/auth/AuthContext';

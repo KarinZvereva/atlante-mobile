@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useCallback} from 'react';
 import {
   View,
   StyleSheet,
@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import {Header} from '../../common/components/Header/Header';
+import {sendEmail} from '../../common/modules/email/sendEmail';
 
 const styles = StyleSheet.create({
   page: {
@@ -36,13 +37,17 @@ const styles = StyleSheet.create({
 });
 
 export function Home(props: any) {
-  const handlePress = useCallback(async (url: string) => {
+  const openLink = useCallback(async (url: string) => {
     const supported = await Linking.canOpenURL(url);
     if (supported) {
       await Linking.openURL(url);
     } else {
       Alert.alert(`Don't know how to open this URL: ${url}`);
     }
+  }, []);
+
+  const openMail = useCallback(() => {
+    sendEmail('atlantevignaiolinaturali@gmail.com');
   }, []);
 
   return (
@@ -68,7 +73,7 @@ export function Home(props: any) {
               borderRadius: 30,
             }}
             onPress={() => {
-              handlePress('https://www.facebook.com/140077001562439');
+              openLink('https://www.facebook.com/140077001562439');
             }}>
             <Image
               source={require('../../assets/icon/facebook.png')}
@@ -86,7 +91,7 @@ export function Home(props: any) {
               marginLeft: 20,
             }}
             onPress={() => {
-              handlePress('https://www.instagram.com/natourwine_official/');
+              openLink('https://www.instagram.com/natourwine_official/');
             }}>
             <Image
               source={require('../../assets/icon/insta.png')}
@@ -107,7 +112,7 @@ export function Home(props: any) {
               marginRight: 20,
             }}
             onPress={() => {
-              handlePress(
+              openLink(
                 'https://www.youtube.com/channel/UC0B5koohj5rimZpW9NqMr8w',
               );
             }}>
@@ -144,7 +149,7 @@ export function Home(props: any) {
             borderRadius: 20,
           }}
           onPress={() => {
-            handlePress('https://atlantevignaiolinaturali.wordpress.com/');
+            openLink('https://atlantevignaiolinaturali.wordpress.com/');
           }}>
           <Image
             source={require('../../assets/icon/web.png')}
@@ -169,9 +174,7 @@ export function Home(props: any) {
             justifyContent: 'center',
             borderRadius: 20,
           }}
-          onPress={() => {
-            handlePress('https://atlantevignaiolinaturali.wordpress.com/');
-          }}>
+          onPress={() => openMail()}>
           <Image
             source={require('../../assets/icon/mail.png')}
             style={{height: 60, width: 60, resizeMode: 'center', marginTop: 20}}

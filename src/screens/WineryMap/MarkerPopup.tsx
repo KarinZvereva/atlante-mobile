@@ -4,7 +4,11 @@ import {View, Text} from 'react-native';
 
 export const MarkerPopup = React.memo(({winery}: {winery: Winery}) => {
   return (
-    <View>
+    <View style={{flexDirection: 'column'}}>
+      <View style={{flexDirection: 'row'}}>
+        <View style={{width: '50%'}}></View>
+        <View style={{width: '50%'}}></View>
+      </View>
       <Text>{winery.name}</Text>
       <Text>{winery.vigneron}</Text>
       <Text>{winery.address}</Text>
