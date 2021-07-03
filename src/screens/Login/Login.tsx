@@ -51,7 +51,7 @@ export function Login(props: any) {
         <>
           <Image
             style={styles.image}
-            source={require('../../assets/img/login_logo.jpeg')}
+            source={require('../../assets/img/login_logo.png')}
           />
           <View style={styles.inputView}>
             <TextInput

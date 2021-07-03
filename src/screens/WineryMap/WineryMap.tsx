@@ -3,24 +3,20 @@ import {
   View,
   StyleSheet,
   Image,
-  Text,
   TouchableOpacity,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import MapView, {Region} from 'react-native-maps';
-// import MapView from 'react-native-map-clustering';
 import {Header} from '../../common/components/Header/Header';
 import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
 import {Marker, Callout} from 'react-native-maps';
-import {useState} from 'react';
-import {useEffect} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import {Winery} from '../../common/interfaces';
 import {wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
 import {markerDefaultGreen} from '../../common/constants';
-import {useRef} from 'react';
+import {MarkerPopup} from './MarkerPopup';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
@@ -38,14 +34,13 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    paddingTop: 50,
   },
-  centerContainer: {
+  onLoading: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  alignJustifyCenter: {
+  goToMyPositionButton: {
     width: 40,
     height: 40,
     position: 'absolute',
@@ -57,38 +52,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-const MarkerPopup = ({winery}: {winery: Winery}) => {
-  return (
-    <View>
-      <Text>{winery.name}</Text>
-      <Text>{winery.vigneron}</Text>
-      <Text>{winery.address}</Text>
-      <Text>{winery.city}</Text>
-      <Text>{winery.province}</Text>
-      <Text>{winery.region}</Text>
-    </View>
-  );
-};
-
-// const id = Geolocation.watchPosition(
-//   (position) => {
-//     setRegion({
-//       latitude: position.coords.latitude,
-//       longitude: position.coords.longitude,
-//       latitudeDelta: LATITUDE_DELTA,
-//       longitudeDelta: LONGITUDE_DELTA,
-//     });
-//   },
-//   (error) => console.debug(JSON.stringify(error)),
-//   {enableHighAccuracy: true, timeout: 20000},
-// );
-
-// return () => {
-//   try {
-//     Geolocation.clearWatch(id);
-//   } catch {}
-// };
 
 export const WineryMap = (props: any) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -166,13 +129,13 @@ export const WineryMap = (props: any) => {
       </MapView>
       <Header {...props} showName="Winery Map" />
       {loading && (
-        <View style={styles.centerContainer}>
+        <View style={styles.onLoading}>
           <ActivityIndicator size="large" color={markerDefaultGreen} />
         </View>
       )}
       <TouchableOpacity
         onPress={() => gotToMyLocation()}
-        style={styles.alignJustifyCenter}>
+        style={styles.goToMyPositionButton}>
         <Image
           style={{width: 40, height: 40}}
           source={require('../../assets/icon/posizione.png')}

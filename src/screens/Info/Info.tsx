@@ -1,7 +1,6 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
-import {AuthContext} from '../../common/modules/auth';
 
 const styles = StyleSheet.create({
   page: {
@@ -16,14 +15,6 @@ const styles = StyleSheet.create({
 });
 
 export function Info(props: any) {
-  const {state} = useContext(AuthContext);
-  const [given_name, setGivenName] = useState<string>();
-
-  useEffect(() => {
-    if (state && state.userData && !given_name)
-      setGivenName(state.userData.nameid);
-  }, [state]);
-
   return (
     <View style={styles.page}>
       <Header {...props} showName="Info" />
