@@ -152,7 +152,7 @@ export function Home(props: any) {
             openLink('https://atlantevignaiolinaturali.wordpress.com/');
           }}>
           <Image
-            source={require('../../assets/icon/web.png')}
+            source={require('../../assets/icon/web_popup.png')}
             style={{height: 60, width: 60, resizeMode: 'center'}}
           />
         </TouchableOpacity>
