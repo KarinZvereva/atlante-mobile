@@ -11,7 +11,7 @@ export const MarkerPopup = React.memo(({winery}: {winery: Winery}) => {
   return (
     <View style={{flexDirection: 'column'}}>
       <View style={{flexDirection: 'row'}}>
-        <View style={{width: '50%'}}>
+        <View>
           {!logo && <Text>NO LOGO</Text>}
           {logo && (
             <Image
@@ -20,7 +20,7 @@ export const MarkerPopup = React.memo(({winery}: {winery: Winery}) => {
             />
           )}
         </View>
-        <View style={{width: '50%', flexDirection: 'column'}}>
+        <View style={{flexDirection: 'column'}}>
           <View style={{flexDirection: 'row'}}>
             <Image
               source={require('../../assets/icon/tel_popup.png')}
@@ -28,17 +28,17 @@ export const MarkerPopup = React.memo(({winery}: {winery: Winery}) => {
             />
             <Image
               source={require('../../assets/icon/mail_popup.png')}
-              style={{width: 40, height: 40, margin: 20, resizeMode: 'center'}}
+              style={{width: 10, height: 10, margin: 20, resizeMode: 'center'}}
             />
           </View>
           <View style={{flexDirection: 'row'}}>
             <Image
               source={require('../../assets/icon/web_popup.png')}
-              style={{width: 40, height: 40, margin: 20, resizeMode: 'center'}}
+              style={{width: 10, height: 10, margin: 20, resizeMode: 'center'}}
             />
             <Image
               source={require('../../assets/icon/go_to_popup.png')}
-              style={{width: 40, height: 40, margin: 20, resizeMode: 'center'}}
+              style={{width: 10, height: 10, margin: 20, resizeMode: 'center'}}
             />
           </View>
         </View>

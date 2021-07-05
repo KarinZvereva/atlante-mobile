@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  TextInput,
 } from 'react-native';
 import MapView, {Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
@@ -50,6 +51,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#d2d2d2',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  searchButton: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    bottom: 20,
+    right: 65,
+    borderRadius: 30,
+    backgroundColor: '#d2d2d2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  searchMapText: {
+    minWidth: 240,
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    flexDirection: 'row',
   },
 });
 
@@ -119,14 +138,14 @@ export const WineryMap = (props: any) => {
                 latitude: d.location?.latitude || 0,
                 longitude: d.location?.longitude || 0,
               }}
-              icon={require('../../assets/icon/default.png')}>
+              icon={require('../../assets/icon/winery_marker.png')}>
               <Callout>
                 <MarkerPopup winery={d} />
               </Callout>
             </Marker>
           ))}
       </MapView>
-      <Header {...props} showName="Winery Map" />
+      <Header {...props} showName="Wineries Map" />
       {loading && (
         <View style={styles.onLoading}>
           <ActivityIndicator size="large" color={markerDefaultGreen} />
@@ -140,6 +159,19 @@ export const WineryMap = (props: any) => {
           source={require('../../assets/icon/posizione.png')}
         />
       </TouchableOpacity>
+      <TouchableOpacity style={styles.searchButton}>
+        <Image
+          style={{width: 40, height: 40}}
+          source={require('../../assets/icon/cerca.png')}
+        />
+      </TouchableOpacity>
+      <View style={styles.searchMapText}>
+        <TextInput
+          style={{width: '50%', color: 'white', textAlign: 'center'}}
+          placeholder="Search"
+          placeholderTextColor="#000000"
+        />
+      </View>
     </View>
   );
 };

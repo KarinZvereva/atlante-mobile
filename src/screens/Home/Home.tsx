@@ -125,10 +125,23 @@ export function Home(props: any) {
               }}
             />
           </TouchableOpacity>
-          <Image
-            source={require('../../assets/icon/tele.png')}
-            style={{height: 60, width: 60, resizeMode: 'center'}}
-          />
+          <TouchableOpacity
+            style={{
+              height: 60,
+              width: 60,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 30,
+              marginRight: 20,
+            }}
+            onPress={() => {
+              openLink('http://www.telegram.me/UFLTC0ER51AxMDNk');
+            }}>
+            <Image
+              source={require('../../assets/icon/tele.png')}
+              style={{height: 60, width: 60, resizeMode: 'center'}}
+            />
+          </TouchableOpacity>
         </View>
         <Text
           style={{

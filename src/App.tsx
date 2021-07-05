@@ -1,9 +1,8 @@
 import React, {useEffect, useMemo, useReducer} from 'react';
-import {Image} from 'react-native';
+import {Image, Text} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Appearance} from 'react-native-appearance';
 import {Home} from './screens/Home/Home';
 import {Journey} from './screens/Journey/Journey';
 import {AuthContext} from './common/modules/auth/AuthContext';
@@ -26,7 +25,7 @@ import {Info} from './screens/Info';
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const LoggedRoot = () => {
+const PrivateNavigation = () => {
   return (
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen
@@ -37,22 +36,24 @@ const LoggedRoot = () => {
           drawerIcon: ({size}) => (
             <Image
               source={require('./assets/icon/home.png')}
-              style={{height: size, width: size}}
+              style={{height: size + 5, width: size + 5}}
             />
           ),
+          drawerLabel: () => <Text style={{fontSize: 16}}>Home</Text>,
         }}
       />
       <Drawer.Screen
-        name="Winery Map"
+        name="Wineries Map"
         component={WineryMap}
         options={{
           headerShown: false,
           drawerIcon: ({size}) => (
             <Image
               source={require('./assets/icon/wineries_map.png')}
-              style={{height: size, width: size}}
+              style={{height: size + 5, width: size + 5}}
             />
           ),
+          drawerLabel: () => <Text style={{fontSize: 16}}>Wineries Map</Text>,
         }}
       />
       <Drawer.Screen
@@ -63,9 +64,10 @@ const LoggedRoot = () => {
           drawerIcon: ({size}) => (
             <Image
               source={require('./assets/icon/journey.png')}
-              style={{height: size, width: size}}
+              style={{height: size + 5, width: size + 5}}
             />
           ),
+          drawerLabel: () => <Text style={{fontSize: 16}}>Journey</Text>,
         }}
       />
       <Drawer.Screen
@@ -76,9 +78,10 @@ const LoggedRoot = () => {
           drawerIcon: ({size}) => (
             <Image
               source={require('./assets/icon/ristori.png')}
-              style={{height: size, width: size}}
+              style={{height: size + 5, width: size + 5}}
             />
           ),
+          drawerLabel: () => <Text style={{fontSize: 16}}>Tavern</Text>,
         }}
       />
       <Drawer.Screen
@@ -89,9 +92,10 @@ const LoggedRoot = () => {
           drawerIcon: ({size}) => (
             <Image
               source={require('./assets/icon/info.png')}
-              style={{height: size, width: size}}
+              style={{height: size + 5, width: size + 5}}
             />
           ),
+          drawerLabel: () => <Text style={{fontSize: 16}}>Info</Text>,
         }}
       />
       <Drawer.Screen
@@ -102,9 +106,10 @@ const LoggedRoot = () => {
           drawerIcon: ({size}) => (
             <Image
               source={require('./assets/icon/logout.png')}
-              style={{height: size, width: size}}
+              style={{height: size + 5, width: size + 5}}
             />
           ),
+          drawerLabel: () => <Text style={{fontSize: 16}}>Logout</Text>,
         }}
       />
     </Drawer.Navigator>
@@ -189,7 +194,7 @@ export default function App() {
             ) : (
               <Stack.Screen
                 name="App"
-                component={LoggedRoot}
+                component={PrivateNavigation}
                 options={{headerShown: false}}
               />
             )}

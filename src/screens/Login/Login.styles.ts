@@ -9,9 +9,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    marginBottom: 20,
-    height: 320,
-    width: 320,
+    marginBottom: 40,
+    height: 280,
+    width: 280,
     resizeMode: 'contain',
   },
   inputView: {
