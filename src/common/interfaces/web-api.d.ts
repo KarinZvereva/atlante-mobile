@@ -174,6 +174,10 @@ export interface Winery {
   hash?: number; // int32
 }
 
+export interface WineryDataOutputData extends Winery {
+  hasLogo?: boolean | null;
+}
+
 export enum AssetType {
   Unknown = 0,
   GenericIcon = 1,
