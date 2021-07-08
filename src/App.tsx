@@ -16,7 +16,7 @@ import {
 import {LoginApiOutputData} from './common/interfaces';
 import SplashScreen from 'react-native-splash-screen';
 import {SignUp} from './screens/SignUp/SignUp';
-import {WineryMap} from './screens/WineryMap';
+import {WineriesMap} from './screens/WineriesMap';
 import {LogOut} from './screens/LogOut/LogOut';
 import {AccountRestore} from './screens/AccountRestore';
 import {Restaurant} from './screens/Restaurant';
@@ -44,7 +44,7 @@ const PrivateNavigation = () => {
       />
       <Drawer.Screen
         name="Wineries Map"
-        component={WineryMap}
+        component={WineriesMap}
         options={{
           headerShown: false,
           drawerIcon: ({size}) => (

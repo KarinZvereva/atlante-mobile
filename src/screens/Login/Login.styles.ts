@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     flex: 1,
-    fontFamily: 'Novecento Sans',
+    fontFamily: 'Novecentosanswide-Normal',
   },
   forgot_button: {
     height: 45,
@@ -47,6 +47,6 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     justifyContent: 'center',
     textAlign: 'center',
-    fontFamily: 'Novecento Sans',
+    fontFamily: 'Novecentosanswide-Normal',
   },
 });

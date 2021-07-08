@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Winery} from '../../common/interfaces';
 import {View, Text, Image} from 'react-native';
-import {Loading} from '../../common/components/Loading';
 
 export const MarkerPopup = React.memo(({winery}: {winery: Winery}) => {
   const [logo, setLogo] = useState<string>();

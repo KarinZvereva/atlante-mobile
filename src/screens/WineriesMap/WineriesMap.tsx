@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TextInput,
+  Dimensions,
 } from 'react-native';
 import MapView, {Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
@@ -20,6 +21,7 @@ import {markerDefaultGreen} from '../../common/constants';
 import {MarkerPopup} from './MarkerPopup';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
+const {width: screenWidth} = Dimensions.get('window');
 
 const InitialRegion: Region = {
   latitude: 42.393368,
@@ -45,6 +47,17 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     position: 'absolute',
+    top: 70,
+    right: 20,
+    borderRadius: 30,
+    backgroundColor: '#d2d2d2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  filterMyPositionButton: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
     bottom: 20,
     right: 20,
     borderRadius: 30,
@@ -64,15 +77,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   searchMapText: {
-    minWidth: 240,
+    width: screenWidth - 20 - 115,
+    height: 40,
+    borderRadius: 15,
+    borderColor: 'rgba(150, 150, 150, 1)',
+    borderWidth: 2,
     position: 'absolute',
     bottom: 20,
     left: 20,
-    flexDirection: 'row',
+    backgroundColor: 'rgba(210, 210, 210, 0.8)',
   },
 });
 
-export const WineryMap = (props: any) => {
+export const WineriesMap = (props: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Winery[]>();
   const map = useRef<MapView>(null);
@@ -159,19 +176,23 @@ export const WineryMap = (props: any) => {
           source={require('../../assets/icon/posizione.png')}
         />
       </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {}}
+        style={styles.filterMyPositionButton}>
+        <Image
+          style={{width: 40, height: 40}}
+          source={require('../../assets/icon/intorno.png')}
+        />
+      </TouchableOpacity>
       <TouchableOpacity style={styles.searchButton}>
         <Image
           style={{width: 40, height: 40}}
           source={require('../../assets/icon/cerca.png')}
         />
       </TouchableOpacity>
-      <View style={styles.searchMapText}>
-        <TextInput
-          style={{width: '50%', color: 'white', textAlign: 'center'}}
-          placeholder="Search"
-          placeholderTextColor="#000000"
-        />
-      </View>
+      <TouchableOpacity style={styles.searchMapText}>
+        <TextInput placeholder="... cerca" placeholderTextColor="#000000" />
+      </TouchableOpacity>
     </View>
   );
 };

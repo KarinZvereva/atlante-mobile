@@ -50,6 +50,17 @@ export function Home(props: any) {
     sendEmail('atlantevignaiolinaturali@gmail.com');
   }, []);
 
+  const openTelegram = useCallback(async () => {
+    const browserUrl = 'http://www.telegram.me/UFLTC0ER51AxMDNk';
+    const tgUrl = 'tg://resolve?domain=UFLTC0ER51AxMDNk';
+    let supported = await Linking.canOpenURL(tgUrl);
+    if (supported) {
+      await Linking.openURL(tgUrl);
+    } else {
+      await Linking.openURL(browserUrl);
+    }
+  }, []);
+
   return (
     <View style={styles.page}>
       <View>
@@ -111,6 +122,20 @@ export function Home(props: any) {
               borderRadius: 30,
               marginRight: 20,
             }}
+            onPress={() => openTelegram()}>
+            <Image
+              source={require('../../assets/icon/tele.png')}
+              style={{height: 60, width: 60, resizeMode: 'center'}}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              height: 60,
+              width: 60,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 30,
+            }}
             onPress={() => {
               openLink(
                 'https://www.youtube.com/channel/UC0B5koohj5rimZpW9NqMr8w',
@@ -123,23 +148,6 @@ export function Home(props: any) {
                 width: 60,
                 resizeMode: 'center',
               }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              height: 60,
-              width: 60,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 30,
-              marginRight: 20,
-            }}
-            onPress={() => {
-              openLink('http://www.telegram.me/UFLTC0ER51AxMDNk');
-            }}>
-            <Image
-              source={require('../../assets/icon/tele.png')}
-              style={{height: 60, width: 60, resizeMode: 'center'}}
             />
           </TouchableOpacity>
         </View>
