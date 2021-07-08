@@ -8,7 +8,7 @@ export const MarkerPopup = React.memo(({winery}: {winery: Winery}) => {
   useEffect(() => {}, []);
 
   return (
-    <View style={{flexDirection: 'column'}}>
+    <View style={{flex: 1, flexDirection: 'column'}}>
       <View style={{flexDirection: 'row'}}>
         <View>
           {!logo && <Text>NO LOGO</Text>}

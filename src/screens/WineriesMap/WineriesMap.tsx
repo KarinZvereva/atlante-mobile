@@ -19,6 +19,7 @@ import {wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
 import {markerDefaultGreen} from '../../common/constants';
 import {MarkerPopup} from './MarkerPopup';
+import {useCallback} from 'react';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 const {width: screenWidth} = Dimensions.get('window');
@@ -89,36 +90,42 @@ const styles = StyleSheet.create({
   },
 });
 
+const wineryFilterBase: string = `(${nameof<Winery>(
+  'type',
+)} = 1 OR ${nameof<Winery>('type')} = 2 OR ${nameof<Winery>(
+  'type',
+)} = 3 OR ${nameof<Winery>('type')} = 6)`;
+
 export const WineriesMap = (props: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Winery[]>();
+  const [search, setSearch] = useState<string>();
   const map = useRef<MapView>(null);
 
-  useEffect(() => {
+  const loadWineriesCallback = useCallback((filters?: string) => {
     setLoading(true);
+    if (data) setData(undefined);
     wineryDataDal
       .get({
-        filter: `${nameof<Winery>('type')} = 1 OR ${nameof<Winery>(
-          'type',
-        )} = 2 OR ${nameof<Winery>('type')} = 3 OR ${nameof<Winery>(
-          'type',
-        )} = 6`,
+        filter: filters
+          ? `${wineryFilterBase} AND ${filters}`
+          : wineryFilterBase,
       })
       .then((result) => {
         if (result && result.data) {
           setData(result.data.data || []);
+          setLoading(false);
         }
       })
       .catch((e) => {
-        console.log(JSON.stringify(e));
+        console.error(JSON.stringify(e));
+        setLoading(false);
       });
   }, []);
 
   useEffect(() => {
-    if (data && loading) {
-      setLoading(false);
-    }
-  }, [data, loading]);
+    loadWineriesCallback();
+  }, []);
 
   const gotToMyLocation = () => {
     Geolocation.getCurrentPosition(
@@ -184,14 +191,32 @@ export const WineriesMap = (props: any) => {
           source={require('../../assets/icon/intorno.png')}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.searchButton}>
+      <TouchableOpacity
+        style={styles.searchButton}
+        onPress={() => {
+          search &&
+            search !== '' &&
+            loadWineriesCallback(
+              `(${nameof<Winery>(
+                'name',
+              )}.Contains('${search}') OR ${nameof<Winery>(
+                'name2',
+              )}.Contains('${search}') OR ${nameof<Winery>(
+                'vigneron',
+              )}.Contains('${search}'))`,
+            );
+        }}>
         <Image
           style={{width: 40, height: 40}}
           source={require('../../assets/icon/cerca.png')}
         />
       </TouchableOpacity>
       <TouchableOpacity style={styles.searchMapText}>
-        <TextInput placeholder="... cerca" placeholderTextColor="#000000" />
+        <TextInput
+          placeholder="... cerca"
+          placeholderTextColor="#000000"
+          onChangeText={(value) => setSearch(value)}
+        />
       </TouchableOpacity>
     </View>
   );
