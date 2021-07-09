@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   TextInput,
   Dimensions,
+  Alert,
 } from 'react-native';
 import MapView, {Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
@@ -99,7 +100,7 @@ const wineryFilterBase: string = `(${nameof<Winery>(
 export const WineriesMap = (props: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Winery[]>();
-  const [search, setSearch] = useState<string>();
+  const [search, setSearch] = useState<string>('');
   const map = useRef<MapView>(null);
 
   const loadWineriesCallback = useCallback((filters?: string) => {
@@ -119,6 +120,9 @@ export const WineriesMap = (props: any) => {
       })
       .catch((e) => {
         console.error(JSON.stringify(e));
+        Alert.alert(
+          `Connessione con il server non riuscita, uscire e riprova in seguito con una miglior connessione!`,
+        );
         setLoading(false);
       });
   }, []);
@@ -127,7 +131,7 @@ export const WineriesMap = (props: any) => {
     loadWineriesCallback();
   }, []);
 
-  const gotToMyLocation = () => {
+  const gotToMyLocation = useCallback(() => {
     Geolocation.getCurrentPosition(
       ({coords}) => {
         if (map && map.current) {
@@ -142,10 +146,46 @@ export const WineriesMap = (props: any) => {
           );
         }
       },
-      (error) => console.log(JSON.stringify(error)),
+      (error) => {
+        console.error(JSON.stringify(error));
+        Alert.alert(`Errore nel recupero della posizione con il GPS!`);
+      },
       {enableHighAccuracy: true},
     );
-  };
+  }, [map]);
+
+  const filterWithMyPosition = useCallback(() => {
+    Geolocation.getCurrentPosition(
+      ({coords}) => {
+        setLoading(true);
+        if (data) setData(undefined);
+        wineryDataDal
+          .around({
+            lat: coords.latitude,
+            lon: coords.longitude,
+            radius: 10,
+          })
+          .then((result) => {
+            if (result && result.data) {
+              setData(result.data || []);
+              setLoading(false);
+            }
+          })
+          .catch((e) => {
+            console.error(JSON.stringify(e));
+            Alert.alert(
+              `Connessione con il server non riuscita, uscire e riprova in seguito con una miglior connessione!`,
+            );
+            setLoading(false);
+          });
+      },
+      (error) => {
+        console.error(JSON.stringify(error));
+        Alert.alert(`Errore nel recupero della posizione con il GPS!`);
+      },
+      {enableHighAccuracy: true},
+    );
+  }, []);
 
   return (
     <View style={styles.pageContainer}>
@@ -184,8 +224,9 @@ export const WineriesMap = (props: any) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {}}
-        style={styles.filterMyPositionButton}>
+        onPress={() => filterWithMyPosition()}
+        style={styles.filterMyPositionButton}
+        disabled={!loading}>
         <Image
           style={{width: 40, height: 40}}
           source={require('../../assets/icon/intorno.png')}
@@ -194,18 +235,19 @@ export const WineriesMap = (props: any) => {
       <TouchableOpacity
         style={styles.searchButton}
         onPress={() => {
-          search &&
-            search !== '' &&
-            loadWineriesCallback(
-              `(${nameof<Winery>(
-                'name',
-              )}.Contains('${search}') OR ${nameof<Winery>(
-                'name2',
-              )}.Contains('${search}') OR ${nameof<Winery>(
-                'vigneron',
-              )}.Contains('${search}'))`,
-            );
-        }}>
+          search !== ''
+            ? loadWineriesCallback(
+                `(${nameof<Winery>(
+                  'name',
+                )}.Contains('${search}') OR ${nameof<Winery>(
+                  'name2',
+                )}.Contains('${search}') OR ${nameof<Winery>(
+                  'vigneron',
+                )}.Contains('${search}'))`,
+              )
+            : loadWineriesCallback();
+        }}
+        disabled={!loading}>
         <Image
           style={{width: 40, height: 40}}
           source={require('../../assets/icon/cerca.png')}
@@ -216,6 +258,8 @@ export const WineriesMap = (props: any) => {
           placeholder="... cerca"
           placeholderTextColor="#000000"
           onChangeText={(value) => setSearch(value)}
+          editable={!loading}
+          value={search}
         />
       </TouchableOpacity>
     </View>

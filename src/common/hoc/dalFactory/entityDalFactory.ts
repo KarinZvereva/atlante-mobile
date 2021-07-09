@@ -6,9 +6,8 @@ import {
   IDalBaseEntity,
   ServerResponse,
   ILookupResultDTO,
-  IDalR,
 } from './entityDalFactory.interfaces';
-import {Entities, webApiBaseUrl} from '../../constants';
+import {webApiBaseUrl} from '../../constants';
 import {ServerError400} from './entityDalFactory.interfaces';
 import {
   GenericDalOperation,
@@ -46,7 +45,7 @@ export const catchErrorClbk = (error: any): ServerError => {
           }
         }
       } else {
-        const stringa = (err.response.data as unknown) as string;
+        const stringa = err.response.data as unknown as string;
         if (stringa && stringa.length) {
           title = stringa;
         }
@@ -61,7 +60,7 @@ export const catchErrorClbk = (error: any): ServerError => {
     if (err.response.status === 500) {
       return {
         httpStatusCode: 500,
-        userMessage: (err.response.data as unknown) as string,
+        userMessage: err.response.data as unknown as string,
         internalMessage: '',
         tips: '',
       };
