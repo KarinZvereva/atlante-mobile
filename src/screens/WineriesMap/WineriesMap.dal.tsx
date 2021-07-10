@@ -41,7 +41,6 @@ const wineriesCustomCall = {
     const url = `${entityUrlBuilder(wineryDataDal.entityName)}/around${
       filters ? `?${queryString.stringify(filters)}` : ''
     }`;
-
     try {
       const result = await fetcher(url, {
         headers: {
@@ -49,8 +48,9 @@ const wineriesCustomCall = {
           'Content-Type': 'application/json',
         },
       });
-      const data = (await result.json()) as WineryDataOutputData[];
-      return {data};
+      const data = await result.json();
+      if (data.status !== 404) return {data: data as WineryDataOutputData[]};
+      else return {data: []};
     } catch (e) {
       console.error(JSON.stringify(e));
     }

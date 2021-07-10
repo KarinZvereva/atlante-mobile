@@ -15,7 +15,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
 import {Marker, Callout} from 'react-native-maps';
 import {useState, useRef, useEffect} from 'react';
-import {Winery} from '../../common/interfaces';
+import {Winery, WineryType} from '../../common/interfaces';
 import {wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
 import {markerDefaultGreen} from '../../common/constants';
@@ -61,6 +61,17 @@ const styles = StyleSheet.create({
     height: 40,
     position: 'absolute',
     bottom: 20,
+    right: 65,
+    borderRadius: 30,
+    backgroundColor: '#d2d2d2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  reloadButton: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    bottom: 20,
     right: 20,
     borderRadius: 30,
     backgroundColor: '#d2d2d2',
@@ -72,14 +83,14 @@ const styles = StyleSheet.create({
     height: 40,
     position: 'absolute',
     bottom: 20,
-    right: 65,
+    right: 110,
     borderRadius: 30,
     backgroundColor: '#d2d2d2',
     alignItems: 'center',
     justifyContent: 'center',
   },
   searchMapText: {
-    width: screenWidth - 20 - 115,
+    width: screenWidth - 20 - 155,
     height: 40,
     borderRadius: 15,
     borderColor: 'rgba(150, 150, 150, 1)',
@@ -163,12 +174,27 @@ export const WineriesMap = (props: any) => {
           .around({
             lat: coords.latitude,
             lon: coords.longitude,
-            radius: 10,
+            radius: 40,
           })
           .then((result) => {
             if (result && result.data) {
-              setData(result.data || []);
+              const res = result.data.filter(
+                (w) =>
+                  w.type === WineryType.Winery ||
+                  w.type === WineryType.Vigneron_Itinerant ||
+                  w.type === WineryType.Wine_Project ||
+                  w.type === WineryType.Wrong_Position,
+              );
+              setData(res);
               setLoading(false);
+              if (map && map.current)
+                map.current.fitToCoordinates(
+                  res.map((r) => ({
+                    latitude: r.location?.latitude!,
+                    longitude: r.location?.longitude!,
+                  })),
+                  {animated: true},
+                );
             }
           })
           .catch((e) => {
@@ -185,7 +211,7 @@ export const WineriesMap = (props: any) => {
       },
       {enableHighAccuracy: true},
     );
-  }, []);
+  }, [data]);
 
   return (
     <View style={styles.pageContainer}>
@@ -224,9 +250,20 @@ export const WineriesMap = (props: any) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
+        style={styles.reloadButton}
+        onPress={() => {
+          loadWineriesCallback();
+        }}
+        disabled={loading}>
+        <Image
+          style={{width: 40, height: 40}}
+          source={require('../../assets/icon/reload.png')}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
         onPress={() => filterWithMyPosition()}
         style={styles.filterMyPositionButton}
-        disabled={!loading}>
+        disabled={loading}>
         <Image
           style={{width: 40, height: 40}}
           source={require('../../assets/icon/intorno.png')}
@@ -247,7 +284,7 @@ export const WineriesMap = (props: any) => {
               )
             : loadWineriesCallback();
         }}
-        disabled={!loading}>
+        disabled={loading}>
         <Image
           style={{width: 40, height: 40}}
           source={require('../../assets/icon/cerca.png')}

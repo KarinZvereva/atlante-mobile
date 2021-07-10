@@ -72,7 +72,7 @@ export function Home(props: any) {
           style={{height: 160, width: 160, resizeMode: 'center'}}
         />
         <Text style={styles.title}>Benvenuto</Text>
-        <Text style={[styles.title, {marginBottom: 40}]}>Bevitore Ramingo</Text>
+        <Text style={[styles.title, {marginBottom: 40}]}>Bevitore Errante</Text>
         <Text style={styles.subtitle}>Resta in contatto con noi</Text>
         <View style={{flexDirection: 'row', margin: 20}}>
           <TouchableOpacity
