@@ -1,76 +1,15 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  TouchableOpacity,
-  Linking,
-  Alert,
-} from 'react-native';
+import {View, Text, Image, Linking, Alert} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {images} from '../../common/constants';
 import {sendEmail} from '../../common/modules/email/sendEmail';
-
-const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  centered_container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    height: 210,
-    width: 210,
-    resizeMode: 'center',
-    position: 'absolute',
-    top: 10,
-  },
-  title: {
-    fontSize: 21,
-    justifyContent: 'center',
-    textAlign: 'center',
-    fontFamily: 'Novecentosanswide-Normal',
-  },
-  goToWineriesText: {
-    fontSize: 18,
-    justifyContent: 'center',
-    textAlign: 'center',
-    fontFamily: 'Novecentosanswide-Normal',
-    margin: 10,
-  },
-  keepInTouchText: {
-    fontSize: 18,
-    justifyContent: 'center',
-    textAlign: 'center',
-    fontFamily: 'Novecentosanswide-Normal',
-    position: 'absolute',
-    bottom: 70,
-  },
-  socialIcons: {
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 20,
-  },
-});
+import {openLink} from '../../common/modules/linking';
+import {homeStyles} from './Home.styles';
 
 export function Home(props: any) {
   const navigation = useNavigation();
-
-  const openLink = useCallback(async (url: string) => {
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      Alert.alert(`Don't know how to open this URL: ${url}`);
-    }
-  }, []);
 
   const openMail = useCallback(() => {
     sendEmail('atlantevignaiolinaturali@gmail.com');
@@ -88,14 +27,16 @@ export function Home(props: any) {
   }, []);
 
   return (
-    <View style={styles.page}>
+    <View style={homeStyles.page}>
       <View>
         <Header {...props} showName="Home" />
       </View>
-      <View style={styles.centered_container}>
-        <Image source={images.logo_calice} style={styles.logo} />
-        <Text style={styles.title}>Benvenuto</Text>
-        <Text style={[styles.title, {marginBottom: 60}]}>Bevitore Errante</Text>
+      <View style={homeStyles.centered_container}>
+        <Image source={images.logo_calice} style={homeStyles.logo} />
+        <Text style={homeStyles.title}>Benvenuto</Text>
+        <Text style={[homeStyles.title, {marginBottom: 60}]}>
+          Bevitore Errante
+        </Text>
         <RoundImageButton
           borderRadius={40}
           image={images.wineries_map_big}
@@ -103,11 +44,13 @@ export function Home(props: any) {
             navigation.navigate('Wineries Map');
           }}
         />
-        <Text style={styles.goToWineriesText}>
+        <Text style={homeStyles.goToWineriesText}>
           Visita la mappa delle cantine
         </Text>
-        <Text style={styles.keepInTouchText}>Resta in contatto con noi</Text>
-        <View style={styles.socialIcons}>
+        <Text style={homeStyles.keepInTouchText}>
+          Resta in contatto con noi
+        </Text>
+        <View style={homeStyles.socialIcons}>
           <RoundImageButton
             borderRadius={20}
             style={{marginRight: 10}}

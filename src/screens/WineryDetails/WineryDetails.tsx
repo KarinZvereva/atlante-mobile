@@ -2,17 +2,21 @@ import {RouteProp} from '@react-navigation/native';
 import React from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
-import {ActivityIndicator} from 'react-native';
 import {
   Alert,
+  ActivityIndicator,
+  Linking,
   Image,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
+  Platform,
 } from 'react-native';
-import {markerDefaultGreen} from '../../common/constants';
+import {RoundImageButton} from '../../common/components/RoundImageButton';
+import {images, markerDefaultGreen} from '../../common/constants';
 import {Winery} from '../../common/interfaces';
+import {sendEmail} from '../../common/modules/email/sendEmail';
+import {openLink} from '../../common/modules/linking';
 import {wineryLogoDal} from './WineyDetails.dal';
 
 export interface IWineryDetailProps {
@@ -38,6 +42,21 @@ const styles = StyleSheet.create({
     height: 280,
   },
   logoImage: {width: 280, height: 280, justifyContent: 'center'},
+  title_text: {
+    fontSize: 24,
+    fontFamily: 'Novecentosanswide-Bold',
+    marginBottom: 15,
+  },
+  subtitle_text: {
+    fontSize: 21,
+    fontFamily: 'Novecentosanswide-Bold',
+    marginBottom: 10,
+  },
+  normal_text: {
+    fontSize: 16,
+    fontFamily: 'Novecentosanswide-Normal',
+    marginBottom: 5,
+  },
 });
 
 export const WineryDetail = React.memo((props: IWineryDetailProps) => {
@@ -47,9 +66,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (wineryProps) {
-      setWinery(wineryProps);
-    }
+    if (wineryProps) setWinery(wineryProps);
   }, [wineryProps]);
 
   useEffect(() => {
@@ -57,7 +74,6 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
       setLogo(winery.logo);
       return;
     }
-
     setLoading(true);
     wineryLogoDal
       .getById(winery._id)
@@ -92,92 +108,57 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
           </View>
           <View
             style={{
-              height: 60,
-              margin: 10,
+              height: 70,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <TouchableOpacity
-              style={{
-                height: 60,
-                width: 60,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 20,
-              }}>
-              <Image
-                source={require('../../assets/icon/tel_popup.png')}
-                style={{
-                  width: 60,
-                  height: 60,
-                  margin: 20,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                height: 60,
-                width: 60,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 20,
-              }}>
-              <Image
-                source={require('../../assets/icon/mail_popup.png')}
-                style={{
-                  width: 60,
-                  height: 60,
-                  margin: 20,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                height: 60,
-                width: 60,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 20,
-              }}>
-              <Image
-                source={require('../../assets/icon/web_popup.png')}
-                style={{
-                  width: 60,
-                  height: 60,
-                  margin: 20,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                height: 60,
-                width: 60,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 20,
-              }}>
-              <Image
-                source={require('../../assets/icon/go_to_popup.png')}
-                style={{
-                  width: 60,
-                  height: 60,
-                  margin: 20,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
+            <RoundImageButton
+              borderRadius={30}
+              image={images.tel_popup}
+              onPress={() =>
+                winery.telephone && openLink(`tel:${winery.telephone}`)
+              }
+            />
+            <RoundImageButton
+              borderRadius={30}
+              image={images.mail_popup}
+              onPress={() => winery.email && sendEmail(winery.email)}
+            />
+            <RoundImageButton
+              borderRadius={30}
+              image={images.web_popup}
+              onPress={() => winery.webSite && openLink(winery.webSite)}
+            />
+            <RoundImageButton
+              borderRadius={30}
+              image={images.go_to_popup}
+              onPress={() => {
+                const scheme = Platform.select({
+                  ios: 'maps:0,0?q=',
+                  android: 'geo:0,0?q=',
+                });
+
+                const latLng = `${winery.location?.latitude},${winery.location?.longitude}`;
+                const label = `${winery.name}`;
+                const url = Platform.select({
+                  ios: `${scheme}${label}@${latLng}`,
+                  android: `${scheme}${latLng}(${label})`,
+                });
+
+                url && openLink(url);
+              }}
+            />
           </View>
-          <View style={{margin: 20}}>
-            <Text>{winery.name}</Text>
-            {winery.vigneron && <Text>{winery.vigneron}</Text>}
-            <Text>{winery.address}</Text>
-            <Text>{winery.city}</Text>
-            <Text>{winery.province}</Text>
-            <Text>{winery.region}</Text>
+          <View style={{margin: 15, width: '50%'}}>
+            <Text style={styles.title_text}>{winery.name}</Text>
+            {winery.vigneron && (
+              <Text style={styles.normal_text}>{winery.vigneron}</Text>
+            )}
+            <Text style={styles.normal_text}>{winery.address}</Text>
+            <Text style={styles.normal_text}>{winery.city}</Text>
+            <Text style={styles.normal_text}>{winery.province}</Text>
+            <Text style={styles.normal_text}>{winery.region}</Text>
           </View>
         </View>
       )}

@@ -3,10 +3,13 @@ export const images = {
   mail: require('../../assets/icon/mail.png'),
   mail_popup: require('../../assets/icon/mail_popup.png'),
   web: require('../../assets/icon/web.png'),
+  web_popup: require('../../assets/icon/web_popup.png'),
   youtube: require('../../assets/icon/you.png'),
   tele: require('../../assets/icon/tele.png'),
   insta: require('../../assets/icon/insta.png'),
   facebook: require('../../assets/icon/facebook.png'),
   wineries_map_big: require('../../assets/icon/wineries_map_big.png'),
   logo_calice: require('../../assets/img/logo_calice.png'),
+  tel_popup: require('../../assets/icon/tel_popup.png'),
+  go_to_popup: require('../../assets/icon/go_to_popup.png'),
 };
