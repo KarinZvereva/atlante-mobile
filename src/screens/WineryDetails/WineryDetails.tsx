@@ -26,15 +26,18 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#FFF',
   },
-  centered_container: {
+  flex_container: {
     flex: 1,
+  },
+  centered_container: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   logo: {
-    position: 'absolute',
-    top: 20,
+    width: 280,
+    height: 280,
   },
+  logoImage: {width: 280, height: 280, justifyContent: 'center'},
 });
 
 export const WineryDetail = React.memo((props: IWineryDetailProps) => {
@@ -76,20 +79,21 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
   return (
     <View style={styles.page}>
       {loading && (
-        <View style={styles.centered_container}>
+        <View style={[styles.flex_container, styles.centered_container]}>
           <ActivityIndicator size="large" color={markerDefaultGreen} />
         </View>
       )}
       {!loading && winery && logo && (
-        <View style={styles.centered_container}>
-          <View>
-            <Image
-              source={{uri: logo}}
-              style={{width: 240, height: 240, resizeMode: 'contain'}}
-            />
+        <View style={styles.flex_container}>
+          <View style={styles.centered_container}>
+            <View style={styles.logo}>
+              <Image source={{uri: logo}} style={styles.logoImage} />
+            </View>
           </View>
           <View
             style={{
+              height: 60,
+              margin: 10,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
@@ -166,6 +170,14 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                 }}
               />
             </TouchableOpacity>
+          </View>
+          <View style={{margin: 20}}>
+            <Text>{winery.name}</Text>
+            {winery.vigneron && <Text>{winery.vigneron}</Text>}
+            <Text>{winery.address}</Text>
+            <Text>{winery.city}</Text>
+            <Text>{winery.province}</Text>
+            <Text>{winery.region}</Text>
           </View>
         </View>
       )}

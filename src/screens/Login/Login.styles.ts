@@ -44,6 +44,7 @@ export const styles = StyleSheet.create({
   },
   loginText: {
     color: 'white',
+    width: '100%',
     fontSize: 18,
     justifyContent: 'center',
     textAlign: 'center',

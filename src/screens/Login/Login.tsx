@@ -89,13 +89,11 @@ export function Login(props: any) {
           <LinearGradient
             colors={['#ce8a86', '#bd6665', '#a92a3f']}
             style={styles.loginBtn}>
-            <View>
-              <TouchableOpacity
-                onPress={() => Login()}
-                disabled={!actionsProvider}>
-                <Text style={styles.loginText}>Login</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              onPress={() => Login()}
+              disabled={!actionsProvider}>
+              <Text style={styles.loginText}>Login</Text>
+            </TouchableOpacity>
           </LinearGradient>
         </>
       )}
