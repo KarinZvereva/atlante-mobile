@@ -1,44 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Winery} from '../../common/interfaces';
-import {View, Text, Image, StyleSheet, Alert} from 'react-native';
-import {wineryLogoDal} from './WineriesMap.dal';
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    alignSelf: 'flex-start',
-  },
-  bubble: {
-    width: 140,
-    flexDirection: 'row',
-    alignSelf: 'flex-start',
-    backgroundColor: '#4da2ab',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 6,
-    borderColor: '#007a87',
-    borderWidth: 0.5,
-  },
-  amount: {
-    flex: 1,
-  },
-  arrow: {
-    backgroundColor: 'transparent',
-    borderWidth: 16,
-    borderColor: 'transparent',
-    borderTopColor: '#4da2ab',
-    alignSelf: 'center',
-    marginTop: -32,
-  },
-  arrowBorder: {
-    backgroundColor: 'transparent',
-    borderWidth: 16,
-    borderColor: 'transparent',
-    borderTopColor: '#007a87',
-    alignSelf: 'center',
-    marginTop: -0.5,
-  },
-});
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 interface IMarkerPopupProps {
   winery: Winery;
@@ -47,24 +9,17 @@ interface IMarkerPopupProps {
 }
 
 export const MarkerPopup = React.memo(({winery}: IMarkerPopupProps) => {
-  const [logo, setLogo] = useState<string | null>();
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    wineryLogoDal
-      .getById(winery._id)
-      .then((result) => {
-        if (result && result.data) {
-          setLogo(result.data.logo);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(JSON.stringify(error));
-        Alert.alert('Logo non caricato');
-        setLoading(false);
-      });
-  }, []);
+  const wineryTypeDescription = winery.type
+    ? winery.type === 1
+      ? 'Cantina'
+      : winery.type === 2
+      ? 'Vignaiolo Itinerante'
+      : winery.type === 3
+      ? 'Progetto'
+      : winery.type === 6
+      ? 'Posizione approssimativa'
+      : 'Cantina'
+    : 'Cantina';
 
   return (
     <View
@@ -72,101 +27,46 @@ export const MarkerPopup = React.memo(({winery}: IMarkerPopupProps) => {
         flex: 1,
         flexDirection: 'column',
       }}>
-      <View
+      <Text
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          fontSize: 14,
           justifyContent: 'center',
+          textAlign: 'center',
+          fontFamily: 'Novecentosanswide-Normal',
         }}>
-        <View
+        --- {wineryTypeDescription} ---
+      </Text>
+      <Text
+        style={{
+          fontSize: 16,
+          justifyContent: 'center',
+          textAlign: 'center',
+          fontFamily: 'Novecentosanswide-Normal',
+        }}>
+        {winery.name}
+      </Text>
+      {winery.vigneron && (
+        <Text
           style={{
-            flexDirection: 'column',
-            alignItems: 'center',
+            fontSize: 16,
             justifyContent: 'center',
+            textAlign: 'center',
+            fontFamily: 'Novecentosanswide-Normal',
           }}>
-          {!loading && !logo && <Text>NO LOGO</Text>}
-          {!loading && logo && (
-            <Text style={{height: 140}}>
-              <Image
-                source={{uri: logo}}
-                style={{width: 120, height: 120, resizeMode: 'contain'}}
-              />
-            </Text>
-          )}
-        </View>
-        <View
+          {winery.vigneron}
+        </Text>
+      )}
+      <TouchableOpacity>
+        <Text
           style={{
-            flex: 1,
-            flexDirection: 'column',
-            alignItems: 'center',
+            fontSize: 16,
             justifyContent: 'center',
+            textAlign: 'center',
+            color: '#2191b0',
           }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={{height: 60}}>
-              <Image
-                source={require('../../assets/icon/tel_popup.png')}
-                style={{
-                  width: 40,
-                  height: 40,
-                  margin: 20,
-                  resizeMode: 'contain',
-                }}
-              />
-            </Text>
-            <Text style={{height: 60}}>
-              <Image
-                source={require('../../assets/icon/mail_popup.png')}
-                style={{
-                  width: 40,
-                  height: 40,
-                  margin: 20,
-                  resizeMode: 'contain',
-                }}
-              />
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={{height: 60}}>
-              <Image
-                source={require('../../assets/icon/web_popup.png')}
-                style={{
-                  width: 40,
-                  height: 40,
-                  margin: 20,
-                  resizeMode: 'contain',
-                }}
-              />
-            </Text>
-            <Text style={{height: 60}}>
-              <Image
-                source={require('../../assets/icon/go_to_popup.png')}
-                style={{
-                  width: 40,
-                  height: 40,
-                  margin: 20,
-                  resizeMode: 'contain',
-                }}
-              />
-            </Text>
-          </View>
-        </View>
-      </View>
-      <Text>{winery.name}</Text>
-      {winery.vigneron && <Text>{winery.vigneron}</Text>}
-      <Text>{winery.address}</Text>
-      <Text>{winery.city}</Text>
-      <Text>{winery.province}</Text>
-      <Text>{winery.region}</Text>
+          Vedi ulteriori dettagli
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 });

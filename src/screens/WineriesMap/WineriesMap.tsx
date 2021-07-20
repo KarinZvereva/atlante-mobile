@@ -21,6 +21,7 @@ import {nameof} from '../../utils';
 import {markerDefaultGreen} from '../../common/constants';
 import {MarkerPopup} from './MarkerPopup';
 import {useCallback} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 const {width: screenWidth} = Dimensions.get('window');
@@ -32,7 +33,7 @@ const InitialRegion: Region = {
   longitudeDelta: LONGITUDE_DELTA,
 };
 
-const styles = StyleSheet.create({
+const wineriesMapStyles = StyleSheet.create({
   pageContainer: {
     flex: 1,
     flexDirection: 'column',
@@ -126,6 +127,7 @@ export const WineriesMap = (props: any) => {
   const [selectedPosition, setSelectedPosition] = useState<LatLng>();
   const [markerRefs, setMarkerRefs] = useState<React.RefObject<Marker>[]>([]);
   const map = useRef<MapView>(null);
+  const navigation = useNavigation();
 
   const loadWineriesCallback = useCallback(
     (filters?: string) => {
@@ -137,7 +139,7 @@ export const WineriesMap = (props: any) => {
             ? `${wineryFilterBase} AND ${filters}`
             : wineryFilterBase,
           pageNumber: 1,
-          pageSize: 30,
+          pageSize: 50,
         })
         .then((result) => {
           if (result && result.data) {
@@ -145,10 +147,9 @@ export const WineriesMap = (props: any) => {
             setLoading(false);
           }
         })
-        .catch((e) => {
-          console.error(JSON.stringify(e));
+        .catch((_e) => {
           Alert.alert(
-            `Connessione con il server non riuscita, uscire e riprova in seguito con una miglior connessione!`,
+            `Connessione con il server non riuscita, riprova in seguito!`,
           );
           setLoading(false);
         });
@@ -228,8 +229,7 @@ export const WineriesMap = (props: any) => {
           longitude: coords.longitude,
         });
       },
-      (error) => {
-        console.error(JSON.stringify(error));
+      (_error) => {
         Alert.alert(`Errore nel recupero della posizione con il GPS!`);
       },
       {enableHighAccuracy: true},
@@ -258,15 +258,20 @@ export const WineriesMap = (props: any) => {
   }, [data]);
 
   return (
-    <View style={styles.pageContainer}>
+    <View style={wineriesMapStyles.pageContainer}>
       <MapView
         initialRegion={InitialRegion}
-        style={styles.map}
+        style={wineriesMapStyles.map}
         ref={map}
         showsUserLocation={true}
         onLongPress={(event) => {
           setSelectedPosition(event.nativeEvent.coordinate);
-        }}>
+        }}
+        showsCompass={true}
+        zoomEnabled={!loading}
+        scrollEnabled={!loading}
+        pitchEnabled={!loading}
+        rotateEnabled={!loading}>
         <>
           {data &&
             data.map((d, i) => (
@@ -278,13 +283,11 @@ export const WineriesMap = (props: any) => {
                 }}
                 icon={require('../../assets/icon/winery_marker.png')}
                 ref={markerRefs[i]}
-                onPress={() => {
-                  setTimeout(() => {
-                    markerRefs[i].current?.hideCallout();
-                    markerRefs[i].current?.showCallout();
-                  }, 400);
-                }}>
-                <Callout>
+                tracksViewChanges={false}>
+                <Callout
+                  onPress={() =>
+                    navigation.navigate('WineryDetails', {winery: d})
+                  }>
                   <MarkerPopup winery={d} />
                 </Callout>
               </Marker>
@@ -302,12 +305,12 @@ export const WineriesMap = (props: any) => {
       </MapView>
       <Header {...props} showName="Wineries Map" />
       {loading && (
-        <View style={styles.onLoading}>
+        <View style={wineriesMapStyles.onLoading}>
           <ActivityIndicator size="large" color={markerDefaultGreen} />
         </View>
       )}
       <TouchableOpacity
-        style={styles.reloadButton}
+        style={wineriesMapStyles.reloadButton}
         onPress={() => {
           loadWineriesCallback();
         }}
@@ -318,7 +321,7 @@ export const WineriesMap = (props: any) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.cleanButton}
+        style={wineriesMapStyles.cleanButton}
         onPress={() => {
           setData(undefined);
           setSelectedPosition(undefined);
@@ -331,7 +334,7 @@ export const WineriesMap = (props: any) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => gotToMyLocation()}
-        style={styles.goToMyPositionButton}>
+        style={wineriesMapStyles.goToMyPositionButton}>
         <Image
           style={{width: 40, height: 40}}
           source={require('../../assets/icon/posizione.png')}
@@ -339,7 +342,7 @@ export const WineriesMap = (props: any) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => filterWithMyPosition()}
-        style={styles.filterMyPositionButton}
+        style={wineriesMapStyles.filterMyPositionButton}
         disabled={loading}>
         <Image
           style={{width: 40, height: 40}}
@@ -347,7 +350,7 @@ export const WineriesMap = (props: any) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.searchButton}
+        style={wineriesMapStyles.searchButton}
         onPress={() => {
           search !== ''
             ? loadWineriesCallback(
@@ -367,7 +370,7 @@ export const WineriesMap = (props: any) => {
           source={require('../../assets/icon/cerca.png')}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.searchMapText}>
+      <TouchableOpacity style={wineriesMapStyles.searchMapText}>
         <TextInput
           placeholder="... cerca"
           placeholderTextColor="#000000"

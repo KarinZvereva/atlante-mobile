@@ -21,6 +21,7 @@ import {LogOut} from './screens/LogOut/LogOut';
 import {AccountRestore} from './screens/AccountRestore';
 import {Restaurant} from './screens/Restaurant';
 import {Info} from './screens/Info';
+import {WineryDetail} from './screens/WineryDetails/WineryDetails';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -192,11 +193,18 @@ export default function App() {
                 />
               </>
             ) : (
-              <Stack.Screen
-                name="App"
-                component={PrivateNavigation}
-                options={{headerShown: false}}
-              />
+              <>
+                <Stack.Screen
+                  name="App"
+                  component={PrivateNavigation}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="WineryDetails"
+                  component={WineryDetail}
+                  options={{title: 'Dettagli cantina selezionata'}}
+                />
+              </>
             )}
           </Stack.Navigator>
         </NavigationContainer>

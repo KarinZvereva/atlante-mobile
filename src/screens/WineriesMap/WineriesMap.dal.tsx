@@ -6,11 +6,7 @@ import {
   IDalR,
 } from '../../common/hoc/dalFactory';
 import {GenericDalOperation} from '../../common/hoc/dalFactory/entityDalFactory.constants';
-import {
-  Winery,
-  WineryDataOutputData,
-  WineryLogoOutputData,
-} from '../../common/interfaces';
+import {Winery, WineryDataOutputData} from '../../common/interfaces';
 import {fetcher} from '../../common/modules/fetcher';
 import queryString from 'query-string';
 import {DalDecorator} from '../../common/hoc/dalFactory/entityDalCustomCallDecorator';
@@ -24,15 +20,6 @@ export const wineryDal = entityDalFactory<Winery, IDalCRUDSchema<Winery>>({
 const wineryDataDalBase = entityDalFactory<Winery, IDalR<Winery>>({
   enableOperation: GenericDalOperation.READ,
   entityName: `${Entities.Wineries}/data`,
-  enableSchema: false,
-});
-
-export const wineryLogoDal = entityDalFactory<
-  WineryLogoOutputData,
-  IDalR<WineryLogoOutputData>
->({
-  enableOperation: GenericDalOperation.READ,
-  entityName: `${Entities.Wineries}/logo`,
   enableSchema: false,
 });
 
