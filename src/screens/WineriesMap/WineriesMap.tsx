@@ -1,12 +1,10 @@
 import React from 'react';
 import {
   View,
-  StyleSheet,
   Image,
   TouchableOpacity,
   ActivityIndicator,
   TextInput,
-  Dimensions,
   Alert,
 } from 'react-native';
 import MapView, {LatLng, Region} from 'react-native-maps';
@@ -15,16 +13,20 @@ import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
 import {Marker, Callout} from 'react-native-maps';
 import {useState, useRef, useEffect} from 'react';
-import {Winery, WineryType} from '../../common/interfaces';
+import {
+  IBaseRouteNavigationProps,
+  Winery,
+  WineryType,
+} from '../../common/interfaces';
 import {wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
-import {markerDefaultGreen} from '../../common/constants';
+import {icons, markerDefaultGreen} from '../../common/constants';
 import {MarkerPopup} from './MarkerPopup';
 import {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {wineriesMapStyles} from './WineriesMap.styles';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
-const {width: screenWidth} = Dimensions.get('window');
 
 const InitialRegion: Region = {
   latitude: 42.393368,
@@ -33,99 +35,18 @@ const InitialRegion: Region = {
   longitudeDelta: LONGITUDE_DELTA,
 };
 
-const wineriesMapStyles = StyleSheet.create({
-  pageContainer: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  onLoading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  goToMyPositionButton: {
-    width: 40,
-    height: 40,
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    borderRadius: 30,
-    backgroundColor: '#d2d2d2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  filterMyPositionButton: {
-    width: 40,
-    height: 40,
-    position: 'absolute',
-    bottom: 20,
-    right: 65,
-    borderRadius: 30,
-    backgroundColor: '#d2d2d2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  reloadButton: {
-    width: 40,
-    height: 40,
-    position: 'absolute',
-    top: 70,
-    right: 20,
-    borderRadius: 30,
-    backgroundColor: '#d2d2d2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cleanButton: {
-    width: 40,
-    height: 40,
-    position: 'absolute',
-    top: 70,
-    right: 65,
-    borderRadius: 30,
-    backgroundColor: '#d2d2d2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  searchButton: {
-    width: 40,
-    height: 40,
-    position: 'absolute',
-    bottom: 20,
-    right: 110,
-    borderRadius: 30,
-    backgroundColor: '#d2d2d2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  searchMapText: {
-    width: screenWidth - 20 - 155,
-    height: 40,
-    borderRadius: 15,
-    borderColor: 'rgba(150, 150, 150, 1)',
-    borderWidth: 2,
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    backgroundColor: 'rgba(210, 210, 210, 0.8)',
-  },
-});
-
 const wineryFilterBase: string = `(${nameof<Winery>(
   'type',
 )} = 1 OR ${nameof<Winery>('type')} = 2 OR ${nameof<Winery>(
   'type',
 )} = 3 OR ${nameof<Winery>('type')} = 6)`;
 
-export const WineriesMap = (props: any) => {
+export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Winery[]>();
   const [search, setSearch] = useState<string>('');
   const [selectedPosition, setSelectedPosition] = useState<LatLng>();
-  const [markerRefs, setMarkerRefs] = useState<React.RefObject<Marker>[]>([]);
+  // const [markerRefs, setMarkerRefs] = useState<React.RefObject<Marker>[]>([]);
   const map = useRef<MapView>(null);
   const navigation = useNavigation();
 
@@ -242,18 +163,18 @@ export const WineriesMap = (props: any) => {
     if (selectedPosition) loadWineriesFromCoordinates(selectedPosition);
   }, [selectedPosition]);
 
-  useEffect(() => {
-    if (data && data.length > 0) {
-      setMarkerRefs((markerRefs) => {
-        return Array(data.length)
-          .fill(1)
-          .map(
-            (_, i) =>
-              markerRefs[i] || React.createRef<React.RefObject<Marker>>(),
-          );
-      });
-    } else setMarkerRefs([]);
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.length > 0) {
+  //     setMarkerRefs((markerRefs) => {
+  //       return Array(data.length)
+  //         .fill(1)
+  //         .map(
+  //           (_, i) =>
+  //             markerRefs[i] || React.createRef<React.RefObject<Marker>>(),
+  //         );
+  //     });
+  //   } else setMarkerRefs([]);
+  // }, [data]);
 
   return (
     <View style={wineriesMapStyles.pageContainer}>
@@ -279,8 +200,8 @@ export const WineriesMap = (props: any) => {
                   latitude: d.location?.latitude || 0,
                   longitude: d.location?.longitude || 0,
                 }}
-                icon={require('../../assets/icon/winery_marker.png')}
-                ref={markerRefs[i]}
+                icon={icons.winery_marker}
+                // ref={markerRefs[i]}
                 tracksViewChanges={false}>
                 <Callout
                   onPress={() =>

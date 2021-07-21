@@ -1,4 +1,4 @@
-export const images = {
+export const icons = {
   cerca: require('../../assets/icon/cerca.png'),
   mail: require('../../assets/icon/mail.png'),
   mail_popup: require('../../assets/icon/mail_popup.png'),
@@ -9,7 +9,12 @@ export const images = {
   insta: require('../../assets/icon/insta.png'),
   facebook: require('../../assets/icon/facebook.png'),
   wineries_map_big: require('../../assets/icon/wineries_map_big.png'),
-  logo_calice: require('../../assets/img/logo_calice.png'),
   tel_popup: require('../../assets/icon/tel_popup.png'),
   go_to_popup: require('../../assets/icon/go_to_popup.png'),
+  winery_marker: require('../../assets/icon/winery_marker.png'),
+};
+
+export const images = {
+  logo_calice: require('../../assets/img/logo_calice.png'),
+  login_logo: require('../../assets/img/login_logo.png'),
 };

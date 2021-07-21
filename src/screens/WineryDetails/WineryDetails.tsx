@@ -1,63 +1,23 @@
-import {RouteProp} from '@react-navigation/native';
 import React from 'react';
+import {useCallback} from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import {
   Alert,
   ActivityIndicator,
-  Linking,
   Image,
-  StyleSheet,
   Text,
   View,
   Platform,
 } from 'react-native';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
-import {images, markerDefaultGreen} from '../../common/constants';
+import {icons, markerDefaultGreen} from '../../common/constants';
 import {Winery} from '../../common/interfaces';
 import {sendEmail} from '../../common/modules/email/sendEmail';
 import {openLink} from '../../common/modules/linking';
+import {IWineryDetailProps, linkProtocol} from './WineryDetails.interfaces';
+import {wineryDetailsStyles} from './WineryDetails.styles';
 import {wineryLogoDal} from './WineyDetails.dal';
-
-export interface IWineryDetailProps {
-  route: RouteProp<Record<string, any>, 'WineryDetails'>;
-  navigation: any;
-}
-
-const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#FFF',
-  },
-  flex_container: {
-    flex: 1,
-  },
-  centered_container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    width: 280,
-    height: 280,
-  },
-  logoImage: {width: 280, height: 280, justifyContent: 'center'},
-  title_text: {
-    fontSize: 24,
-    fontFamily: 'Novecentosanswide-Bold',
-    marginBottom: 15,
-  },
-  subtitle_text: {
-    fontSize: 21,
-    fontFamily: 'Novecentosanswide-Bold',
-    marginBottom: 10,
-  },
-  normal_text: {
-    fontSize: 16,
-    fontFamily: 'Novecentosanswide-Normal',
-    marginBottom: 5,
-  },
-});
 
 export const WineryDetail = React.memo((props: IWineryDetailProps) => {
   const {winery: wineryProps} = props.route.params || {};
@@ -92,18 +52,46 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
       });
   }, [winery]);
 
+  const openNavigatorMaps = useCallback(() => {
+    const scheme = Platform.select({
+      ios: 'maps:0,0?q=',
+      android: 'geo:0,0?q=',
+    });
+
+    const latLng = `${winery.location?.latitude},${winery.location?.longitude}`;
+    const label = `${winery.name}`;
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`,
+    });
+
+    url && openLink(url);
+  }, [winery]);
+
+  const correctWebsiteUrl = (url: string, protocol: linkProtocol = 'https') => {
+    if (url.startsWith('http') || url.startsWith('https')) return url;
+    return `${protocol}://${url}`;
+  };
+
   return (
-    <View style={styles.page}>
+    <View style={wineryDetailsStyles.page}>
       {loading && (
-        <View style={[styles.flex_container, styles.centered_container]}>
+        <View
+          style={[
+            wineryDetailsStyles.flex_container,
+            wineryDetailsStyles.centered_container,
+          ]}>
           <ActivityIndicator size="large" color={markerDefaultGreen} />
         </View>
       )}
       {!loading && winery && logo && (
-        <View style={styles.flex_container}>
-          <View style={styles.centered_container}>
-            <View style={styles.logo}>
-              <Image source={{uri: logo}} style={styles.logoImage} />
+        <View style={wineryDetailsStyles.flex_container}>
+          <View style={wineryDetailsStyles.centered_container}>
+            <View style={wineryDetailsStyles.logo}>
+              <Image
+                source={{uri: logo}}
+                style={wineryDetailsStyles.logoImage}
+              />
             </View>
           </View>
           <View
@@ -115,50 +103,44 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
             }}>
             <RoundImageButton
               borderRadius={30}
-              image={images.tel_popup}
+              image={icons.tel_popup}
               onPress={() =>
                 winery.telephone && openLink(`tel:${winery.telephone}`)
               }
             />
             <RoundImageButton
               borderRadius={30}
-              image={images.mail_popup}
+              image={icons.mail_popup}
               onPress={() => winery.email && sendEmail(winery.email)}
             />
             <RoundImageButton
               borderRadius={30}
-              image={images.web_popup}
-              onPress={() => winery.webSite && openLink(winery.webSite)}
+              image={icons.web_popup}
+              onPress={() =>
+                winery.webSite && openLink(correctWebsiteUrl(winery.webSite))
+              }
             />
             <RoundImageButton
               borderRadius={30}
-              image={images.go_to_popup}
-              onPress={() => {
-                const scheme = Platform.select({
-                  ios: 'maps:0,0?q=',
-                  android: 'geo:0,0?q=',
-                });
-
-                const latLng = `${winery.location?.latitude},${winery.location?.longitude}`;
-                const label = `${winery.name}`;
-                const url = Platform.select({
-                  ios: `${scheme}${label}@${latLng}`,
-                  android: `${scheme}${latLng}(${label})`,
-                });
-
-                url && openLink(url);
-              }}
+              image={icons.go_to_popup}
+              onPress={openNavigatorMaps}
             />
           </View>
           <View style={{margin: 15, width: '50%'}}>
-            <Text style={styles.title_text}>{winery.name}</Text>
+            <Text style={wineryDetailsStyles.title_text}>{winery.name}</Text>
             {winery.vigneron && (
-              <Text style={styles.normal_text}>{winery.vigneron}</Text>
+              <Text style={wineryDetailsStyles.normal_text}>
+                {winery.vigneron}
+              </Text>
             )}
-            <Text style={styles.normal_text}>{winery.address}</Text>
-            <Text style={styles.normal_text}>{winery.city}</Text>
-            <Text style={styles.normal_text}>{winery.province}</Text>
-            <Text style={styles.normal_text}>{winery.region}</Text>
+            <Text style={wineryDetailsStyles.normal_text}>
+              {winery.address}
+            </Text>
+            <Text style={wineryDetailsStyles.normal_text}>{winery.city}</Text>
+            <Text style={wineryDetailsStyles.normal_text}>
+              {winery.province}
+            </Text>
+            <Text style={wineryDetailsStyles.normal_text}>{winery.region}</Text>
           </View>
         </View>
       )}

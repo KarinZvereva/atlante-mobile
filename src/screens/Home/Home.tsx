@@ -1,14 +1,15 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
-import {View, Text, Image, Linking, Alert} from 'react-native';
+import {View, Text, Image, Linking} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
-import {images} from '../../common/constants';
+import {icons, images} from '../../common/constants';
+import {IBaseRouteNavigationProps} from '../../common/interfaces';
 import {sendEmail} from '../../common/modules/email/sendEmail';
 import {openLink} from '../../common/modules/linking';
 import {homeStyles} from './Home.styles';
 
-export function Home(props: any) {
+export function Home(props: IBaseRouteNavigationProps) {
   const navigation = useNavigation();
 
   const openMail = useCallback(() => {
@@ -39,7 +40,7 @@ export function Home(props: any) {
         </Text>
         <RoundImageButton
           borderRadius={40}
-          image={images.wineries_map_big}
+          image={icons.wineries_map_big}
           onPress={() => {
             navigation.navigate('Wineries Map');
           }}
@@ -54,7 +55,7 @@ export function Home(props: any) {
           <RoundImageButton
             borderRadius={20}
             style={{marginRight: 10}}
-            image={images.facebook}
+            image={icons.facebook}
             onPress={() => {
               openLink('https://www.facebook.com/140077001562439');
             }}
@@ -62,7 +63,7 @@ export function Home(props: any) {
           <RoundImageButton
             borderRadius={20}
             style={{marginRight: 10}}
-            image={images.insta}
+            image={icons.insta}
             onPress={() => {
               openLink('https://www.instagram.com/natourwine_official/');
             }}
@@ -70,13 +71,13 @@ export function Home(props: any) {
           <RoundImageButton
             borderRadius={20}
             style={{marginRight: 10}}
-            image={images.tele}
+            image={icons.tele}
             onPress={() => openTelegram()}
           />
           <RoundImageButton
             borderRadius={20}
             style={{marginRight: 10}}
-            image={images.youtube}
+            image={icons.youtube}
             onPress={() => {
               openLink(
                 'https://www.youtube.com/channel/UC0B5koohj5rimZpW9NqMr8w',
@@ -86,14 +87,14 @@ export function Home(props: any) {
           <RoundImageButton
             borderRadius={20}
             style={{marginRight: 10}}
-            image={images.web}
+            image={icons.web}
             onPress={() => {
               openLink('https://atlantevignaiolinaturali.wordpress.com/');
             }}
           />
           <RoundImageButton
             borderRadius={20}
-            image={images.mail}
+            image={icons.mail}
             onPress={() => openMail()}
           />
         </View>
