@@ -25,6 +25,7 @@ import {MarkerPopup} from './MarkerPopup';
 import {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
+import {MapsCallout} from './MapsCallout';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
@@ -46,7 +47,6 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   const [data, setData] = useState<Winery[]>();
   const [search, setSearch] = useState<string>('');
   const [selectedPosition, setSelectedPosition] = useState<LatLng>();
-  // const [markerRefs, setMarkerRefs] = useState<React.RefObject<Marker>[]>([]);
   const map = useRef<MapView>(null);
   const navigation = useNavigation();
 
@@ -163,19 +163,6 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
     if (selectedPosition) loadWineriesFromCoordinates(selectedPosition);
   }, [selectedPosition]);
 
-  // useEffect(() => {
-  //   if (data && data.length > 0) {
-  //     setMarkerRefs((markerRefs) => {
-  //       return Array(data.length)
-  //         .fill(1)
-  //         .map(
-  //           (_, i) =>
-  //             markerRefs[i] || React.createRef<React.RefObject<Marker>>(),
-  //         );
-  //     });
-  //   } else setMarkerRefs([]);
-  // }, [data]);
-
   return (
     <View style={wineriesMapStyles.pageContainer}>
       <MapView
@@ -201,13 +188,15 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                   longitude: d.location?.longitude || 0,
                 }}
                 icon={icons.winery_marker}
-                // ref={markerRefs[i]}
                 tracksViewChanges={false}>
                 <Callout
+                  tooltip={true}
                   onPress={() =>
                     navigation.navigate('WineryDetails', {winery: d})
                   }>
-                  <MarkerPopup winery={d} />
+                  <MapsCallout>
+                    <MarkerPopup winery={d} />
+                  </MapsCallout>
                 </Callout>
               </Marker>
             ))}

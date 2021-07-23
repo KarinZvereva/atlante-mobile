@@ -12,28 +12,50 @@ import {
 } from 'react-native';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {icons, markerDefaultGreen} from '../../common/constants';
-import {Winery} from '../../common/interfaces';
+import {Winery, WineryType} from '../../common/interfaces';
 import {sendEmail} from '../../common/modules/email/sendEmail';
 import {openLink} from '../../common/modules/linking';
 import {IWineryDetailProps, linkProtocol} from './WineryDetails.interfaces';
 import {wineryDetailsStyles} from './WineryDetails.styles';
 import {wineryLogoDal} from './WineyDetails.dal';
 
+const getWineryDescription = (type?: WineryType) => {
+  return type
+    ? type === 1
+      ? 'Cantina'
+      : type === 2
+      ? 'Vignaiolo Itinerante'
+      : type === 3
+      ? 'Progetto enologico'
+      : type === 6
+      ? 'Cantina con posizione approssimativa'
+      : 'Cantina'
+    : 'Cantina';
+};
+
 export const WineryDetail = React.memo((props: IWineryDetailProps) => {
   const {winery: wineryProps} = props.route.params || {};
   const [winery, setWinery] = useState<Winery>(props.route.params?.winery);
   const [logo, setLogo] = useState<string | null | undefined>(winery.logo);
   const [loading, setLoading] = useState<boolean>(true);
+  const [wineryTypeDescr, setWineryTypeDescr] = useState<string>(
+    getWineryDescription(winery.type),
+  );
 
   useEffect(() => {
     if (wineryProps) setWinery(wineryProps);
   }, [wineryProps]);
 
   useEffect(() => {
+    setWineryTypeDescr(getWineryDescription(winery.type));
+  }, [winery.type]);
+
+  useEffect(() => {
     if (winery.logo) {
       setLogo(winery.logo);
       return;
     }
+
     setLoading(true);
     wineryLogoDal
       .getById(winery._id)

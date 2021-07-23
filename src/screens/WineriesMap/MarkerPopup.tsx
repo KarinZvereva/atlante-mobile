@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {Winery} from '../../common/interfaces';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {defaultRed, icons, markerDefaultGreen} from '../../common/constants';
 
 interface IMarkerPopupProps {
   winery: Winery;
@@ -9,64 +10,79 @@ interface IMarkerPopupProps {
 }
 
 export const MarkerPopup = React.memo(({winery}: IMarkerPopupProps) => {
-  const wineryTypeDescription = winery.type
-    ? winery.type === 1
-      ? 'Cantina'
-      : winery.type === 2
-      ? 'Vignaiolo Itinerante'
-      : winery.type === 3
-      ? 'Progetto'
-      : winery.type === 6
-      ? 'Posizione approssimativa'
-      : 'Cantina'
-    : 'Cantina';
-
   return (
     <View
       style={{
         flex: 1,
         flexDirection: 'column',
+        borderColor: markerDefaultGreen,
+        borderWidth: 3,
+        borderStyle: 'solid',
+        borderRadius: 6,
       }}>
-      <Text
+      <View
         style={{
-          fontSize: 14,
-          justifyContent: 'center',
-          textAlign: 'center',
-          fontFamily: 'Novecentosanswide-Normal',
+          flex: 1,
+          flexDirection: 'column',
+          borderColor: defaultRed,
+          borderWidth: 2,
+          borderStyle: 'solid',
+          margin: 2,
+          paddingTop: 10,
+          paddingRight: 10,
+          paddingLeft: 10,
+          paddingBottom: 5,
+          borderRadius: 6,
         }}>
-        --- {wineryTypeDescription} ---
-      </Text>
-      <Text
-        style={{
-          fontSize: 16,
-          justifyContent: 'center',
-          textAlign: 'center',
-          fontFamily: 'Novecentosanswide-Normal',
-        }}>
-        {winery.name}
-      </Text>
-      {winery.vigneron && (
+        <Text
+          style={{
+            height: 40,
+            alignContent: 'flex-start',
+            alignItems: 'flex-start',
+            position: 'absolute',
+            top: -18,
+            right: 1,
+          }}>
+          <Image
+            style={{
+              width: 25,
+              height: 35,
+              resizeMode: 'center',
+            }}
+            source={icons.winery_marker}
+          />
+        </Text>
         <Text
           style={{
             fontSize: 16,
             justifyContent: 'center',
             textAlign: 'center',
             fontFamily: 'Novecentosanswide-Normal',
+            marginBottom: winery.vigneron ? 5 : 25,
           }}>
-          {winery.vigneron}
+          {winery.name}
         </Text>
-      )}
-      <TouchableOpacity>
+        {winery.vigneron && (
+          <Text
+            style={{
+              fontSize: 12,
+              justifyContent: 'center',
+              textAlign: 'center',
+              fontFamily: 'Novecentosanswide-Normal',
+              marginBottom: 15,
+            }}>
+            {winery.vigneron}
+          </Text>
+        )}
         <Text
           style={{
-            fontSize: 16,
+            fontSize: 8,
             justifyContent: 'center',
             textAlign: 'center',
-            color: '#2191b0',
           }}>
-          Vedi ulteriori dettagli
+          Premi per visualizzare i dettagli della cantina
         </Text>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 });

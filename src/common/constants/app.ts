@@ -6,3 +6,4 @@ export const AUTOCOMPLETE_DEFAULT_DELAY = 500;
 export const FORMAT_DATE = 'DD/MM/YYYY';
 
 export const markerDefaultGreen = '#659a4a';
+export const defaultRed = 'red';

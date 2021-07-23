@@ -8,14 +8,13 @@ const MapsCalloutStyles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   bubble: {
-    width: 140,
     flexDirection: 'row',
     alignSelf: 'flex-start',
-    backgroundColor: '#4da2ab',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
+    backgroundColor: '#fefefe',
+    paddingHorizontal: 2,
+    paddingVertical: 2,
     borderRadius: 6,
-    borderColor: '#007a87',
+    borderColor: '#000000',
     borderWidth: 0.5,
   },
   amount: {
@@ -23,20 +22,20 @@ const MapsCalloutStyles = StyleSheet.create({
   },
   arrow: {
     backgroundColor: 'transparent',
-    borderWidth: 16,
+    borderWidth: 8,
     borderColor: 'transparent',
-    borderTopColor: '#4da2ab',
+    borderTopColor: '#fefefe',
     alignSelf: 'center',
-    marginTop: -32,
+    // marginTop: -16,
   },
-  arrowBorder: {
-    backgroundColor: 'transparent',
-    borderWidth: 16,
-    borderColor: 'transparent',
-    borderTopColor: '#007a87',
-    alignSelf: 'center',
-    marginTop: -0.5,
-  },
+  // arrowBorder: {
+  //   backgroundColor: 'transparent',
+  //   borderWidth: 8,
+  //   borderColor: 'transparent',
+  //   borderTopColor: '#007a87',
+  //   alignSelf: 'center',
+  //   marginTop: -0.5,
+  // },
 });
 
 export const MapsCallout: FC<any> = (props: any) => {
@@ -45,7 +44,7 @@ export const MapsCallout: FC<any> = (props: any) => {
       <View style={MapsCalloutStyles.bubble}>
         <View style={MapsCalloutStyles.amount}>{props.children}</View>
       </View>
-      <View style={MapsCalloutStyles.arrowBorder} />
+      {/* <View style={MapsCalloutStyles.arrowBorder} /> */}
       <View style={MapsCalloutStyles.arrow} />
     </View>
   );
