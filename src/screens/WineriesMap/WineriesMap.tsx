@@ -21,7 +21,7 @@ import {
 import {wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
 import {icons, markerDefaultGreen} from '../../common/constants';
-import {MarkerPopup} from './MarkerPopup';
+import {WineryPopup} from './WineryPopup';
 import {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
@@ -59,10 +59,24 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           filter: filters
             ? `${wineryFilterBase} AND ${filters}`
             : wineryFilterBase,
+          pageNumber: 1,
+          pageSize: 50,
         })
         .then((result) => {
           if (result && result.data) {
             setData(result.data.data || []);
+            setLoading(false);
+            if (map && map.current)
+              map.current.fitToCoordinates(
+                result.data.data?.map((r) => ({
+                  latitude: r.location?.latitude!,
+                  longitude: r.location?.longitude!,
+                })),
+                {animated: true},
+              );
+          } else {
+            if (result.error) console.error(JSON.stringify(result.error));
+            Alert.alert(`Nessuna cantina trovata!`);
             setLoading(false);
           }
         })
@@ -105,6 +119,8 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                 })),
                 {animated: true},
               );
+          } else {
+            setLoading(false);
           }
         })
         .catch(() => {
@@ -195,7 +211,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                     navigation.navigate('WineryDetails', {winery: d})
                   }>
                   <MapsCallout>
-                    <MarkerPopup winery={d} />
+                    <WineryPopup winery={d} />
                   </MapsCallout>
                 </Callout>
               </Marker>

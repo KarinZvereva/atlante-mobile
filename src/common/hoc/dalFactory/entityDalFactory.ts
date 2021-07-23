@@ -99,7 +99,6 @@ export const entityDalFactory = <T, TOut extends IDalBaseEntity>(
       const data = (await result.json()) as TRes;
       return {data};
     } catch (error) {
-      console.log(JSON.stringify(error));
       return {error};
     }
   };

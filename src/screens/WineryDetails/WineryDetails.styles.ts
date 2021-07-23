@@ -5,6 +5,7 @@ export const wineryDetailsStyles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#FFF',
+    padding: 15,
   },
   flex_container: {
     flex: 1,
@@ -12,12 +13,17 @@ export const wineryDetailsStyles = StyleSheet.create({
   centered_container: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 10,
   },
   logo: {
-    width: 280,
-    height: 280,
+    width: 170,
+    height: 170,
   },
-  logoImage: {width: 280, height: 280, justifyContent: 'center'},
+  logoImage: {
+    width: 170,
+    height: 170,
+    resizeMode: 'contain',
+  },
   title_text: {
     fontSize: 24,
     fontFamily: 'Novecentosanswide-Bold',
@@ -32,5 +38,13 @@ export const wineryDetailsStyles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Novecentosanswide-Normal',
     marginBottom: 5,
+  },
+  footer_text: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 10,
+    flexDirection: 'column',
+    alignContent: 'center',
+    alignItems: 'center',
   },
 });

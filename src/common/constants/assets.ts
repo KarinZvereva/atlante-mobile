@@ -12,6 +12,7 @@ export const icons = {
   tel_popup: require('../../assets/icon/tel_popup.png'),
   go_to_popup: require('../../assets/icon/go_to_popup.png'),
   winery_marker: require('../../assets/icon/winery_marker.png'),
+  winery_marker_big: require('../../assets/icon/winery_marker_big.png'),
 };
 
 export const images = {

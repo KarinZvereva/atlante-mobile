@@ -97,6 +97,17 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
 
   return (
     <View style={wineryDetailsStyles.page}>
+      <Image
+        style={{
+          width: 30,
+          height: 50,
+          resizeMode: 'contain',
+          position: 'absolute',
+          top: 15,
+          right: 15,
+        }}
+        source={icons.winery_marker_big}
+      />
       {loading && (
         <View
           style={[
@@ -115,6 +126,9 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                 style={wineryDetailsStyles.logoImage}
               />
             </View>
+            {wineryTypeDescr && (
+              <Text style={{fontSize: 14}}>{wineryTypeDescr}</Text>
+            )}
           </View>
           <View
             style={{
@@ -148,10 +162,10 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
               onPress={openNavigatorMaps}
             />
           </View>
-          <View style={{margin: 15, width: '50%'}}>
+          <View style={{margin: 15}}>
             <Text style={wineryDetailsStyles.title_text}>{winery.name}</Text>
             {winery.vigneron && (
-              <Text style={wineryDetailsStyles.normal_text}>
+              <Text style={wineryDetailsStyles.subtitle_text}>
                 {winery.vigneron}
               </Text>
             )}
@@ -163,6 +177,14 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
               {winery.province}
             </Text>
             <Text style={wineryDetailsStyles.normal_text}>{winery.region}</Text>
+          </View>
+          <View style={wineryDetailsStyles.footer_text}>
+            <Text style={{fontWeight: 'bold', fontSize: 16}}>
+              Contatta sempre in anticipo il Vignaiolo
+            </Text>
+            <Text style={{fontWeight: 'bold', fontSize: 16}}>
+              per concordare la tua visita in cantina.
+            </Text>
           </View>
         </View>
       )}
