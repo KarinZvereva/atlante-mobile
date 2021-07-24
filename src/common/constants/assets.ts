@@ -13,6 +13,8 @@ export const icons = {
   go_to_popup: require('../../assets/icon/go_to_popup.png'),
   winery_marker: require('../../assets/icon/winery_marker.png'),
   winery_marker_big: require('../../assets/icon/winery_marker_big.png'),
+  cantina_b_b: require('../../assets/icon/Cantina_B_B.png'),
+  cantina_ristoro: require('../../assets/icon/Cantina_ristoro.png'),
 };
 
 export const images = {

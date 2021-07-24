@@ -59,8 +59,8 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           filter: filters
             ? `${wineryFilterBase} AND ${filters}`
             : wineryFilterBase,
-          pageNumber: 1,
-          pageSize: 50,
+          // pageNumber: 1,
+          // pageSize: 50,
         })
         .then((result) => {
           if (result && result.data) {

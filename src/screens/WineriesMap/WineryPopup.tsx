@@ -31,28 +31,29 @@ const wineryPopupStyles = StyleSheet.create({
     paddingBottom: 5,
     borderRadius: 6,
   },
-  fixed_message_text: {
-    fontSize: 8,
-    justifyContent: 'center',
-    textAlign: 'center',
-    fontFamily: 'Novecentosanswide-Normal',
-    marginBottom: 15,
-    marginHorizontal: 25,
-  },
+  // fixed_message_text: {
+  //   fontSize: 8,
+  //   justifyContent: 'center',
+  //   textAlign: 'center',
+  //   fontFamily: 'Novecentosanswide-Normal',
+  //   marginBottom: 15,
+  //   marginHorizontal: 25,
+  // },
   marker_image_wrapper: {
-    height: 40,
+    height: 70,
     alignContent: 'flex-start',
     alignItems: 'flex-start',
     position: 'absolute',
-    top: -18,
-    right: 1,
+    top: -10,
+    right: 5,
   },
   marker_image: {
     width: 25,
     height: 35,
-    resizeMode: 'center',
+    resizeMode: 'contain',
   },
   winery_name_text: {
+    padding: 20,
     fontSize: 16,
     justifyContent: 'center',
     textAlign: 'center',
@@ -71,22 +72,16 @@ export const WineryPopup = React.memo(({winery}: IWineryPopupProps) => {
   return (
     <View style={wineryPopupStyles.container}>
       <View style={wineryPopupStyles.internal_container}>
-        <Text style={wineryPopupStyles.fixed_message_text}>
+        {/* <Text style={wineryPopupStyles.fixed_message_text}>
           Premi per aprire i dettagli
-        </Text>
+        </Text> */}
         <Text style={wineryPopupStyles.marker_image_wrapper}>
           <Image
             style={wineryPopupStyles.marker_image}
             source={icons.winery_marker}
           />
         </Text>
-        <Text
-          style={[
-            wineryPopupStyles.winery_name_text,
-            {marginBottom: winery.vigneron ? 5 : 25},
-          ]}>
-          {winery.name}
-        </Text>
+        <Text style={[wineryPopupStyles.winery_name_text]}>{winery.name}</Text>
         {winery.vigneron && (
           <Text style={wineryPopupStyles.winery_vigneron_text}>
             {winery.vigneron}

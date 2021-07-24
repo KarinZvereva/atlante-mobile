@@ -15,6 +15,7 @@ export interface DeleteItemDto {
 export type EntityExtraFlags = 0 | 1 | 2 | 4 | 8 | 16; // int32
 export type EntityStatus = 0 | 10 | 20 | 30 | 40; // int32
 export type ExtraServices = 0 | 1 | 2; // int32
+
 /**
  * Facebook login DTO for authenticate on web api
  */

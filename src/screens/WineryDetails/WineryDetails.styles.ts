@@ -16,12 +16,13 @@ export const wineryDetailsStyles = StyleSheet.create({
     marginBottom: 10,
   },
   logo: {
-    width: 170,
-    height: 170,
+    width: 200,
+    height: 200,
+    marginBottom: 10,
   },
   logoImage: {
-    width: 170,
-    height: 170,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
   },
   title_text: {

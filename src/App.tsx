@@ -136,7 +136,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!state.isLoading) SplashScreen.hide();
+    if (!state.isLoading) setTimeout(() => SplashScreen.hide(), 2000);
   }, [state.isLoading]);
 
   const authContext = useMemo(

@@ -11,7 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
-import {icons, markerDefaultGreen} from '../../common/constants';
+import {ExtraServices, icons, markerDefaultGreen} from '../../common/constants';
 import {Winery, WineryType} from '../../common/interfaces';
 import {sendEmail} from '../../common/modules/email/sendEmail';
 import {openLink} from '../../common/modules/linking';
@@ -20,6 +20,7 @@ import {wineryDetailsStyles} from './WineryDetails.styles';
 import {wineryLogoDal} from './WineyDetails.dal';
 
 const getWineryDescription = (type?: WineryType) => {
+  const defaultDescription = 'Cantina';
   return type
     ? type === 1
       ? 'Cantina'
@@ -27,10 +28,8 @@ const getWineryDescription = (type?: WineryType) => {
       ? 'Vignaiolo Itinerante'
       : type === 3
       ? 'Progetto enologico'
-      : type === 6
-      ? 'Cantina con posizione approssimativa'
-      : 'Cantina'
-    : 'Cantina';
+      : defaultDescription
+    : defaultDescription;
 };
 
 export const WineryDetail = React.memo((props: IWineryDetailProps) => {
@@ -99,8 +98,8 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
     <View style={wineryDetailsStyles.page}>
       <Image
         style={{
-          width: 30,
-          height: 50,
+          width: 40,
+          height: 60,
           resizeMode: 'contain',
           position: 'absolute',
           top: 15,
@@ -126,9 +125,9 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                 style={wineryDetailsStyles.logoImage}
               />
             </View>
-            {wineryTypeDescr && (
-              <Text style={{fontSize: 14}}>{wineryTypeDescr}</Text>
-            )}
+            <View>
+              <Text style={{fontSize: 18}}>{wineryTypeDescr}</Text>
+            </View>
           </View>
           <View
             style={{
@@ -178,6 +177,31 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
             </Text>
             <Text style={wineryDetailsStyles.normal_text}>{winery.region}</Text>
           </View>
+          {winery.services !== undefined && (
+            <View
+              style={{
+                flexDirection: 'row',
+                position: 'absolute',
+                bottom: 70,
+                right: 10,
+                alignContent: 'flex-start',
+                alignItems: 'flex-start',
+              }}>
+              {/* <Text>{winery.services}</Text> */}
+              {(winery.services & ExtraServices.BnB) > 0 && (
+                <Image
+                  style={{height: 60, width: 60, resizeMode: 'contain'}}
+                  source={icons.cantina_b_b}
+                />
+              )}
+              {(winery.services & ExtraServices.Restaurant) > 0 && (
+                <Image
+                  style={{height: 60, width: 60, resizeMode: 'contain'}}
+                  source={icons.cantina_ristoro}
+                />
+              )}
+            </View>
+          )}
           <View style={wineryDetailsStyles.footer_text}>
             <Text style={{fontWeight: 'bold', fontSize: 16}}>
               Contatta sempre in anticipo il Vignaiolo
