@@ -155,6 +155,8 @@ export interface Winery {
   progressiveIdentifier?: number; // int32
   name?: string | null;
   name2?: string | null;
+  subName1?: string | null;
+  subName2?: string | null;
   vigneron?: string | null;
   address?: string | null;
   city?: string | null;
