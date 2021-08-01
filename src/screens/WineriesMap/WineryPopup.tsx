@@ -1,6 +1,6 @@
 import React from 'react';
 import {Winery} from '../../common/interfaces';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, ImageBackground} from 'react-native';
 import {defaultRed, icons, markerDefaultGreen} from '../../common/constants';
 
 interface IWineryPopupProps {
@@ -18,6 +18,10 @@ const wineryPopupStyles = StyleSheet.create({
     borderStyle: 'solid',
     borderRadius: 6,
   },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   internal_container: {
     flex: 1,
     flexDirection: 'column',
@@ -33,11 +37,13 @@ const wineryPopupStyles = StyleSheet.create({
   },
   marker_image_wrapper: {
     height: 70,
-    alignContent: 'flex-start',
-    alignItems: 'flex-start',
+    // alignContent: 'flex-start',
+    // alignItems: 'flex-start',
     position: 'absolute',
-    top: -10,
-    right: 5,
+    alignSelf: 'center',
+    top: -25,
+    //left: 0,
+    //right: 0,
   },
   marker_image: {
     width: 25,
@@ -71,14 +77,10 @@ export const WineryPopup = React.memo(({winery}: IWineryPopupProps) => {
           />
         </Text>
         {winery.subName1 && winery.subName2 ? (
-          <>
-            <Text style={[wineryPopupStyles.winery_name_text]}>
-              {winery.subName1}
-            </Text>
-            <Text style={[wineryPopupStyles.winery_name_text]}>
-              {winery.subName2}
-            </Text>
-          </>
+          <View style={wineryPopupStyles.winery_name_text}>
+            <Text>{winery.subName1}</Text>
+            <Text>{winery.subName2}</Text>
+          </View>
         ) : (
           <Text style={[wineryPopupStyles.winery_name_text]}>
             {winery.name}
