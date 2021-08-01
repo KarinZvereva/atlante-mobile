@@ -15,6 +15,12 @@ export const icons = {
   winery_marker_big: require('../../assets/icon/winery_marker_big.png'),
   cantina_b_b: require('../../assets/icon/Cantina_B_B.png'),
   cantina_ristoro: require('../../assets/icon/Cantina_ristoro.png'),
+  touch: require('../../assets/icon/touch.png'),
+  info_map: require('../../assets/icon/info_map.png'),
+  posizione: require('../../assets/icon/posizione.png'),
+  clean_maps: require('../../assets/icon/clean_map.png'),
+  intorno: require('../../assets/icon/intorno.png'),
+  reload: require('../../assets/icon/reload.png'),
 };
 
 export const images = {

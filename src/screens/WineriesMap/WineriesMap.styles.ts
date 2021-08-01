@@ -81,4 +81,9 @@ export const wineriesMapStyles = StyleSheet.create({
     left: 20,
     backgroundColor: 'rgba(210, 210, 210, 0.8)',
   },
+  infoMapsButton: {
+    position: 'absolute',
+    top: 70,
+    left: 20,
+  },
 });

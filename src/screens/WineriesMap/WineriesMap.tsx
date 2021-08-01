@@ -59,8 +59,8 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           filter: filters
             ? `${wineryFilterBase} AND ${filters}`
             : wineryFilterBase,
-          // pageNumber: 3,
-          // pageSize: 50,
+          /*  pageNumber: 1,
+          pageSize: 50, */
         })
         .then((result) => {
           if (result && result.data) {
@@ -233,6 +233,15 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           <ActivityIndicator size="large" color={markerDefaultGreen} />
         </View>
       )}
+      <TouchableOpacity
+        style={wineriesMapStyles.infoMapsButton}
+        onPress={() => navigation.navigate('MapsInfo')}
+        disabled={loading}>
+        <Image
+          style={{width: 40, height: 40, resizeMode: 'contain'}}
+          source={icons.info_map}
+        />
+      </TouchableOpacity>
       <TouchableOpacity
         style={wineriesMapStyles.reloadButton}
         onPress={() => {

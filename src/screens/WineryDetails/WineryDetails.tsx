@@ -187,7 +187,6 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                 alignContent: 'flex-start',
                 alignItems: 'flex-start',
               }}>
-              {/* <Text>{winery.services}</Text> */}
               {(winery.services & ExtraServices.BnB) > 0 && (
                 <Image
                   style={{height: 60, width: 60, resizeMode: 'contain'}}

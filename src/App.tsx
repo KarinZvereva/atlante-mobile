@@ -22,6 +22,7 @@ import {AccountRestore} from './screens/AccountRestore';
 import {Restaurant} from './screens/Restaurant';
 import {Info} from './screens/Info';
 import {WineryDetail} from './screens/WineryDetails/WineryDetails';
+import {MapsInfo} from './screens/MapsInfo';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -203,6 +204,11 @@ export default function App() {
                   name="WineryDetails"
                   component={WineryDetail}
                   options={{title: 'Dettagli cantina selezionata'}}
+                />
+                <Stack.Screen
+                  name="MapsInfo"
+                  component={MapsInfo}
+                  options={{title: 'Info utilizzo mappa'}}
                 />
               </>
             )}
