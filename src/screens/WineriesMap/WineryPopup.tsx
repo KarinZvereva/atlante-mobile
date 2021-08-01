@@ -1,6 +1,6 @@
 import React from 'react';
 import {Winery} from '../../common/interfaces';
-import {View, Text, Image, StyleSheet, ImageBackground} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import {defaultRed, icons, markerDefaultGreen} from '../../common/constants';
 
 interface IWineryPopupProps {
@@ -37,13 +37,9 @@ const wineryPopupStyles = StyleSheet.create({
   },
   marker_image_wrapper: {
     height: 70,
-    // alignContent: 'flex-start',
-    // alignItems: 'flex-start',
     position: 'absolute',
     alignSelf: 'center',
     top: -25,
-    //left: 0,
-    //right: 0,
   },
   marker_image: {
     width: 25,
