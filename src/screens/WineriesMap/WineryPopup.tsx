@@ -36,18 +36,18 @@ const wineryPopupStyles = StyleSheet.create({
     borderRadius: 6,
   },
   marker_image_wrapper: {
-    height: 70,
+    height: 46,
     position: 'absolute',
     alignSelf: 'center',
-    top: -25,
+    top: -22,
   },
   marker_image: {
-    width: 25,
+    width: 20,
     height: 35,
     resizeMode: 'contain',
   },
   winery_name_text: {
-    padding: 20,
+    paddingTop: 18,
     fontSize: 16,
     justifyContent: 'center',
     textAlign: 'center',
@@ -58,7 +58,7 @@ const wineryPopupStyles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     fontFamily: 'Novecentosanswide-Normal',
-    marginBottom: 15,
+    marginBottom: 10,
   },
 });
 
