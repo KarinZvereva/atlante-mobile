@@ -30,7 +30,7 @@ export function Header(props: any) {
             alignContent: 'center',
             alignSelf: 'center',
             marginLeft: 20,
-            fontFamily: 'Novecento',
+            fontFamily: 'Novecentosanswide-Normal',
             fontSize: 16,
             fontWeight: 'bold',
           }}>
