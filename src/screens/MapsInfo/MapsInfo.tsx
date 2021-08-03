@@ -61,6 +61,14 @@ export const MapsInfo = React.memo(() => {
           </Text>
         </View>
         <View style={styles.info_row}>
+          <RoundImageButton borderRadius={20} image={icons.touch} />
+          <View style={styles.divider}></View>
+          <Text style={styles.info_row_text}>
+            Tieni premuto su un punto della mappa per visualizzare le cantine in
+            un raggio di 40 Km
+          </Text>
+        </View>
+        <View style={styles.info_row}>
           <Image
             source={icons.posizione}
             style={{
@@ -135,14 +143,6 @@ export const MapsInfo = React.memo(() => {
           <View style={styles.divider}></View>
           <Text style={styles.info_row_text}>
             Nascondi le cantine sulla mappa
-          </Text>
-        </View>
-        <View style={styles.info_row}>
-          <RoundImageButton borderRadius={20} image={icons.touch} />
-          <View style={styles.divider}></View>
-          <Text style={styles.info_row_text}>
-            Tieni premuto su un punto della mappa per visualizzare le cantine in
-            un raggio di 40 Km
           </Text>
         </View>
         <Text style={styles.bottom_text}>
