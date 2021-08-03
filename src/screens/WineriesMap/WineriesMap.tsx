@@ -42,6 +42,8 @@ const wineryFilterBase: string = `(${nameof<Winery>(
   'type',
 )} = 3 OR ${nameof<Winery>('type')} = 6)`;
 
+const isAndroid = (Platform.OS === 'android');
+
 export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Winery[]>();
@@ -203,7 +205,8 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                   latitude: d.location?.latitude || 0,
                   longitude: d.location?.longitude || 0,
                 }}
-                icon={icons.winery_marker}
+                icon={isAndroid ? icons.winery_marker : null}
+                image={isAndroid ? null : icons.winery_marker}              
                 tracksViewChanges={false}>
                 <Callout
                   tooltip={true}
