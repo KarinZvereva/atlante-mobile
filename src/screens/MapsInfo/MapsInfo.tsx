@@ -72,7 +72,7 @@ export const MapsInfo = React.memo(() => {
           />
           <View style={styles.divider}></View>
           <Text style={styles.info_row_text}>
-            Centra la mappa sulla mia posizione (rilevata dal GPS)
+            Centra la mappa sulla tua posizione (rilevata dal GPS)
           </Text>
         </View>
         <View style={styles.info_row}>
