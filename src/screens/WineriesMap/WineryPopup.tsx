@@ -36,14 +36,14 @@ const wineryPopupStyles = StyleSheet.create({
     borderRadius: 6,
   },
   marker_image_wrapper: {
-    height: 40,
+    height: 50,
     position: 'absolute',
     alignSelf: 'center',
     top: -20,
   },
   marker_image: {
-    width: 80,
-    height: 35,
+    width: 100,
+    height: 45,
     resizeMode: 'contain',
   },
   winery_name_text: {
@@ -58,7 +58,7 @@ const wineryPopupStyles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     fontFamily: 'Novecentosanswide-Normal',
-    marginBottom: 10,
+    marginBottom: 5,
   },
 });
 
@@ -89,7 +89,7 @@ export const WineryPopup = React.memo(({winery}: IWineryPopupProps) => {
                   alignSelf: 'center',
                   alignItems: 'center',
                 },
-                winery.vigneron ? {marginBottom: 10} : {},
+                winery.vigneron ? {marginBottom: 5} : {},
               ]}>
               {winery.subName2}
             </Text>
@@ -98,7 +98,7 @@ export const WineryPopup = React.memo(({winery}: IWineryPopupProps) => {
           <Text
             style={[
               wineryPopupStyles.winery_name_text,
-              winery.vigneron ? {marginBottom: 10} : {},
+              winery.vigneron ? {marginBottom: 5} : {},
             ]}>
             {winery.name}
           </Text>
