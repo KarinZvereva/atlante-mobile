@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     flex: 1,
-    fontFamily: 'Novecentosanswide-Normal',
+    //fontFamily: 'Novecentosanswide-Normal',
   },
   forgot_button: {
     height: 45,
