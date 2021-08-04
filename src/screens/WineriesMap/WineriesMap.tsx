@@ -206,7 +206,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                   longitude: d.location?.longitude || 0,
                 }}
                 icon={isAndroid ? icons.winery_marker : null}
-                image={isAndroid ? null : icons.winery_marker}              
+                image={isAndroid ? null : icons.winery_marker}           
                 tracksViewChanges={false}>
                 <Callout
                   tooltip={true}
