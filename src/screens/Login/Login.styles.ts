@@ -33,6 +33,7 @@ export const styles = StyleSheet.create({
     borderRadius: 30,
     width: '70%',
     alignItems: 'center',
+    fontFamily: 'Novecentosanswide-Normal',
   },
   loginBtn: {
     width: '80%',
@@ -48,6 +49,12 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     justifyContent: 'center',
     textAlign: 'center',
+    fontFamily: 'Novecentosanswide-Normal',
+  },
+  linkText: {
+    flex: 1,
+    textAlign: 'center',
+    color: '#2191b0',
     fontFamily: 'Novecentosanswide-Normal',
   },
 });

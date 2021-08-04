@@ -16,13 +16,13 @@ export const wineryDetailsStyles = StyleSheet.create({
     marginBottom: 10,
   },
   logo: {
-    width: 200,
-    height: 200,
-    marginBottom: 10,
+    width: 240,
+    height: 240,
+    marginBottom: 5,
   },
   logoImage: {
-    width: 200,
-    height: 200,
+    width: 240,
+    height: 240,
     resizeMode: 'contain',
   },
   title_text: {
@@ -40,7 +40,7 @@ export const wineryDetailsStyles = StyleSheet.create({
     fontFamily: 'Novecentosanswide-Normal',
     marginBottom: 5,
   },
-  footer_text: {
+  footer: {
     width: '100%',
     position: 'absolute',
     bottom: 10,
@@ -48,4 +48,9 @@ export const wineryDetailsStyles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
   },
+  footer_text: {
+    fontSize: 16,
+    fontFamily: 'Novecentosanswide-Bold',
+  },
+  winery_type_text: {fontSize: 18, fontFamily: 'Novecentosanswide-Bold'},
 });

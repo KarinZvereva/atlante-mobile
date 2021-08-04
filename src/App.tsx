@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useReducer} from 'react';
-import {Image, Text} from 'react-native';
+import {Image, StyleSheet, Text} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -27,6 +27,11 @@ import {MapsInfo} from './screens/MapsInfo';
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
+const drawerStyles = StyleSheet.create({
+  drawer_label_text: {fontSize: 14, fontFamily: 'Novecentosanswide-Bold'},
+  header_text: {fontFamily: 'Novecentosanswide-Bold'},
+});
+
 const PrivateNavigation = () => {
   return (
     <Drawer.Navigator initialRouteName="Home">
@@ -41,7 +46,9 @@ const PrivateNavigation = () => {
               style={{height: size + 5, width: size + 5}}
             />
           ),
-          drawerLabel: () => <Text style={{fontSize: 16}}>Home</Text>,
+          drawerLabel: () => (
+            <Text style={drawerStyles.drawer_label_text}>Home</Text>
+          ),
         }}
       />
       <Drawer.Screen
@@ -55,7 +62,9 @@ const PrivateNavigation = () => {
               style={{height: size + 5, width: size + 5}}
             />
           ),
-          drawerLabel: () => <Text style={{fontSize: 16}}>Wineries Map</Text>,
+          drawerLabel: () => (
+            <Text style={drawerStyles.drawer_label_text}>Wineries Map</Text>
+          ),
         }}
       />
       <Drawer.Screen
@@ -69,7 +78,9 @@ const PrivateNavigation = () => {
               style={{height: size + 5, width: size + 5}}
             />
           ),
-          drawerLabel: () => <Text style={{fontSize: 16}}>Journey</Text>,
+          drawerLabel: () => (
+            <Text style={drawerStyles.drawer_label_text}>Journey</Text>
+          ),
         }}
       />
       <Drawer.Screen
@@ -83,7 +94,9 @@ const PrivateNavigation = () => {
               style={{height: size + 5, width: size + 5}}
             />
           ),
-          drawerLabel: () => <Text style={{fontSize: 16}}>Tavern</Text>,
+          drawerLabel: () => (
+            <Text style={drawerStyles.drawer_label_text}>Tavern</Text>
+          ),
         }}
       />
       <Drawer.Screen
@@ -97,7 +110,9 @@ const PrivateNavigation = () => {
               style={{height: size + 5, width: size + 5}}
             />
           ),
-          drawerLabel: () => <Text style={{fontSize: 16}}>Info</Text>,
+          drawerLabel: () => (
+            <Text style={drawerStyles.drawer_label_text}>Info</Text>
+          ),
         }}
       />
       <Drawer.Screen
@@ -111,7 +126,9 @@ const PrivateNavigation = () => {
               style={{height: size + 5, width: size + 5}}
             />
           ),
-          drawerLabel: () => <Text style={{fontSize: 16}}>Logout</Text>,
+          drawerLabel: () => (
+            <Text style={drawerStyles.drawer_label_text}>Logout</Text>
+          ),
         }}
       />
     </Drawer.Navigator>
@@ -187,10 +204,21 @@ export default function App() {
                   component={Login}
                   options={{headerShown: false}}
                 />
-                <Stack.Screen name="SignUp" component={SignUp} />
+                <Stack.Screen
+                  name="SignUp"
+                  component={SignUp}
+                  options={{
+                    title: 'Registrati',
+                    headerTitleStyle: {...drawerStyles.header_text},
+                  }}
+                />
                 <Stack.Screen
                   name="AccountRestore"
                   component={AccountRestore}
+                  options={{
+                    title: 'Recupera Account',
+                    headerTitleStyle: {...drawerStyles.header_text},
+                  }}
                 />
               </>
             ) : (
@@ -203,12 +231,18 @@ export default function App() {
                 <Stack.Screen
                   name="WineryDetails"
                   component={WineryDetail}
-                  options={{title: 'Dettagli cantina selezionata'}}
+                  options={{
+                    title: 'Dettagli cantina',
+                    headerTitleStyle: {...drawerStyles.header_text},
+                  }}
                 />
                 <Stack.Screen
                   name="MapsInfo"
                   component={MapsInfo}
-                  options={{title: 'Info utilizzo mappa'}}
+                  options={{
+                    title: 'Info utilizzo mappa',
+                    headerTitleStyle: {...drawerStyles.header_text},
+                  }}
                 />
               </>
             )}

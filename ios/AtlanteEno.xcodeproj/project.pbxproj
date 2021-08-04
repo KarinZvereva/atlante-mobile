@@ -35,6 +35,12 @@
 		DB36C81638214D9389343EAF /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9537A71221924C1FAB7107E4 /* rubicon-icon-font.ttf */; };
 		0B124D90F889439CA49032D5 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1BD3B35AF2264A9086291ED0 /* SimpleLineIcons.ttf */; };
 		8BC3CBAFA02B4AF1BED23664 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0235F0BD20584E00A58BB6E0 /* Zocial.ttf */; };
+		096270E56ADC47BEA6E15051 /* Novecentosanswide-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FBE5A4532EC64532842A7472 /* Novecentosanswide-Bold.otf */; };
+		EFABE8890FB34521A1D08A17 /* Novecentosanswide-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C8C1C83352B4669BD833B82 /* Novecentosanswide-Book.otf */; };
+		E15E00D353754D15B14C3E5C /* Novecentosanswide-DemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FA76175470F8489EAA7877C9 /* Novecentosanswide-DemiBold.otf */; };
+		2475EE2BCE7348A4AC1BE9FC /* Novecentosanswide-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FC3A3E807024A6D8D85A76F /* Novecentosanswide-Light.otf */; };
+		595EC40C8A554CDEBBCC4221 /* Novecentosanswide-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C89A9AEB6744322808BEFF4 /* Novecentosanswide-Medium.otf */; };
+		C707E302CC884737BA9711AB /* Novecentosanswide-Normal.otf in Resources */ = {isa = PBXBuildFile; fileRef = F8BC2084ED554097994216C4 /* Novecentosanswide-Normal.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +95,12 @@
 		9537A71221924C1FAB7107E4 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		1BD3B35AF2264A9086291ED0 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		0235F0BD20584E00A58BB6E0 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FBE5A4532EC64532842A7472 /* Novecentosanswide-Bold.otf */ = {isa = PBXFileReference; name = "Novecentosanswide-Bold.otf"; path = "../src/assets/fonts/Novecentosanswide-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6C8C1C83352B4669BD833B82 /* Novecentosanswide-Book.otf */ = {isa = PBXFileReference; name = "Novecentosanswide-Book.otf"; path = "../src/assets/fonts/Novecentosanswide-Book.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FA76175470F8489EAA7877C9 /* Novecentosanswide-DemiBold.otf */ = {isa = PBXFileReference; name = "Novecentosanswide-DemiBold.otf"; path = "../src/assets/fonts/Novecentosanswide-DemiBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9FC3A3E807024A6D8D85A76F /* Novecentosanswide-Light.otf */ = {isa = PBXFileReference; name = "Novecentosanswide-Light.otf"; path = "../src/assets/fonts/Novecentosanswide-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6C89A9AEB6744322808BEFF4 /* Novecentosanswide-Medium.otf */ = {isa = PBXFileReference; name = "Novecentosanswide-Medium.otf"; path = "../src/assets/fonts/Novecentosanswide-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F8BC2084ED554097994216C4 /* Novecentosanswide-Normal.otf */ = {isa = PBXFileReference; name = "Novecentosanswide-Normal.otf"; path = "../src/assets/fonts/Novecentosanswide-Normal.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +230,12 @@
 				9537A71221924C1FAB7107E4 /* rubicon-icon-font.ttf */,
 				1BD3B35AF2264A9086291ED0 /* SimpleLineIcons.ttf */,
 				0235F0BD20584E00A58BB6E0 /* Zocial.ttf */,
+				FBE5A4532EC64532842A7472 /* Novecentosanswide-Bold.otf */,
+				6C8C1C83352B4669BD833B82 /* Novecentosanswide-Book.otf */,
+				FA76175470F8489EAA7877C9 /* Novecentosanswide-DemiBold.otf */,
+				9FC3A3E807024A6D8D85A76F /* Novecentosanswide-Light.otf */,
+				6C89A9AEB6744322808BEFF4 /* Novecentosanswide-Medium.otf */,
+				F8BC2084ED554097994216C4 /* Novecentosanswide-Normal.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -380,6 +398,12 @@
 				DB36C81638214D9389343EAF /* rubicon-icon-font.ttf in Resources */,
 				0B124D90F889439CA49032D5 /* SimpleLineIcons.ttf in Resources */,
 				8BC3CBAFA02B4AF1BED23664 /* Zocial.ttf in Resources */,
+				096270E56ADC47BEA6E15051 /* Novecentosanswide-Bold.otf in Resources */,
+				EFABE8890FB34521A1D08A17 /* Novecentosanswide-Book.otf in Resources */,
+				E15E00D353754D15B14C3E5C /* Novecentosanswide-DemiBold.otf in Resources */,
+				2475EE2BCE7348A4AC1BE9FC /* Novecentosanswide-Light.otf in Resources */,
+				595EC40C8A554CDEBBCC4221 /* Novecentosanswide-Medium.otf in Resources */,
+				C707E302CC884737BA9711AB /* Novecentosanswide-Normal.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

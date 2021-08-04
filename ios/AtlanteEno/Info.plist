@@ -76,6 +76,12 @@
 		<string>rubicon-icon-font.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Novecentosanswide-Bold.otf</string>
+		<string>Novecentosanswide-Book.otf</string>
+		<string>Novecentosanswide-DemiBold.otf</string>
+		<string>Novecentosanswide-Light.otf</string>
+		<string>Novecentosanswide-Medium.otf</string>
+		<string>Novecentosanswide-Normal.otf</string>
 	</array>
 </dict>
 </plist>

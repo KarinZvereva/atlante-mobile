@@ -126,7 +126,9 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
               />
             </View>
             <View>
-              <Text style={{fontSize: 18}}>{wineryTypeDescr}</Text>
+              <Text style={wineryDetailsStyles.winery_type_text}>
+                {wineryTypeDescr}
+              </Text>
             </View>
           </View>
           <View
@@ -201,11 +203,11 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
               )}
             </View>
           )}
-          <View style={wineryDetailsStyles.footer_text}>
-            <Text style={{fontWeight: 'bold', fontSize: 16}}>
+          <View style={wineryDetailsStyles.footer}>
+            <Text style={wineryDetailsStyles.footer_text}>
               Contatta sempre in anticipo il Vignaiolo
             </Text>
-            <Text style={{fontWeight: 'bold', fontSize: 16}}>
+            <Text style={wineryDetailsStyles.footer_text}>
               per concordare la tua visita in cantina.
             </Text>
           </View>

@@ -21,6 +21,7 @@ export const icons = {
   clean_maps: require('../../assets/icon/clean_map.png'),
   intorno: require('../../assets/icon/intorno.png'),
   reload: require('../../assets/icon/reload.png'),
+  natourwine_popup: require('../../assets/icon/natourwine_popup.png'),
 };
 
 export const images = {

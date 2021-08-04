@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   logo: {
-    height: 90,
-    width: 90,
+    height: 80,
+    width: 80,
     resizeMode: 'center',
     position: 'absolute',
     top: 0,
@@ -32,12 +32,19 @@ const styles = StyleSheet.create({
   divider: {
     marginHorizontal: 5,
   },
-  info_row_text: {width: '100%', height: 40, textAlignVertical: 'center'},
+  info_row_text: {
+    width: '100%',
+    textAlignVertical: 'center',
+    fontFamily: 'Novecentosanswide-Normal',
+  },
   bottom_text: {
     fontSize: 14,
     position: 'absolute',
     bottom: 0,
     alignSelf: 'center',
+    textAlign: 'center',
+    alignContent: 'center',
+    fontFamily: 'Novecentosanswide-Bold',
   },
 });
 

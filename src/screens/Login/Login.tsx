@@ -66,24 +66,20 @@ export function Login(props: any) {
               style={styles.TextInput}
               placeholder="Password"
               placeholderTextColor="#ffffff"
-              secureTextEntry
+              secureTextEntry={true}
               onChangeText={(value) => setPassword(value)}
             />
           </View>
           <View style={styles.forgot_button}>
             <TouchableOpacity
               onPress={() => props.navigation.navigate('AccountRestore')}>
-              <Text style={{flex: 1, textAlign: 'center', color: '#2191b0'}}>
-                Forgot Password?
-              </Text>
+              <Text style={styles.linkText}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.forgot_button}>
             <TouchableOpacity
               onPress={() => props.navigation.navigate('SignUp')}>
-              <Text style={{flex: 1, textAlign: 'center', color: '#2191b0'}}>
-                Not registered yet? Sign Up!
-              </Text>
+              <Text style={styles.linkText}>Not registered yet? Sign Up!</Text>
             </TouchableOpacity>
           </View>
           <LinearGradient

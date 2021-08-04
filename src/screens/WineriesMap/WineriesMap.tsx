@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   TextInput,
   Alert,
+  Platform,
 } from 'react-native';
 import MapView, {LatLng, Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
@@ -42,7 +43,7 @@ const wineryFilterBase: string = `(${nameof<Winery>(
   'type',
 )} = 3 OR ${nameof<Winery>('type')} = 6)`;
 
-const isAndroid = (Platform.OS === 'android');
+const isAndroid = Platform.OS === 'android';
 
 export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -206,7 +207,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                   longitude: d.location?.longitude || 0,
                 }}
                 icon={isAndroid ? icons.winery_marker : null}
-                image={isAndroid ? null : icons.winery_marker}           
+                image={isAndroid ? null : icons.winery_marker}
                 tracksViewChanges={false}>
                 <Callout
                   tooltip={true}
@@ -313,6 +314,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           onChangeText={(value) => setSearch(value)}
           editable={!loading}
           value={search}
+          style={{fontFamily: 'Novecentosanswide-Normal'}}
         />
       </TouchableOpacity>
     </View>
