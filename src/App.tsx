@@ -67,7 +67,7 @@ const PrivateNavigation = () => {
           ),
         }}
       />
-      <Drawer.Screen
+      {/*<Drawer.Screen
         name="Journey"
         component={Journey}
         options={{
@@ -98,7 +98,7 @@ const PrivateNavigation = () => {
             <Text style={drawerStyles.drawer_label_text}>Tavern</Text>
           ),
         }}
-      />
+      />*/}
       <Drawer.Screen
         name="Info"
         component={Info}
