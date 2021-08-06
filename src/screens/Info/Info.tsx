@@ -42,7 +42,7 @@ export function Info(props: any) {
   return (
     <SafeAreaView style={styles.page}>
       <Header {...props} showName="Info" />
-      <ScrollView style={styles.scroll_container}> 
+      <ScrollView style={styles.scroll_container}>
         <View style={styles.centered_container}>
           <Image source={images.logo_calice} style={styles.logo} />
           <Text style={[styles.infoText]}>
