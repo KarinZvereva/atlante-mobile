@@ -17,6 +17,7 @@ const wineryPopupStyles = StyleSheet.create({
     borderWidth: 3,
     borderStyle: 'solid',
     borderRadius: 6,
+    minWidth: 150,
   },
   image: {
     flex: 1,
@@ -39,7 +40,7 @@ const wineryPopupStyles = StyleSheet.create({
     height: 50,
     position: 'absolute',
     alignSelf: 'center',
-    top: -20,
+    top: -25,
   },
   marker_image: {
     width: 100,
@@ -73,23 +74,29 @@ export const WineryPopup = React.memo(({winery}: IWineryPopupProps) => {
           />
         </Text>
         {winery.subName1 && winery.subName2 ? (
-          <View style={wineryPopupStyles.winery_name_text}>
-            <Text
-              style={{
-                alignContent: 'center',
-                alignSelf: 'center',
-                alignItems: 'center',
-              }}>
-              {winery.subName1}
-            </Text>
+          <View>
             <Text
               style={[
+                wineryPopupStyles.winery_name_text,
                 {
                   alignContent: 'center',
                   alignSelf: 'center',
                   alignItems: 'center',
                 },
-                winery.vigneron ? {marginBottom: 5} : {},
+              ]}>
+              {winery.subName1}
+            </Text>
+            <Text
+              style={[
+                {
+                  fontSize: 18,
+                  fontFamily: 'Novecentosanswide-Normal',
+                  textAlign: 'center',
+                  alignContent: 'center',
+                  alignSelf: 'center',
+                  alignItems: 'center',
+                },
+                !winery.vigneron ? {marginBottom: 5} : {},
               ]}>
               {winery.subName2}
             </Text>
@@ -98,7 +105,7 @@ export const WineryPopup = React.memo(({winery}: IWineryPopupProps) => {
           <Text
             style={[
               wineryPopupStyles.winery_name_text,
-              winery.vigneron ? {marginBottom: 5} : {},
+              !winery.vigneron ? {marginBottom: 5} : {},
             ]}>
             {winery.name}
           </Text>
