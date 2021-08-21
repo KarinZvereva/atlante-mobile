@@ -32,7 +32,7 @@ export const wineryDetailsStyles = StyleSheet.create({
   },
   subtitle_text: {
     fontSize: 21,
-    fontFamily: 'Novecentosanswide-Bold',
+    fontFamily: 'Novecentosanswide-Normal',
     marginBottom: 10,
   },
   normal_text: {
