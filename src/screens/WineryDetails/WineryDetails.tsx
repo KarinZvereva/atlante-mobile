@@ -165,7 +165,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
           </View>
           <View style={{margin: 15}}>
             <Text style={wineryDetailsStyles.title_text}>{winery.name}</Text>
-            {winery.vigneron && (
+            {winery.vigneron && winery.vigneron !== 'Vigneron' && (
               <Text style={wineryDetailsStyles.subtitle_text}>
                 {winery.vigneron}
               </Text>
