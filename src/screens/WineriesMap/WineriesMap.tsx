@@ -8,7 +8,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import MapView, {LatLng, Region} from 'react-native-maps';
+import MapView, {LatLng, MapTypes, Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
 import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
@@ -21,12 +21,13 @@ import {
 } from '../../common/interfaces';
 import {wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
-import {icons, markerDefaultGreen} from '../../common/constants';
+import {defaultRed, icons, markerDefaultGreen} from '../../common/constants';
 import {WineryPopup} from './WineryPopup';
 import {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
+import {Switch} from 'native-base';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
@@ -50,6 +51,8 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   const [data, setData] = useState<Winery[]>();
   const [search, setSearch] = useState<string>('');
   const [selectedPosition, setSelectedPosition] = useState<LatLng>();
+  const [mapType, setMapType] = useState<MapTypes>('standard');
+  const [switchType, setSwitchType] = useState<boolean>(false);
   const map = useRef<MapView>(null);
   const navigation = useNavigation();
 
@@ -188,6 +191,11 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
     if (selectedPosition) loadWineriesFromCoordinates(selectedPosition);
   }, [selectedPosition]);
 
+  useEffect(() => {
+    if (switchType) setMapType('satellite');
+    else setMapType('standard');
+  }, [switchType]);
+
   return (
     <View style={wineriesMapStyles.pageContainer}>
       <MapView
@@ -198,6 +206,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
         onLongPress={(event) => {
           setSelectedPosition(event.nativeEvent.coordinate);
         }}
+        mapType={mapType}
         showsCompass={true}
         zoomEnabled={!loading}
         scrollEnabled={!loading}
@@ -252,6 +261,14 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           source={icons.info_map}
         />
       </TouchableOpacity>
+      <Switch
+        style={wineriesMapStyles.mapSwitch}
+        trackColor={{false: '#cecece', true: '#cecece'}}
+        thumbColor={switchType ? defaultRed : '#2fcc5b'}
+        ios_backgroundColor="#3e3e3e"
+        value={switchType}
+        onValueChange={() => setSwitchType((previus) => !previus)}
+      />
       <TouchableOpacity
         style={wineriesMapStyles.reloadButton}
         onPress={() => {

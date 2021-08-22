@@ -48,6 +48,11 @@ export const wineriesMapStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  mapSwitch: {
+    position: 'absolute',
+    top: 80,
+    right: 110,
+  },
   cleanButton: {
     width: 40,
     height: 40,
