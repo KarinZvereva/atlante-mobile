@@ -75,7 +75,10 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                   latitude: r.location?.latitude!,
                   longitude: r.location?.longitude!,
                 })),
-                {animated: true},
+                {
+                  animated: true,
+                  edgePadding: {bottom: 10, left: 10, right: 10, top: 10},
+                },
               );
           } else {
             if (result.error) console.error(JSON.stringify(result.error));
@@ -120,7 +123,10 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                   latitude: r.location?.latitude!,
                   longitude: r.location?.longitude!,
                 })),
-                {animated: true},
+                {
+                  animated: true,
+                  edgePadding: {bottom: 10, left: 10, right: 10, top: 10},
+                },
               );
           } else {
             setLoading(false);
@@ -293,11 +299,11 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
             ? loadWineriesCallback(
                 `(${nameof<Winery>(
                   'name',
-                )}.Contains('${search}') OR ${nameof<Winery>(
+                )}.Contains('${search.trim()}') OR ${nameof<Winery>(
                   'name2',
-                )}.Contains('${search}') OR ${nameof<Winery>(
+                )}.Contains('${search.trim()}') OR ${nameof<Winery>(
                   'vigneron',
-                )}.Contains('${search}'))`,
+                )}.Contains('${search.trim()}'))`,
               )
             : loadWineriesCallback();
         }}
