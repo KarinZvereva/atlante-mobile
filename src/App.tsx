@@ -210,6 +210,7 @@ export default function App() {
                   options={{
                     title: 'Registrati',
                     headerTitleStyle: {...drawerStyles.header_text},
+                    headerLeft: () => (null),
                   }}
                 />
                 <Stack.Screen

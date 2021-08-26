@@ -121,6 +121,18 @@ export interface RegisterApiInputData {
    */
   captcha?: string | null;
 }
+
+/**
+ * Register Api Output DTO
+ */
+ export interface RegisterApiOutputData {
+  /**
+   * Result success registration request
+   */
+  success?: boolean | null;
+  errors?: string | null;
+}
+
 export interface TimeSpan {
   readonly ticks?: number; // int64
   readonly days?: number; // int32
