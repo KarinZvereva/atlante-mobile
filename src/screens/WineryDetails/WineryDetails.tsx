@@ -138,30 +138,62 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <RoundImageButton
-              borderRadius={30}
-              image={icons.tel_popup}
-              onPress={() =>
-                winery.telephone && openLink(`tel:${winery.telephone}`)
-              }
-            />
-            <RoundImageButton
-              borderRadius={30}
-              image={icons.mail_popup}
-              onPress={() => winery.email && sendEmail(winery.email)}
-            />
-            <RoundImageButton
-              borderRadius={30}
-              image={icons.web_popup}
-              onPress={() =>
-                winery.webSite && openLink(correctWebsiteUrl(winery.webSite))
-              }
-            />
-            <RoundImageButton
-              borderRadius={30}
-              image={icons.go_to_popup}
-              onPress={openNavigatorMaps}
-            />
+            <View
+              style={{
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <RoundImageButton
+                borderRadius={30}
+                image={icons.tel_popup}
+                onPress={() =>
+                  winery.telephone && openLink(`tel:${winery.telephone}`)
+                }
+              />
+              <Text style={wineryDetailsStyles.small_text}>Chiama</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <RoundImageButton
+                borderRadius={30}
+                image={icons.mail_popup}
+                onPress={() => winery.email && sendEmail(winery.email)}
+              />
+              <Text style={wineryDetailsStyles.small_text}>Scrivi</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <RoundImageButton
+                borderRadius={30}
+                image={icons.web_popup}
+                onPress={() =>
+                  winery.webSite && openLink(correctWebsiteUrl(winery.webSite))
+                }
+              />
+              <Text style={wineryDetailsStyles.small_text}>Web</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <RoundImageButton
+                borderRadius={30}
+                image={icons.go_to_popup}
+                onPress={openNavigatorMaps}
+              />
+              <Text style={wineryDetailsStyles.small_text}>Indicazioni</Text>
+            </View>
           </View>
           <View style={{margin: 15}}>
             <Text style={wineryDetailsStyles.title_text}>{winery.name}</Text>

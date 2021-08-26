@@ -16,13 +16,13 @@ export const wineryDetailsStyles = StyleSheet.create({
     marginBottom: 10,
   },
   logo: {
-    width: 240,
-    height: 240,
+    width: 210,
+    height: 210,
     marginBottom: 5,
   },
   logoImage: {
-    width: 240,
-    height: 240,
+    width: 210,
+    height: 210,
     resizeMode: 'contain',
   },
   title_text: {
@@ -40,6 +40,7 @@ export const wineryDetailsStyles = StyleSheet.create({
     fontFamily: 'Novecentosanswide-Normal',
     marginBottom: 5,
   },
+  small_text: {fontSize: 11, fontFamily: 'Novecentosanswide-Normal'},
   footer: {
     width: '100%',
     position: 'absolute',
