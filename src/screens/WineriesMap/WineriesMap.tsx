@@ -65,8 +65,6 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           filter: filters
             ? `${wineryFilterBase} AND ${filters}`
             : wineryFilterBase,
-          // pageNumber: 1,
-          // pageSize: 60,
         })
         .then((result) => {
           if (result && result.data) {
@@ -100,14 +98,14 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   );
 
   const loadWineriesFromCoordinates = useCallback(
-    ({latitude, longitude}: LatLng) => {
+    ({latitude, longitude}: LatLng, radius: number = 40) => {
       setLoading(true);
       if (data) setData(undefined);
       wineryDataDal
         .around({
           lat: latitude,
           lon: longitude,
-          radius: 40,
+          radius,
         })
         .then((result) => {
           if (result && result.data) {
@@ -184,7 +182,21 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   }, [loadWineriesFromCoordinates]);
 
   useEffect(() => {
-    loadWineriesCallback();
+    Geolocation.getCurrentPosition(
+      ({coords}) => {
+        loadWineriesFromCoordinates(
+          {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+          },
+          120,
+        );
+      },
+      (_error) => {
+        loadWineriesCallback();
+      },
+      {enableHighAccuracy: true},
+    );
   }, []);
 
   useEffect(() => {
