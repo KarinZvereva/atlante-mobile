@@ -57,4 +57,9 @@ export const styles = StyleSheet.create({
     color: '#2191b0',
     fontFamily: 'Novecentosanswide-Normal',
   },
+  loginBtnSubView:{
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignItems:'center'
+  },
 });

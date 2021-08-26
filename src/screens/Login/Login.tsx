@@ -88,7 +88,9 @@ export function Login(props: any) {
             <TouchableOpacity
               onPress={() => Login()}
               disabled={!actionsProvider}>
-              <Text style={styles.loginText}>Login</Text>
+              <View style={styles.loginBtnSubView}>
+                <Text style={styles.loginText}>Login</Text>
+              </View>
             </TouchableOpacity>
           </LinearGradient>
         </>
