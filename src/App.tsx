@@ -4,7 +4,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Home} from './screens/Home/Home';
-import {Journey} from './screens/Journey/Journey';
+//import {Journey} from './screens/Journey/Journey';
 import {AuthContext} from './common/modules/auth/AuthContext';
 import {Login} from './screens/Login';
 import {
@@ -19,7 +19,7 @@ import {SignUp} from './screens/SignUp/SignUp';
 import {WineriesMap} from './screens/WineriesMap';
 import {LogOut} from './screens/LogOut/LogOut';
 import {AccountRestore} from './screens/AccountRestore';
-import {Restaurant} from './screens/Restaurant';
+//import {Restaurant} from './screens/Restaurant';
 import {Info} from './screens/Info';
 import {WineryDetail} from './screens/WineryDetails/WineryDetails';
 import {MapsInfo} from './screens/MapsInfo';
@@ -210,7 +210,7 @@ export default function App() {
                   options={{
                     title: 'Registrati',
                     headerTitleStyle: {...drawerStyles.header_text},
-                    headerLeft: () => (null),
+                    headerLeft: () => null,
                   }}
                 />
                 <Stack.Screen
