@@ -7,3 +7,6 @@ export const FORMAT_DATE = 'DD/MM/YYYY';
 
 export const markerDefaultGreen = '#659a4a';
 export const defaultRed = 'red';
+
+export const webCaptchaUrl = WEBAPI_URL;
+export const captchaSiteKey="6LfjS1kaAAAAAMchCu1PIhNfO0OeuSEdz8oUgBJt";
