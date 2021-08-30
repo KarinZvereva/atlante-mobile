@@ -131,6 +131,23 @@ export interface RegisterApiInputData {
    */
   success?: boolean | null;
   errors?: string | null;
+  available?: boolean | null;
+}
+
+/**
+ * Check data for Register Api Input DTO
+ */
+ export interface CheckRegisterApiInputData {
+  data?: string;
+  what?: number; // int32
+}
+
+/**
+ * Check data for Register Api Output DTO
+ */
+ export interface CheckRegisterApiOutputData {
+  available?: boolean;
+  error?: boolean; 
 }
 
 export interface TimeSpan {

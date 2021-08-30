@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     borderRadius: 30,
     width: '70%',
     height: 45,
-    marginBottom: 20,
+    marginBottom: 10,
     alignItems: 'center',
   },
   TextInput: {
@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     flex: 1,
     fontFamily: 'Novecentosanswide-Normal',
+    width: '100%',
   },
   signUpBtn: {
     width: '40%',
@@ -61,9 +62,11 @@ export const styles = StyleSheet.create({
     marginBottom: 0,
   },
   image_container: {
-    flex: 1,
+    flex: 0,
     alignItems: 'center', 
     justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
   },
   input_container: {
     flex: 1,
@@ -73,12 +76,58 @@ export const styles = StyleSheet.create({
     marginBottom : 80,
   },
   button_container: {
-    flex: 1,
+    flex: 0,
     alignItems: 'center', 
     justifyContent: 'center',
     flexDirection: 'row',
     width: '100%',
+    marginBottom: 40,
   },
   recaptcha_container: {
+  },
+  page: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#FFF',
+  },
+  scroll_container: {
+    flex: 1,
+    marginHorizontal: 5,
+    width: '100%'
+  },
+  acceptance_container: {
+    flex: 0,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    flexDirection: 'row',
+    width: '100%',
+    marginBottom: 20,
+    marginStart: 0,
+  },
+  acceptanceText_container: {
+    flex: 0,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    flexDirection: 'row',
+    marginStart: 10,
+  },
+  acceptanceSwitch: {
+    position: 'relative',
+    top: 0,
+    right: 0,
+  },
+  acceptanceText: {
+    fontSize: 10,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: 'Novecentosanswide-Normal',
+  },
+  acceptanceLinkText: {
+    fontSize: 10,
+    color: '#2980b9',
+    textDecorationLine: 'underline',
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: 'Novecentosanswide-Normal',
   },
 });
