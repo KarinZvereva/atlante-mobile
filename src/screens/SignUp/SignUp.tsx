@@ -1,38 +1,51 @@
 import React, {useRef, useContext, useState, useEffect} from 'react';
-import {Text, View, TextInput, ActivityIndicator, Image} from 'react-native';
+import {Text, View, TextInput, ActivityIndicator, 
+  Image, Alert, SafeAreaView, ScrollView} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import {markerDefaultGreen} from '../../common/constants';
+import {markerDefaultGreen, defaultRed} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './SignUp.styles';
-import {images} from '../../common/constants';
+import {images, webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
 import {User} from '../../common/interfaces/web-api';
+import {Switch, CheckBox} from 'native-base';
 
 export function SignUp(props: any) {
   const [userName, setUserName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [passwordConfirm, setPasswordConfirm] = useState<string>();
-  const [mail, setMail] = useState<string>();
+  const [email, setEMail] = useState<string>();
+  const [firstName, setFirstname] = useState<string>();
+  const [lastName, setLastname] = useState<string>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const {actionsProvider} = useContext(AuthContext);
   const recaptcha = useRef<RecaptchaHandles>(null);
+  const [isAcceptance, setAcceptance] = useState<boolean>(false);
+  const [isEmailAvailable, setEmaiAvailable] = useState<boolean>(true);
+  const [isUserNamelAvailable, setUserNameAvailable] = useState<boolean>(true);
 
   /**
    * Execute sign up
    * @returns
    */
   const signUp = () => {
-    if (!userName || !password || !passwordConfirm || !mail) {
+    if (!userName || !password || !passwordConfirm || !email) {
       setError('Username, password o mail non inseriti');
       setIsError(true);
       return;
-    }
-
-    if (password != passwordConfirm) {
+    } else if (password != passwordConfirm) {
       setError('Le password non sono identiche');
+      setIsError(true);
+      return;
+    } else if (!isUserNamelAvailable || !isEmailAvailable) {
+      setError('Username o mail non disponibili');
+      setIsError(true);
+      return;
+    } else if (!isAcceptance) {
+      setError("E' necessario accettare i Termini e Condizioni ");
       setIsError(true);
       return;
     }
@@ -40,7 +53,6 @@ export function SignUp(props: any) {
     setError('');
     setIsError(false);
 
-    console.log('Call captcha send!');
     recaptcha.current?.open();
   };
 
@@ -52,31 +64,89 @@ export function SignUp(props: any) {
     const userData = {
       userName: userName,
       password: password,
-      email: mail,
+      email: email,
+      firstName: firstName,
+      lastName: lastName, 
     } as User;
-
-    console.log('start reg start');
 
     setError('');
     setIsError(false);
     setLoading(true);
 
     AuthDal.register({userData, captcha})
+    .then((result) => {
+      if (result && result.success) {
+        Alert.alert(`Verifica la mail per attivare l'account`);
+        setLoading(false);
+        props.navigation.navigate('SignIn');
+      } else if (result && result.errors) {
+        var stringify = JSON.parse(JSON.stringify(result));
+        var status = stringify.status;
+        var errors = stringify.errors;
+        setError(JSON.stringify(Object.values(errors)[0]));
+        setIsError(true);
+        setLoading(false);
+        return;
+      }
+    })
+    .catch((err) => {
+      console.log('Error', err);
+      console.log(JSON.stringify(err));
+      setError(JSON.stringify(err));
+      setIsError(true);
+      setLoading(false);
+    });
+  };
+
+  /**
+   *
+   * @param token
+   */
+  const onVerify = (token: string) => {
+    const captcha = token;
+    sendData(token);
+  };
+
+  /**
+   *
+   */
+  const onExpire = () => {
+    setError("Non è stato possibile verificare l'identità. Captcha verified expire");
+    setIsError(true);
+    setLoading(false);
+  };
+
+  /**
+   *
+   * @param error
+   */
+  const onError = (error: string) => {
+    console.log("Non è stato possibile verificare l'identità. Recaptcha onError...", error);
+  };
+
+
+  /**
+   * 
+   */
+  const onBlurUsername = () =>{
+    const data = userName;
+    const what = 1;
+
+    setUserNameAvailable(true);
+    setError('');
+    setIsError(false);
+
+    if ( userName ) {
+      AuthDal.checkRegister({data, what})
       .then((result) => {
-        console.log('reg finish', JSON.stringify(result));
-
-        if (result && result.success) {
-          setLoading(false);
-          props.navigation.navigate('SignIn');
-        } else if (result && result.errors) {
-          var stringify = JSON.parse(JSON.stringify(result));
-          var status = stringify.status;
-          var errors = stringify.errors;
-
-          setError(JSON.stringify(Object.values(errors)[0]));
+        if (result && !result.available) {
+          setUserNameAvailable(false);
+          setError('Username già utilizzato');
           setIsError(true);
-          setLoading(false);
-          return;
+        } else if (result && result.error) {
+          setUserNameAvailable(false);
+          setError('Username non verificabile, connessione con il server non disponibile');
+          setIsError(true);
         }
       })
       .catch((err) => {
@@ -86,110 +156,151 @@ export function SignUp(props: any) {
         setIsError(true);
         setLoading(false);
       });
+    }
   };
 
-  /**
-   *
-   * @param token
-   */
-  const onVerify = (token: string) => {
-    const captcha = token;
-    console.log('success!', token);
-    sendData(token);
-  };
 
-  /**
-   *
+   /**
+   * 
    */
-  const onExpire = () => {
-    console.warn('expired!');
-    console.log('Captcha verified expire');
-    setError("Non è stato possibile verificare l'identità");
-    setIsError(true);
-    setLoading(false);
-  };
+    const onBlurEmail = () =>{
+      const data = email;
+      const what = 0;
+  
+      setEmaiAvailable(true);
+      setError('');
+      setIsError(false);
 
-  /**
-   *
-   */
-  const onLoad = () => {
-    console.log('Recaptcha onLoad...');
-  };
+      if (email) {
+        AuthDal.checkRegister({data, what})
+        .then((result) => {
+          if (result && !result.available) {
+            setEmaiAvailable(false);
+            setError('Email già utilizzata');
+            setIsError(true);
+          } else if (result && result.error) {
+            setEmaiAvailable(false);
+            setError('Email non verificabile, connessione con il server non disponibile');
+            setIsError(true);
+          }
+        })
+        .catch((err) => {
+          console.log('Error', err);
+          console.log(JSON.stringify(err));
+          setError(JSON.stringify(err));
+          setIsError(true);
+          setLoading(false);
+        });
+      }
+   }
 
-  /**
-   *
-   * @param error
-   */
-  const onError = (error: string) => {
-    console.log('Recaptcha onError...', error);
-  };
-
-  /**
-   *
-   */
-  const onClose = () => {
-    console.log('Recaptcha onClose...');
-  };
+   /**
+    * 
+    */
+   const goToLink = () =>{
+    console.log('link');
+   }
 
   return (
-    <View style={styles.container}>
-      {!isLoading && (
-        <>
+    <SafeAreaView style={styles.page}>
+      <View style={styles.container}>
+        {!isLoading && (
+          <>
           <View style={styles.image_container}>
             <Image source={images.logo_calice} style={styles.logo} />
           </View>
-
-          <View style={styles.input_container}>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.TextInput}
-                placeholder="Username"
-                placeholderTextColor="#ffffff"
-                onChangeText={(value) => setUserName(value)}
-              />
-            </View>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.TextInput}
-                placeholder="Mail"
-                placeholderTextColor="#ffffff"
-                onChangeText={(value) => setMail(value)}
-              />
-            </View>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.TextInput}
-                placeholder="Password"
-                placeholderTextColor="#ffffff"
-                secureTextEntry={true}
-                onChangeText={(value) => setPassword(value)}
-              />
-            </View>
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.TextInput}
-                placeholder="Conferma Password"
-                placeholderTextColor="#ffffff"
-                secureTextEntry={true}
-                onChangeText={(value) => setPasswordConfirm(value)}
-              />
-            </View>
-          </View>
+          <ScrollView style={styles.scroll_container}>
+            <View style={styles.input_container}>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.TextInput}
+                  placeholder="Username"
+                  placeholderTextColor="#ffffff"
+                  onChangeText={(value) => setUserName(value)}
+                  onBlur= {() => onBlurUsername()}
+                />
+              </View>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.TextInput}
+                  placeholder="Mail"
+                  placeholderTextColor="#ffffff"
+                  onChangeText={(value) => setEMail(value)}
+                  onBlur= {() => onBlurEmail()}
+                />
+              </View>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.TextInput}
+                    placeholder="Nome"
+                    placeholderTextColor="#ffffff"
+                    onChangeText={(value) => setFirstname(value)}
+                  />
+                </View>
+                <View style={styles.inputView}>
+                  <TextInput
+                    style={styles.TextInput}
+                    placeholder="Cognome"
+                    placeholderTextColor="#ffffff"
+                    onChangeText={(value) => setLastname(value)}
+                  />
+                </View>
+                <View style={styles.inputView}>
+                  <TextInput
+                    style={styles.TextInput}
+                    placeholder="Password"
+                    placeholderTextColor="#ffffff"
+                    secureTextEntry={true}
+                    onChangeText={(value) => setPassword(value)}
+                  />
+                </View>
+                <View style={styles.inputView}>
+                  <TextInput
+                    style={styles.TextInput}
+                    placeholder="Conferma Password"
+                    placeholderTextColor="#ffffff"
+                    secureTextEntry={true}
+                    onChangeText={(value) => setPasswordConfirm(value)}
+                  />
+                </View>
+              </View>
+          </ScrollView>
 
           <View>
             <Recaptcha
               ref={recaptcha}
-              siteKey="6LfjS1kaAAAAAMchCu1PIhNfO0OeuSEdz8oUgBJt" //client key
-              baseUrl="https://www.natourwine.org"
+              siteKey={captchaSiteKey}
+              baseUrl={webCaptchaUrl}
               onVerify={onVerify}
               onExpire={onExpire}
-              onLoad={onLoad}
               onError={onError}
-              onClose={onClose}
               size="invisible"
               style={styles.recaptcha_container}
             />
           </View>
+
+          <View style={styles.acceptance_container}>
+            <Switch
+              style={styles.acceptanceSwitch}
+              trackColor={{false: '#cecece', true: '#cecece'}}
+              thumbColor={isAcceptance ? markerDefaultGreen : '#a9a9a9'}
+              ios_backgroundColor="#3e3e3e"
+              value={isAcceptance}
+              onValueChange={() => setAcceptance((previus) => !previus)}
+            />
+
+            <View style={styles.acceptanceText_container}>  
+            <View>
+              <Text style={[styles.acceptanceText]}>
+                Ho letto, compreso e accettato i    
+              </Text>
+              <Text style={[styles.acceptanceLinkText]} onPress={goToLink}>
+                termini e condizioni
+              </Text>
+              </View>
+            </View>
+          </View>
+
 
           <View style={styles.button_container}>
             <LinearGradient
@@ -215,18 +326,20 @@ export function SignUp(props: any) {
               </TouchableOpacity>
             </LinearGradient>
           </View>
-        </>
-      )}
-      {isLoading && (
-        <View>
-          <ActivityIndicator size="large" color={markerDefaultGreen} />
-        </View>
-      )}
-      {isError && (
-        <View>
-          <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
-        </View>
-      )}
-    </View>
+          </>
+        )}
+        {isLoading && (
+          <View>
+            <ActivityIndicator size="large" color={markerDefaultGreen} />
+          </View>
+        )}
+        {isError && (
+          <View>
+            <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
+          </View>
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
+ 
