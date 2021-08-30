@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     flex: 1,
     fontFamily: 'Novecentosanswide-Normal',
+    width: '100%',
   },
   signUpBtn: {
     width: '40%',

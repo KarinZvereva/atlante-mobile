@@ -294,7 +294,8 @@ export function SignUp(props: any) {
               <Text style={[styles.acceptanceText]}>
                 Ho letto, compreso e accettato i    
               </Text>
-              <Text style={[styles.acceptanceLinkText]} onPress={goToLink}>
+              <Text style={[styles.acceptanceLinkText]} 
+                onPress={() => props.navigation.navigate('SignupTerms')}>
                 termini e condizioni
               </Text>
               </View>

@@ -23,6 +23,7 @@ import {Restaurant} from './screens/Restaurant';
 import {Info} from './screens/Info';
 import {WineryDetail} from './screens/WineryDetails/WineryDetails';
 import {MapsInfo} from './screens/MapsInfo';
+import {SignupTerms} from './screens/SignUp/SignupTerms';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -211,6 +212,14 @@ export default function App() {
                     title: 'Registrati',
                     headerTitleStyle: {...drawerStyles.header_text},
                     headerLeft: () => (null),
+                  }}
+                />
+                <Stack.Screen
+                  name="SignupTerms"
+                  component={SignupTerms}
+                  options={{
+                    title: 'Termini e condizioni di utilizzo',
+                    headerTitleStyle: {...drawerStyles.header_text},
                   }}
                 />
                 <Stack.Screen
