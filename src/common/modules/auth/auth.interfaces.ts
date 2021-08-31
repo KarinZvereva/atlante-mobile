@@ -8,7 +8,7 @@ export interface AuthActionsProvider {
 }
 
 export interface AuthContextData {
-  state: AuthState;
+  data: AuthState;
   actionsProvider?: AuthActionsProvider;
 }
 

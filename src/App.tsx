@@ -22,8 +22,13 @@ import {AccountRestore} from './screens/AccountRestore';
 //import {Restaurant} from './screens/Restaurant';
 import {Info} from './screens/Info';
 import {WineryDetail} from './screens/WineryDetails/WineryDetails';
-import {MapsInfo} from './screens/MapsInfo';
+import {MapInfo} from './screens/MapInfo';
 import {SignupTerms} from './screens/SignUp/SignupTerms';
+import {InitialMapState, MapReducer} from './common/modules/map/MapReducer';
+import {MapContext} from './common/modules/map/MapContext';
+import {MapActionsType} from './common/modules/map/map.constants';
+import {MapTypes} from 'react-native-maps';
+import {MapSettings} from './screens/MapSettings/MapSettings';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -64,7 +69,7 @@ const PrivateNavigation = () => {
             />
           ),
           drawerLabel: () => (
-            <Text style={drawerStyles.drawer_label_text}>Wineries Map</Text>
+            <Text style={drawerStyles.drawer_label_text}>Mappa Cantine</Text>
           ),
         }}
       />
@@ -101,7 +106,7 @@ const PrivateNavigation = () => {
         }}
       />*/}
       <Drawer.Screen
-        name="Info"
+        name="Progetto"
         component={Info}
         options={{
           headerShown: false,
@@ -112,7 +117,7 @@ const PrivateNavigation = () => {
             />
           ),
           drawerLabel: () => (
-            <Text style={drawerStyles.drawer_label_text}>Info</Text>
+            <Text style={drawerStyles.drawer_label_text}>Il Progetto</Text>
           ),
         }}
       />
@@ -137,33 +142,34 @@ const PrivateNavigation = () => {
 };
 
 export default function App() {
-  const [state, dispatch] = useReducer(AuthReducer, InitialAuthState);
+  const [authState, authDispatch] = useReducer(AuthReducer, InitialAuthState);
+  const [mapState, mapDispatch] = useReducer(MapReducer, InitialMapState);
 
   useEffect(() => {
     const bootstrapAsync = async () => {
       const userToken = await AuthTokenManager.getLoginDataObj();
       if (!AuthTokenManager.isExpiredToken(userToken?.token))
-        dispatch({
+        authDispatch({
           type: AuthActionsType.RESTORE_TOKEN,
           token: userToken?.token,
           refreshToken: userToken?.refreshToken,
         });
-      else dispatch({type: AuthActionsType.SIGN_OUT});
+      else authDispatch({type: AuthActionsType.SIGN_OUT});
     };
 
     bootstrapAsync();
   }, []);
 
   useEffect(() => {
-    if (!state.isLoading) setTimeout(() => SplashScreen.hide(), 3000);
-  }, [state.isLoading]);
+    if (!authState.isLoading) setTimeout(() => SplashScreen.hide(), 3000);
+  }, [authState.isLoading]);
 
-  const authContext = useMemo(
+  const authActionProvider = useMemo(
     () => ({
       signIn: async (token: LoginApiOutputData) => {
         const result = await AuthTokenManager.saveTokenData(token);
         if (result) {
-          dispatch({
+          authDispatch({
             type: AuthActionsType.SIGN_IN,
             token: token?.token,
             refreshToken: token?.refreshToken,
@@ -174,13 +180,13 @@ export default function App() {
       },
       signOut: async () => {
         const result = await AuthTokenManager.removeSavedToken();
-        if (result) dispatch({type: AuthActionsType.SIGN_OUT});
+        if (result) authDispatch({type: AuthActionsType.SIGN_OUT});
         return result;
       },
       refresh: async (token: LoginApiOutputData) => {
         const result = await AuthTokenManager.updateTokenData(token);
         if (result) {
-          dispatch({
+          authDispatch({
             type: AuthActionsType.REFRESH_TOKEN,
             token: token?.token,
             refreshToken: token?.refreshToken,
@@ -193,72 +199,93 @@ export default function App() {
     [],
   );
 
+  const mapActionProvider = useMemo(
+    () => ({
+      changeData: async (what: MapActionsType, data: MapTypes | number) => {
+        mapDispatch({type: what, payload: data});
+      },
+    }),
+    [],
+  );
+
   return (
-    <AuthContext.Provider value={{state, actionsProvider: authContext}}>
-      {!state.isLoading && (
-        <NavigationContainer>
-          <Stack.Navigator>
-            {state.userToken == null ? (
-              <>
-                <Stack.Screen
-                  name="SignIn"
-                  component={Login}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="SignUp"
-                  component={SignUp}
-                  options={{
-                    title: 'Registrati',
-                    headerTitleStyle: {...drawerStyles.header_text},
-                    headerLeft: () => null,
-                  }}
-                />
-                <Stack.Screen
-                  name="SignupTerms"
-                  component={SignupTerms}
-                  options={{
-                    title: 'Termini e condizioni di utilizzo',
-                    headerTitleStyle: {...drawerStyles.header_text},
-                  }}
-                />
-                <Stack.Screen
-                  name="AccountRestore"
-                  component={AccountRestore}
-                  options={{
-                    title: 'Recupera Account',
-                    headerTitleStyle: {...drawerStyles.header_text},
-                  }}
-                />
-              </>
-            ) : (
-              <>
-                <Stack.Screen
-                  name="App"
-                  component={PrivateNavigation}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="WineryDetails"
-                  component={WineryDetail}
-                  options={{
-                    title: 'Dettagli cantina',
-                    headerTitleStyle: {...drawerStyles.header_text},
-                  }}
-                />
-                <Stack.Screen
-                  name="MapsInfo"
-                  component={MapsInfo}
-                  options={{
-                    title: 'Info utilizzo mappa',
-                    headerTitleStyle: {...drawerStyles.header_text},
-                  }}
-                />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      )}
+    <AuthContext.Provider
+      value={{data: authState, actionsProvider: authActionProvider}}>
+      <MapContext.Provider
+        value={{data: mapState, actionProvider: mapActionProvider}}>
+        {!authState.isLoading && (
+          <NavigationContainer>
+            <Stack.Navigator>
+              {authState.userToken == null ? (
+                <>
+                  <Stack.Screen
+                    name="SignIn"
+                    component={Login}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="SignUp"
+                    component={SignUp}
+                    options={{
+                      title: 'Registrati',
+                      headerTitleStyle: {...drawerStyles.header_text},
+                      headerLeft: () => null,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="SignupTerms"
+                    component={SignupTerms}
+                    options={{
+                      title: 'Termini e condizioni di utilizzo',
+                      headerTitleStyle: {...drawerStyles.header_text},
+                    }}
+                  />
+                  <Stack.Screen
+                    name="AccountRestore"
+                    component={AccountRestore}
+                    options={{
+                      title: 'Recupera Account',
+                      headerTitleStyle: {...drawerStyles.header_text},
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <Stack.Screen
+                    name="App"
+                    component={PrivateNavigation}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="WineryDetails"
+                    component={WineryDetail}
+                    options={{
+                      title: 'Dettagli cantina',
+                      headerTitleStyle: {...drawerStyles.header_text},
+                    }}
+                  />
+                  <Stack.Screen
+                    name="MapsInfo"
+                    component={MapInfo}
+                    options={{
+                      title: 'Info utilizzo mappa',
+                      headerTitleStyle: {...drawerStyles.header_text},
+                    }}
+                  />
+                  <Stack.Screen
+                    name="MapSettings"
+                    component={MapSettings}
+                    options={{
+                      title: 'Impostazioni mappa',
+                      headerTitleStyle: {...drawerStyles.header_text},
+                    }}
+                  />
+                </>
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        )}
+      </MapContext.Provider>
     </AuthContext.Provider>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Image,
@@ -7,6 +7,7 @@ import {
   TextInput,
   Alert,
   Platform,
+  Text,
 } from 'react-native';
 import MapView, {LatLng, MapTypes, Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
@@ -28,6 +29,7 @@ import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
 import {Switch} from 'native-base';
+import {MapContext} from '../../common/modules/map/MapContext';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
@@ -47,19 +49,25 @@ const wineryFilterBase: string = `(${nameof<Winery>(
 const isAndroid = Platform.OS === 'android';
 
 export const WineriesMap = (props: IBaseRouteNavigationProps) => {
+  // State
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<Winery[]>();
+  const [wineries, setWineries] = useState<Winery[]>();
   const [search, setSearch] = useState<string>('');
   const [selectedPosition, setSelectedPosition] = useState<LatLng>();
-  const [mapType, setMapType] = useState<MapTypes>('standard');
-  const [switchType, setSwitchType] = useState<boolean>(false);
+
+  // Context
+  const {data} = useContext(MapContext);
+
+  // Ref
   const map = useRef<MapView>(null);
+
+  // Navigation
   const navigation = useNavigation();
 
   const loadWineriesCallback = useCallback(
     (filters?: string) => {
       setLoading(true);
-      if (data) setData(undefined);
+      if (wineries) setWineries(undefined);
       wineryDataDal
         .get({
           filter: filters
@@ -68,7 +76,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
         })
         .then((result) => {
           if (result && result.data) {
-            setData(result.data.data || []);
+            setWineries(result.data.data || []);
             setLoading(false);
             if (map && map.current)
               map.current.fitToCoordinates(
@@ -94,13 +102,13 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           setLoading(false);
         });
     },
-    [data],
+    [wineries],
   );
 
   const loadWineriesFromCoordinates = useCallback(
     ({latitude, longitude}: LatLng, radius: number = 40) => {
       setLoading(true);
-      if (data) setData(undefined);
+      if (wineries) setWineries(undefined);
       wineryDataDal
         .around({
           lat: latitude,
@@ -116,7 +124,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                 w.type === WineryType.Wine_Project ||
                 w.type === WineryType.Wrong_Position,
             );
-            setData(res);
+            setWineries(res);
             setLoading(false);
             if (map && map.current)
               map.current.fitToCoordinates(
@@ -140,7 +148,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           setLoading(false);
         });
     },
-    [data, map],
+    [wineries, map],
   );
 
   const gotToMyLocation = useCallback(() => {
@@ -203,11 +211,6 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
     if (selectedPosition) loadWineriesFromCoordinates(selectedPosition);
   }, [selectedPosition]);
 
-  useEffect(() => {
-    if (switchType) setMapType('satellite');
-    else setMapType('standard');
-  }, [switchType]);
-
   return (
     <View style={wineriesMapStyles.pageContainer}>
       <MapView
@@ -218,15 +221,15 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
         onLongPress={(event) => {
           setSelectedPosition(event.nativeEvent.coordinate);
         }}
-        mapType={mapType}
+        mapType={data.mapsType}
         showsCompass={true}
         zoomEnabled={!loading}
         scrollEnabled={!loading}
         pitchEnabled={!loading}
         rotateEnabled={!loading}>
         <>
-          {data &&
-            data.map((d, i) => (
+          {wineries &&
+            wineries.map((d, i) => (
               <Marker
                 key={d._id}
                 coordinate={{
@@ -258,7 +261,49 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           )}
         </>
       </MapView>
-      <Header {...props} showName="Wineries Map" />
+      <Header
+        {...props}
+        showName="Mappa Cantine"
+        extraButtons={[
+          <View
+            key="b1"
+            style={{
+              alignContent: 'center',
+              alignItems: 'center',
+              alignSelf: 'center',
+            }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MapSettings')}>
+              <Image
+                source={icons.ingranaggio_piccolo}
+                style={{
+                  width: 25,
+                  height: 25,
+                  marginLeft: 5,
+                  resizeMode: 'contain',
+                }}
+              />
+            </TouchableOpacity>
+          </View>,
+          <View
+            key="b2"
+            style={{
+              alignContent: 'center',
+              alignItems: 'center',
+              alignSelf: 'center',
+            }}>
+            <Image
+              source={icons.filtri_piccolo}
+              style={{
+                width: 25,
+                height: 25,
+                marginLeft: 5,
+                resizeMode: 'contain',
+              }}
+            />
+          </View>,
+        ]}
+      />
       {loading && (
         <View style={wineriesMapStyles.onLoading}>
           <ActivityIndicator size="large" color={markerDefaultGreen} />
@@ -273,14 +318,6 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
           source={icons.info_map}
         />
       </TouchableOpacity>
-      <Switch
-        style={wineriesMapStyles.mapSwitch}
-        trackColor={{false: '#cecece', true: '#cecece'}}
-        thumbColor={switchType ? defaultRed : '#2fcc5b'}
-        ios_backgroundColor="#3e3e3e"
-        value={switchType}
-        onValueChange={() => setSwitchType((previus) => !previus)}
-      />
       <TouchableOpacity
         style={wineriesMapStyles.reloadButton}
         onPress={() => {
@@ -295,7 +332,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
       <TouchableOpacity
         style={wineriesMapStyles.cleanButton}
         onPress={() => {
-          setData(undefined);
+          setWineries(undefined);
           setSelectedPosition(undefined);
         }}
         disabled={loading}>

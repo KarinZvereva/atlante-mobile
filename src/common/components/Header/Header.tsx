@@ -1,9 +1,17 @@
 import React from 'react';
 import {Text, View, TouchableOpacity, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {icons} from '../../constants';
 
-export function Header(props: any) {
-  const {navigation, showName} = props;
+export interface HeaderProps {
+  route: any;
+  navigation: any;
+  showName: string;
+  extraButtons?: any[];
+}
+
+export function Header(props: HeaderProps) {
+  const {navigation, showName, extraButtons} = props;
   return (
     <LinearGradient
       colors={['#2fcc5b', '#018727']}
@@ -15,7 +23,7 @@ export function Header(props: any) {
             navigation.openDrawer();
           }}>
           <Image
-            source={require('../../../assets/icon/hamburger_icon.png')}
+            source={icons.hambuger_menu}
             style={{
               width: 25,
               height: 25,
@@ -36,6 +44,18 @@ export function Header(props: any) {
           {showName}
         </Text>
       </View>
+      {extraButtons && extraButtons.length > 0 && (
+        <View
+          style={{
+            flexDirection: 'row-reverse',
+            height: 50,
+            position: 'absolute',
+            right: 10,
+            alignContent: 'center',
+          }}>
+          {extraButtons.map((e) => e)}
+        </View>
+      )}
     </LinearGradient>
   );
 }

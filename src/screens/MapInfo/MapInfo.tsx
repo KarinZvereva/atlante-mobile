@@ -1,13 +1,13 @@
 import React from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Text, View, SafeAreaView, ScrollView} from 'react-native';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {icons, images} from '../../common/constants';
-import {mapsInfoStyles} from './MapsInfo.styles';
+import {mapsInfoStyles} from './MapInfo.styles';
 
-export const MapsInfo = React.memo(() => {
+export const MapInfo = React.memo(() => {
   return (
-    <View style={mapsInfoStyles.page}>
-      <View style={mapsInfoStyles.centered_container}>
+    <SafeAreaView style={mapsInfoStyles.page}>
+      <ScrollView style={mapsInfoStyles.centered_container}>
         <Image source={images.logo_calice} style={mapsInfoStyles.logo} />
         <View style={mapsInfoStyles.info_row}>
           <RoundImageButton borderRadius={20} image={icons.touch} />
@@ -68,7 +68,7 @@ export const MapsInfo = React.memo(() => {
           Per poter usufruire di alcune funzionalità della mappa è necessario
           che il GPS sia attivo.
         </Text>
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 });

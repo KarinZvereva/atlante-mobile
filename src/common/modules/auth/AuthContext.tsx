@@ -3,5 +3,5 @@ import {AuthContextData} from './auth.interfaces';
 import {InitialAuthState} from './AuthReducer';
 
 export const AuthContext = React.createContext<AuthContextData>({
-  state: {...InitialAuthState},
+  data: {...InitialAuthState},
 });

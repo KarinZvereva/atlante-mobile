@@ -1,5 +1,6 @@
 export const icons = {
   cerca: require('../../assets/icon/cerca.png'),
+  hambuger_menu: require('../../assets/icon/hamburger_icon.png'),
   mail: require('../../assets/icon/mail.png'),
   mail_popup: require('../../assets/icon/mail_popup.png'),
   web: require('../../assets/icon/web.png'),
@@ -22,6 +23,8 @@ export const icons = {
   intorno: require('../../assets/icon/intorno.png'),
   reload: require('../../assets/icon/reload.png'),
   natourwine_popup: require('../../assets/icon/natourwine_popup.png'),
+  ingranaggio_piccolo: require('../../assets/icon/ingranaggio_piccolo.png'),
+  filtri_piccolo: require('../../assets/icon/filtri_piccolo.png'),
 };
 
 export const images = {

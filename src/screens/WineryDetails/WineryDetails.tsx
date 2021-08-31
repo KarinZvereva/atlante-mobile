@@ -9,6 +9,7 @@ import {
   Text,
   View,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {ExtraServices, icons, markerDefaultGreen} from '../../common/constants';
@@ -95,7 +96,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
   };
 
   return (
-    <View style={wineryDetailsStyles.page}>
+    <SafeAreaView style={wineryDetailsStyles.page}>
       <Image
         style={{
           width: 40,
@@ -245,6 +246,6 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
           </View>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 });
