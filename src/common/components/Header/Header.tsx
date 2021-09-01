@@ -7,7 +7,7 @@ export interface HeaderProps {
   route: any;
   navigation: any;
   showName: string;
-  extraButtons?: any[];
+  extraButtons?: React.ReactNode[];
 }
 
 export function Header(props: HeaderProps) {

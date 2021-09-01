@@ -7,9 +7,8 @@ import {
   TextInput,
   Alert,
   Platform,
-  Text,
 } from 'react-native';
-import MapView, {LatLng, MapTypes, Region} from 'react-native-maps';
+import MapView, {LatLng, Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
 import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
@@ -22,13 +21,12 @@ import {
 } from '../../common/interfaces';
 import {wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
-import {defaultRed, icons, markerDefaultGreen} from '../../common/constants';
+import {icons, markerDefaultGreen} from '../../common/constants';
 import {WineryPopup} from './WineryPopup';
 import {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
-import {Switch} from 'native-base';
 import {MapContext} from '../../common/modules/map/MapContext';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
@@ -56,7 +54,9 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   const [selectedPosition, setSelectedPosition] = useState<LatLng>();
 
   // Context
-  const {data} = useContext(MapContext);
+  const {
+    data: {mapsType, searchAroundMeRadius, searchAroundPointRadius},
+  } = useContext(MapContext);
 
   // Ref
   const map = useRef<MapView>(null);
@@ -177,10 +177,13 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   const filterWithMyPosition = useCallback(() => {
     Geolocation.getCurrentPosition(
       ({coords}) => {
-        loadWineriesFromCoordinates({
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-        });
+        loadWineriesFromCoordinates(
+          {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+          },
+          searchAroundMeRadius,
+        );
       },
       (_error) => {
         Alert.alert(`Errore nel recupero della posizione con il GPS!`);
@@ -208,7 +211,8 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   }, []);
 
   useEffect(() => {
-    if (selectedPosition) loadWineriesFromCoordinates(selectedPosition);
+    if (selectedPosition)
+      loadWineriesFromCoordinates(selectedPosition, searchAroundPointRadius);
   }, [selectedPosition]);
 
   return (
@@ -221,7 +225,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
         onLongPress={(event) => {
           setSelectedPosition(event.nativeEvent.coordinate);
         }}
-        mapType={data.mapsType}
+        mapType={mapsType}
         showsCompass={true}
         zoomEnabled={!loading}
         scrollEnabled={!loading}
@@ -291,6 +295,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
               alignContent: 'center',
               alignItems: 'center',
               alignSelf: 'center',
+              marginRight: 5,
             }}>
             <Image
               source={icons.filtri_piccolo}
