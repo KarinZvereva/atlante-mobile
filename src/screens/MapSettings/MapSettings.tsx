@@ -29,7 +29,6 @@ export const MapSettings = () => {
     (values) => setRangeAroundMe(values[0]),
     500,
   );
-
   const changeRangeAroundPclbk = useDebouncedCallback(
     (values) => setRangeAroundP(values[0]),
     500,
@@ -86,7 +85,7 @@ export const MapSettings = () => {
         <View style={mapSettingsStyles.option_container}>
           <View>
             <Text style={mapSettingsStyles.option_title_text}>
-              Raggio di visualizzazione intorno la mia posizione
+              Raggio di visualizzazione intorno alla mia posizione
             </Text>
             <View
               style={mapSettingsStyles.form_item_container_with_label_inline}>

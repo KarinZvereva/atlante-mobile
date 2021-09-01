@@ -1,4 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
+
+const {height: screenHeight} = Dimensions.get('window');
 
 export const mapsInfoStyles = StyleSheet.create({
   page: {
@@ -14,10 +16,19 @@ export const mapsInfoStyles = StyleSheet.create({
     position: 'absolute',
     top: 0,
   },
+  scrollview: {
+    flexGrow: 1,
+  },
+  scroll_container: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
   centered_container: {
     flex: 1,
+    top: 80,
+    alignContent: 'center',
     alignItems: 'center',
-    justifyContent: 'center',
+    minHeight: screenHeight - 80,
   },
   info_row: {
     flexDirection: 'row',
@@ -40,17 +51,8 @@ export const mapsInfoStyles = StyleSheet.create({
     textAlignVertical: 'center',
     fontFamily: 'Novecentosanswide-Normal',
   },
-  bottom_text: {
-    fontSize: 14,
-    position: 'absolute',
-    bottom: 0,
-    alignSelf: 'center',
-    textAlign: 'center',
-    alignContent: 'center',
-    fontFamily: 'Novecentosanswide-Bold',
-  },
   search_text: {
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: 'Novecentosanswide-Bold',
     marginTop: 10,
     alignSelf: 'center',
