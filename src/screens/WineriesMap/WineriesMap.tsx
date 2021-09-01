@@ -368,13 +368,15 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
         onPress={() => {
           search !== ''
             ? loadWineriesCallback(
-                `(${nameof<Winery>(
-                  'name',
-                )}.Contains('${search.trim()}') OR ${nameof<Winery>(
+                `(${nameof<Winery>('name')}.ToLower().Contains('${search
+                  .trim()
+                  .toLowerCase()}') OR ${nameof<Winery>(
                   'name2',
-                )}.Contains('${search.trim()}') OR ${nameof<Winery>(
+                )}.ToLower().Contains('${search
+                  .trim()
+                  .toLowerCase()}') OR ${nameof<Winery>(
                   'vigneron',
-                )}.Contains('${search.trim()}'))`,
+                )}.ToLower().Contains('${search.trim().toLowerCase()}'))`,
               )
             : loadWineriesCallback();
         }}
