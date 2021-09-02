@@ -1,8 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {Text, View, TextInput, ActivityIndicator, Image, Platform} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import {markerDefaultGreen} from '../../common/constants';
+import {markerDefaultGreen, tokenKey} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './Login.styles';
 import {LoginManager, Settings, AccessToken, AuthenticationToken} from 'react-native-fbsdk-next'
@@ -14,8 +14,6 @@ export function Login(props: any) {
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const {actionsProvider} = useContext(AuthContext);
-  const [facebookToken, setFacebookToken] = useState<string>('');
-
   const Login = () => {
     if (!userName || !password) {
       setError('Username o password non inseriti');
@@ -60,49 +58,40 @@ export function Login(props: any) {
     setError('');
     setIsError(false);
     setLoading(true);
-    
+
     LoginManager.logInWithPermissions(["public_profile", "email"])
       .then((result) => {
         if (result.isCancelled) {
-          console.log("Login Facebook Cancelled " + JSON.stringify(result))
+          //console.log("Login Facebook Cancelled " + JSON.stringify(result))
           setError('Login Facebook Cancelled');
           setIsError(true);
           setLoading(false);
           return;
         } else {
-          if (Platform.OS === 'ios') {
-            AuthenticationToken.getAuthenticationTokenIOS().then((data) => {
-              console.log(data?.authenticationToken);
-              setFacebookToken(data?.authenticationToken.toString() != null  ? data?.authenticationToken.toString() : '');
-            });
-          } else {
-            AccessToken.getCurrentAccessToken().then((data) => {
-              console.log("Token",data?.accessToken.toString());
-              setFacebookToken(data?.accessToken.toString() != null ? data?.accessToken.toString() : '');
-              console.log("tk", facebookToken);
-
-              AuthDal.facebooklogin({facebookToken})
-                .then((res) => {
-                  console.log("fb login result",res);
-                  if (!res.token || !res.refreshToken) {
-                    setError('Dati errati');
-                    setIsError(true);
-                    setLoading(false);
-                    return;
-                  }
-    
-                  if (actionsProvider) {
-                    actionsProvider.signIn(res);
-                  }
-                })
-                .catch((err) => {
-                  console.log(JSON.stringify(err));
-                  setError(JSON.stringify(err));
-                  setIsError(true);
-                  setLoading(false);
-                });
-            });
-          }      
+          AccessToken.getCurrentAccessToken().then((data) => {
+            //console.log("Token",data?.accessToken.toString());
+            const facebookToken = data?.accessToken != null ? data?.accessToken : "";
+            AuthDal.facebooklogin({facebookToken})
+            .then((res) => {
+              //console.log("fb login result",res);
+              if (!res.token || !res.refreshToken) {
+                setError('Dati errati');
+                setIsError(true);
+                setLoading(false);
+                return;
+              }
+  
+              if (actionsProvider) {
+                actionsProvider.signIn(res);
+              }
+            })
+            .catch((err) => {
+              console.log(JSON.stringify(err));
+              setError(JSON.stringify(err));
+              setIsError(true);
+              setLoading(false);
+            });  
+          });
         }
       })
       .catch((err) => {
@@ -113,33 +102,6 @@ export function Login(props: any) {
       });
   };
 
-  /** 
-  const initUser = (token: string | undefined) => {
-    fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends&access_token=' + token)
-    .then((response) => response.json())
-    .then((json) => {
-      console.log("Email", json.email);
-
-      Profile.getCurrentProfile().then(
-        function(currentProfile) {
-          if (currentProfile) {
-            console.log(currentProfile);
-            console.log("The current logged user is: " +
-              currentProfile.name
-              + ". His profile id is: " +
-              currentProfile.userID
-              + ". His mail is: " +
-              currentProfile.email
-            );
-          }
-        }
-      );
-    })
-    .catch(() => {
-      console.error('ERROR GETTING DATA FROM FACEBOOK')
-    })            
-
-  }*/
 
   return (
     <View style={styles.container}>
