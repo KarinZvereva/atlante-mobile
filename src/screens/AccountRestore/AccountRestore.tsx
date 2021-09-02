@@ -5,6 +5,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen, defaultRed} from '../../common/constants';
 import {AuthDal} from '../../common/modules/auth';
+import {RestoreDal} from './AccountRestore.dal';
 import {images, webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
 import {User} from '../../common/interfaces/web-api';
@@ -118,17 +119,18 @@ export function AccountRestore(props: any) {
     setIsError(false);
     setLoading(true);
 
-    AuthDal.restore({userData, captcha})
+
+    console.log("Data", {email, captcha})
+    RestoreDal.restore({email, captcha})
     .then((result) => {
+      console.log("result",result);
       if (result && result.success) {
         Alert.alert(`Verifica la mail per ripristinare l'account`);
         setLoading(false);
         props.navigation.navigate('SignIn');
-      } else if (result && result.errors) {
-        var stringify = JSON.parse(JSON.stringify(result));
-        var status = stringify.status;
-        var errors = stringify.errors;
-        setError(JSON.stringify(Object.values(errors)[0]));
+      } else if (result && !result.success) {
+        console.log(result.message)
+        setError("Impossibile recuperare l'account");
         setIsError(true);
         setLoading(false);
         return;

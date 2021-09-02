@@ -135,6 +135,28 @@ export interface RegisterApiInputData {
 }
 
 /**
+ * Restore Api Input DTO
+ */
+ export interface RestoreApiInputData {
+  email?: string;
+  /**
+   * Captcha token for validating restore request
+   */
+  captcha?: string | null;
+}
+
+/**
+ * Restore Api Output DTO
+ */
+ export interface RestoreApiOutputData {
+  /**
+   * Result success restore request
+   */
+  success?: boolean | null;
+  message?: string | null;
+}
+
+/**
  * Check data for Register Api Input DTO
  */
  export interface CheckRegisterApiInputData {
