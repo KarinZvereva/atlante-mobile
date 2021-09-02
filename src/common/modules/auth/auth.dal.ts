@@ -13,4 +13,5 @@ export const AuthDal = {
   register: authFetchBuilder<RegisterApiInputData, RegisterApiOutputData>('register'),
   checkRegister: authFetchBuilder<CheckRegisterApiInputData, CheckRegisterApiOutputData>('check_user_data'),
   facebooklogin: authFetchBuilder<FacebookLoginInputData , LoginApiOutputData>('login/facebook'),
+  restore: authFetchBuilder<RegisterApiInputData, RegisterApiOutputData>('restore'),
 };
