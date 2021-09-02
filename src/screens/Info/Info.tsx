@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 export function Info(props: any) {
   return (
     <SafeAreaView style={styles.page}>
-      <Header {...props} showName="Info" />
+      <Header {...props} showName="Il Progetto NaTourWine" />
       <ScrollView style={styles.scroll_container}>
         <View style={styles.centered_container}>
           <Image source={images.logo_calice} style={styles.logo} />
@@ -114,7 +114,7 @@ export function Info(props: any) {
             Per la sua stessa genesi ed a causa della
           </Text>
           <Text style={[styles.infoText]}>
-            grande vitalità del settore, la app sarà in
+            grande vitalità del settore, la app sarà
           </Text>
           <Text style={[styles.infoText, {marginBottom: 10}]}>
             in continua evoluzione.

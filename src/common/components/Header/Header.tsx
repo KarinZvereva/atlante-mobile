@@ -18,7 +18,7 @@ export function Header(props: HeaderProps) {
       style={{flexDirection: 'row', height: 50}}>
       <View style={{flexDirection: 'row', height: 50}}>
         <TouchableOpacity
-          style={{marginLeft: 10, alignContent: 'center', alignSelf: 'center'}}
+          style={{marginLeft: 15, alignContent: 'center', alignSelf: 'center'}}
           onPress={() => {
             navigation.openDrawer();
           }}>
@@ -27,7 +27,6 @@ export function Header(props: HeaderProps) {
             style={{
               width: 25,
               height: 25,
-              marginLeft: 5,
               resizeMode: 'contain',
             }}
           />
@@ -50,7 +49,7 @@ export function Header(props: HeaderProps) {
             flexDirection: 'row-reverse',
             height: 50,
             position: 'absolute',
-            right: 10,
+            right: 15,
             alignContent: 'center',
           }}>
           {extraButtons.map((e) => e)}

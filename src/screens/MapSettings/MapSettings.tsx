@@ -2,7 +2,6 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, View, Text, Switch} from 'react-native';
 import {MapTypes} from 'react-native-maps';
-import {useDebouncedCallback} from 'use-debounce/lib';
 import {defaultRed} from '../../common/constants';
 import {MapActionsType} from '../../common/modules/map/map.constants';
 import {MapContext} from '../../common/modules/map/MapContext';
@@ -24,16 +23,6 @@ export const MapSettings = () => {
   const [rangeAroundMe, setRangeAroundMe] = useState(searchAroundMeRadius);
   const [rangeAroundP, setRangeAroundP] = useState(searchAroundPointRadius);
 
-  // Debounced callback
-  const changeRangeAroundMeclbk = useDebouncedCallback(
-    (values) => setRangeAroundMe(values[0]),
-    500,
-  );
-  const changeRangeAroundPclbk = useDebouncedCallback(
-    (values) => setRangeAroundP(values[0]),
-    500,
-  );
-
   // Effect
   useEffect(() => {
     if (switchType) setMapType('satellite');
@@ -43,20 +32,6 @@ export const MapSettings = () => {
   useEffect(() => {
     actionProvider?.changeData(MapActionsType.CHANGE_MAP_TYPE, mapType);
   }, [mapType]);
-
-  useEffect(() => {
-    actionProvider?.changeData(
-      MapActionsType.CHANGE_SEARCH_AROUND_ME,
-      rangeAroundMe,
-    );
-  }, [rangeAroundMe]);
-
-  useEffect(() => {
-    actionProvider?.changeData(
-      MapActionsType.CHANGE_SEARCH_AROUND_POINT,
-      rangeAroundP,
-    );
-  }, [rangeAroundP]);
 
   return (
     <SafeAreaView style={mapSettingsStyles.page}>
@@ -98,8 +73,15 @@ export const MapSettings = () => {
                 min={15}
                 max={60}
                 onValuesChangeStart={() => setScrollEnabled(false)}
-                onValuesChange={changeRangeAroundMeclbk}
-                onValuesChangeFinish={() => setScrollEnabled(true)}
+                onValuesChange={(values) => setRangeAroundMe(values[0])}
+                onValuesChangeFinish={(values) => {
+                  setScrollEnabled(true);
+                  setRangeAroundMe(values[0]);
+                  actionProvider?.changeData(
+                    MapActionsType.CHANGE_SEARCH_AROUND_ME,
+                    values[0],
+                  );
+                }}
               />
             </View>
           </View>
@@ -120,8 +102,15 @@ export const MapSettings = () => {
                 min={15}
                 max={60}
                 onValuesChangeStart={() => setScrollEnabled(false)}
-                onValuesChange={changeRangeAroundPclbk}
-                onValuesChangeFinish={() => setScrollEnabled(true)}
+                onValuesChange={(values) => setRangeAroundP(values[0])}
+                onValuesChangeFinish={(values) => {
+                  setScrollEnabled(true);
+                  setRangeAroundP(values[0]);
+                  actionProvider?.changeData(
+                    MapActionsType.CHANGE_SEARCH_AROUND_POINT,
+                    values[0],
+                  );
+                }}
               />
             </View>
           </View>

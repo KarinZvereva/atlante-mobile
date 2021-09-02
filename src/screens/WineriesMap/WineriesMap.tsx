@@ -134,7 +134,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                 })),
                 {
                   animated: true,
-                  edgePadding: {bottom: 10, left: 10, right: 10, top: 10},
+                  edgePadding: {bottom: 70, left: 50, right: 50, top: 70},
                 },
               );
           } else {
@@ -190,7 +190,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
       },
       {enableHighAccuracy: true},
     );
-  }, [loadWineriesFromCoordinates]);
+  }, [loadWineriesFromCoordinates, searchAroundMeRadius]);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -213,7 +213,7 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
   useEffect(() => {
     if (selectedPosition)
       loadWineriesFromCoordinates(selectedPosition, searchAroundPointRadius);
-  }, [selectedPosition]);
+  }, [selectedPosition, searchAroundPointRadius]);
 
   return (
     <View style={wineriesMapStyles.pageContainer}>
@@ -283,7 +283,6 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
                 style={{
                   width: 25,
                   height: 25,
-                  marginLeft: 5,
                   resizeMode: 'contain',
                 }}
               />
@@ -295,14 +294,13 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
               alignContent: 'center',
               alignItems: 'center',
               alignSelf: 'center',
-              marginRight: 5,
+              marginRight: 15,
             }}>
             <Image
               source={icons.filtri_piccolo}
               style={{
                 width: 25,
                 height: 25,
-                marginLeft: 5,
                 resizeMode: 'contain',
               }}
             />
@@ -355,7 +353,10 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => filterWithMyPosition()}
+        onPress={() => {
+          setSelectedPosition(undefined);
+          filterWithMyPosition();
+        }}
         style={wineriesMapStyles.filterMyPositionButton}
         disabled={loading}>
         <Image
