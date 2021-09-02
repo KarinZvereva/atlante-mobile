@@ -1,11 +1,11 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import {Text, View, TextInput, ActivityIndicator, Image, Platform} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen, tokenKey} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './Login.styles';
-import {LoginManager, Settings, AccessToken, AuthenticationToken} from 'react-native-fbsdk-next'
+import {LoginManager, Settings, AccessToken} from 'react-native-fbsdk-next'
 
 export function Login(props: any) {
   const [userName, setUserName] = useState<string>();
@@ -51,9 +51,7 @@ export function Login(props: any) {
    * @returns 
    */
   const LoginFb = () => {
-    // Ask for consent first if necessary
-    // Possibly only do this for iOS if no need to handle a GDPR-type flow
-    Settings.initializeSDK();
+    Settings.initializeSDK(); // Possibly only do this for iOS if no need to handle a GDPR-type flow
 
     setError('');
     setIsError(false);
@@ -62,18 +60,15 @@ export function Login(props: any) {
     LoginManager.logInWithPermissions(["public_profile", "email"])
       .then((result) => {
         if (result.isCancelled) {
-          //console.log("Login Facebook Cancelled " + JSON.stringify(result))
           setError('Login Facebook Cancelled');
           setIsError(true);
           setLoading(false);
           return;
         } else {
           AccessToken.getCurrentAccessToken().then((data) => {
-            //console.log("Token",data?.accessToken.toString());
             const facebookToken = data?.accessToken != null ? data?.accessToken : "";
             AuthDal.facebooklogin({facebookToken})
             .then((res) => {
-              //console.log("fb login result",res);
               if (!res.token || !res.refreshToken) {
                 setError('Dati errati');
                 setIsError(true);
