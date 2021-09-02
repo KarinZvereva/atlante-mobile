@@ -1,10 +1,11 @@
 import React, {useContext, useState} from 'react';
-import {Text, View, TextInput, ActivityIndicator, Image} from 'react-native';
+import {Text, View, TextInput, ActivityIndicator, Image, Platform} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './Login.styles';
+import {LoginManager, Settings, AccessToken, AuthenticationToken} from 'react-native-fbsdk-next'
 
 export function Login(props: any) {
   const [userName, setUserName] = useState<string>();
@@ -13,6 +14,7 @@ export function Login(props: any) {
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const {actionsProvider} = useContext(AuthContext);
+  const [facebookToken, setFacebookToken] = useState<string>('');
 
   const Login = () => {
     if (!userName || !password) {
@@ -44,6 +46,100 @@ export function Login(props: any) {
         setLoading(false);
       });
   };
+
+
+  /**
+   * 
+   * @returns 
+   */
+  const LoginFb = () => {
+    // Ask for consent first if necessary
+    // Possibly only do this for iOS if no need to handle a GDPR-type flow
+    Settings.initializeSDK();
+
+    setError('');
+    setIsError(false);
+    setLoading(true);
+    
+    LoginManager.logInWithPermissions(["public_profile", "email"])
+      .then((result) => {
+        if (result.isCancelled) {
+          console.log("Login Facebook Cancelled " + JSON.stringify(result))
+          setError('Login Facebook Cancelled');
+          setIsError(true);
+          setLoading(false);
+          return;
+        } else {
+          if (Platform.OS === 'ios') {
+            AuthenticationToken.getAuthenticationTokenIOS().then((data) => {
+              console.log(data?.authenticationToken);
+              setFacebookToken(data?.authenticationToken.toString() != null  ? data?.authenticationToken.toString() : '');
+            });
+          } else {
+            AccessToken.getCurrentAccessToken().then((data) => {
+              console.log("Token",data?.accessToken.toString());
+              setFacebookToken(data?.accessToken.toString() != null ? data?.accessToken.toString() : '');
+              console.log("tk", facebookToken);
+
+              AuthDal.facebooklogin({facebookToken})
+                .then((res) => {
+                  console.log("fb login result",res);
+                  if (!res.token || !res.refreshToken) {
+                    setError('Dati errati');
+                    setIsError(true);
+                    setLoading(false);
+                    return;
+                  }
+    
+                  if (actionsProvider) {
+                    actionsProvider.signIn(res);
+                  }
+                })
+                .catch((err) => {
+                  console.log(JSON.stringify(err));
+                  setError(JSON.stringify(err));
+                  setIsError(true);
+                  setLoading(false);
+                });
+            });
+          }      
+        }
+      })
+      .catch((err) => {
+        console.error("Login Error " + err.toString());
+        setError(JSON.stringify(err));
+        setIsError(true);
+        setLoading(false);
+      });
+  };
+
+  /** 
+  const initUser = (token: string | undefined) => {
+    fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends&access_token=' + token)
+    .then((response) => response.json())
+    .then((json) => {
+      console.log("Email", json.email);
+
+      Profile.getCurrentProfile().then(
+        function(currentProfile) {
+          if (currentProfile) {
+            console.log(currentProfile);
+            console.log("The current logged user is: " +
+              currentProfile.name
+              + ". His profile id is: " +
+              currentProfile.userID
+              + ". His mail is: " +
+              currentProfile.email
+            );
+          }
+        }
+      );
+    })
+    .catch(() => {
+      console.error('ERROR GETTING DATA FROM FACEBOOK')
+    })            
+
+  }*/
 
   return (
     <View style={styles.container}>
@@ -90,6 +186,18 @@ export function Login(props: any) {
               disabled={!actionsProvider}>
               <View style={styles.loginBtnSubView}>
                 <Text style={styles.loginText}>Login</Text>
+              </View>
+            </TouchableOpacity>
+          </LinearGradient>
+          <Text style={styles.separatorText}>- oppure -</Text>
+          <LinearGradient
+            colors={['#109bd9', '#0e5de3', '#0e12df']}
+            style={styles.loginFbBtn}>
+            <TouchableOpacity
+              onPress={() => LoginFb()}
+              disabled={!actionsProvider}>
+              <View style={styles.loginBtnSubView}>
+                <Text style={styles.loginText}>Login con Facebook</Text>
               </View>
             </TouchableOpacity>
           </LinearGradient>

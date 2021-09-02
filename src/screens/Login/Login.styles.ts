@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 40,
+    marginTop: 0,
   },
   loginText: {
     color: 'white',
@@ -61,5 +61,23 @@ export const styles = StyleSheet.create({
       flexDirection:'row',
       justifyContent:'space-between',
       alignItems:'center'
+  },
+  loginFbBtn: {
+    width: '80%',
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
+  },
+  separatorText: {
+    color: 'black',
+    width: '100%',
+    fontSize: 14,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: 'Novecentosanswide-Normal',
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
