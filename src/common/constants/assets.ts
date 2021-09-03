@@ -25,6 +25,7 @@ export const icons = {
   natourwine_popup: require('../../assets/icon/natourwine_popup.png'),
   ingranaggio_piccolo: require('../../assets/icon/ingranaggio_piccolo.png'),
   filtri_piccolo: require('../../assets/icon/filtri_piccolo.png'),
+  profilo: require('../../assets/icon/profilo.png'),
 };
 
 export const images = {

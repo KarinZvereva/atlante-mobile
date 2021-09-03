@@ -1,0 +1,111 @@
+import {StyleSheet} from 'react-native';
+import {markerDefaultGreen} from '../../common/constants';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#FFF',
+  },
+  profile_container: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    margin: 15,
+  },
+  logo: {
+    height: 80,
+    width: 80,
+    resizeMode: 'center',
+    position: 'relative',
+    marginBottom: 20,
+  },
+  title_text: {
+    fontSize: 24,
+    fontFamily: 'Novecentosanswide-Bold',
+    marginBottom: 20,
+  },
+  normal_text: {
+    fontSize: 16,
+    fontFamily: 'Novecentosanswide-Normal',
+    marginBottom: 20,
+  },
+  modifyBtn: {
+    width: '60%',
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    width: '100%',
+    fontSize: 18,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: 'Novecentosanswide-Normal',
+  },
+  modifyBtnSubView:{
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignItems:'center',
+      height: '100%',
+  },
+  modify_profile_container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 40,
+  },
+  inputView: {
+    backgroundColor: markerDefaultGreen,
+    borderRadius: 30,
+    width: '70%',
+    height: 45,
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+  TextInput: {
+    color: 'white',
+    textAlign: 'center',
+    flex: 1,
+    fontFamily: 'Novecentosanswide-Normal',
+    width: '100%',
+  },
+  button_container: {
+    flex: 1,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    flexDirection: 'row',
+    width: '100%',
+    marginTop: 40,
+    marginBottom: 40,
+  },
+  saveBtn: {
+    width: '40%',
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
+    marginRight : 5,
+  },
+  undoBtn: {
+    width: '40%',
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
+    marginLeft: 5,
+  },
+  scroll_container: {
+    flex: 1,
+    marginHorizontal: 5,
+    width: '100%',
+  },
+  recaptcha_container: {
+  },
+});
