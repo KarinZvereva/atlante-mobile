@@ -14,6 +14,7 @@ export function Login(props: any) {
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const {actionsProvider} = useContext(AuthContext);
+
   const Login = () => {
     if (!userName || !password) {
       setError('Username o password non inseriti');
