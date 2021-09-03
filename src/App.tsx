@@ -29,6 +29,7 @@ import {MapContext} from './common/modules/map/MapContext';
 import {MapActionsType} from './common/modules/map/map.constants';
 import {MapTypes} from 'react-native-maps';
 import {MapSettings} from './screens/MapSettings/MapSettings';
+import {Profile} from './screens/Profile';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -121,6 +122,22 @@ const PrivateNavigation = () => {
           ),
         }}
       />
+      <Drawer.Screen
+        name="Profilo"
+        component={Profile}
+        options={{
+          headerShown: false,
+          drawerIcon: ({size}) => (
+            <Image
+              source={require('./assets/icon/profilo.png')}
+              style={{height: size + 5, width: size + 5}}
+            />
+          ),
+          drawerLabel: () => (
+            <Text style={drawerStyles.drawer_label_text}>Profilo utente</Text>
+          ),
+        }}
+      />        
       <Drawer.Screen
         name="Logout"
         component={LogOut}

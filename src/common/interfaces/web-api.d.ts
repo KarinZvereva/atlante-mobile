@@ -172,6 +172,31 @@ export interface RegisterApiInputData {
   error?: boolean; 
 }
 
+
+/**
+ * Update Profile Api Input DTO
+ */
+ export interface ProfileApiInputData {
+  userData?: User;
+  /**
+   * Captcha token for validating registration request
+   */
+  captcha?: string | null;
+}
+
+/**
+ * Update Profile Api Output DTO
+ */
+ export interface ProfileApiOutputData {
+  /**
+   * Result success registration request
+   */
+  success?: boolean | null;
+  message?: string | null;
+}
+
+
+
 export interface TimeSpan {
   readonly ticks?: number; // int64
   readonly days?: number; // int32
