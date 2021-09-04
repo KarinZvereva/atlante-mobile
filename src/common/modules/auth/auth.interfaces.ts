@@ -61,6 +61,14 @@ export interface ITokenData {
    */
   role: string;
   /**
+   * Name of the logged user
+   */
+  name: string;
+  /**
+   * Surname of the logged user
+   */
+  surname: string;
+  /**
    * [Not before] the token cannot be used before specified time of creation. The value must be a NumericDate.
    */
   nbf: number;
