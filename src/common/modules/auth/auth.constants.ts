@@ -4,3 +4,8 @@ export enum AuthActionsType {
   RESTORE_TOKEN = 'RESTORE_TOKEN',
   REFRESH_TOKEN = 'REFRESH_TOKEN',
 }
+
+export enum UserAuthenticationMode {
+  FACEBOOK = 'from_facebook',
+  SERVER = 'from_server',
+}
