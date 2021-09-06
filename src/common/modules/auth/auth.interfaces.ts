@@ -69,6 +69,12 @@ export interface ITokenData {
    */
   surname: string;
   /**
+   * Provides info about authentication used by the users
+   * @enum "from_facebook" => if user used facebook login
+   * @enum "from_server" => if user used normal server auth
+   */
+  authentication: string;
+  /**
    * [Not before] the token cannot be used before specified time of creation. The value must be a NumericDate.
    */
   nbf: number;
