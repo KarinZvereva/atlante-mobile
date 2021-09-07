@@ -60,7 +60,8 @@ export const styles = StyleSheet.create({
   loginBtnSubView:{
       flexDirection:'row',
       justifyContent:'space-between',
-      alignItems:'center'
+      alignItems:'center',
+      height: '100%'
   },
   loginFbBtn: {
     width: '80%',
