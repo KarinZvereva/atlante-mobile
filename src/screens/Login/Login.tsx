@@ -1,11 +1,18 @@
 import React, {useContext, useState} from 'react';
-import {Text, View, TextInput, ActivityIndicator, Image, Platform} from 'react-native';
+import {
+  Text,
+  View,
+  TextInput,
+  ActivityIndicator,
+  Image,
+  Platform,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen, tokenKey} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './Login.styles';
-import {LoginManager, Settings, AccessToken} from 'react-native-fbsdk-next'
+import {LoginManager, Settings, AccessToken} from 'react-native-fbsdk-next';
 
 export function Login(props: any) {
   const [userName, setUserName] = useState<string>();
@@ -46,19 +53,17 @@ export function Login(props: any) {
       });
   };
 
-
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    */
   const LoginFb = () => {
     Settings.initializeSDK(); // Possibly only do this for iOS if no need to handle a GDPR-type flow
-
     setError('');
     setIsError(false);
     setLoading(true);
 
-    LoginManager.logInWithPermissions(["public_profile", "email"])
+    LoginManager.logInWithPermissions(['public_profile', 'email'])
       .then((result) => {
         if (result.isCancelled) {
           setError('Login Facebook Cancelled');
@@ -67,37 +72,37 @@ export function Login(props: any) {
           return;
         } else {
           AccessToken.getCurrentAccessToken().then((data) => {
-            const facebookToken = data?.accessToken != null ? data?.accessToken : "";
+            const facebookToken =
+              data?.accessToken != null ? data?.accessToken : '';
             AuthDal.facebooklogin({facebookToken})
-            .then((res) => {
-              if (!res.token || !res.refreshToken) {
-                setError('Dati errati');
+              .then((res) => {
+                if (!res.token || !res.refreshToken) {
+                  setError('Dati errati');
+                  setIsError(true);
+                  setLoading(false);
+                  return;
+                }
+
+                if (actionsProvider) {
+                  actionsProvider.signIn(res);
+                }
+              })
+              .catch((err) => {
+                console.log(JSON.stringify(err));
+                setError(JSON.stringify(err));
                 setIsError(true);
                 setLoading(false);
-                return;
-              }
-  
-              if (actionsProvider) {
-                actionsProvider.signIn(res);
-              }
-            })
-            .catch((err) => {
-              console.log(JSON.stringify(err));
-              setError(JSON.stringify(err));
-              setIsError(true);
-              setLoading(false);
-            });  
+              });
           });
         }
       })
       .catch((err) => {
-        console.error("Login Error " + err.toString());
+        console.error('Login Error ' + err.toString());
         setError(JSON.stringify(err));
         setIsError(true);
         setLoading(false);
       });
   };
-
 
   return (
     <View style={styles.container}>
@@ -127,13 +132,15 @@ export function Login(props: any) {
           <View style={styles.forgot_button}>
             <TouchableOpacity
               onPress={() => props.navigation.navigate('AccountRestore')}>
-              <Text style={styles.linkText}>Forgot Password?</Text>
+              <Text style={styles.linkText}>Password dimenticata?</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.forgot_button}>
             <TouchableOpacity
               onPress={() => props.navigation.navigate('SignUp')}>
-              <Text style={styles.linkText}>Not registered yet? Sign Up!</Text>
+              <Text style={styles.linkText}>
+                Non hai un utente? Registrati!
+              </Text>
             </TouchableOpacity>
           </View>
           <LinearGradient

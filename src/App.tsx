@@ -30,6 +30,11 @@ import {MapActionsType} from './common/modules/map/map.constants';
 import {MapTypes} from 'react-native-maps';
 import {MapSettings} from './screens/MapSettings/MapSettings';
 import {Profile} from './screens/Profile';
+import {
+  MapActionChangeConfiguration,
+  MapActionChangeExtraFilter,
+} from './common/modules/map/map.interface';
+import {MapFilters} from './screens/MapFilters';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -137,7 +142,7 @@ const PrivateNavigation = () => {
             <Text style={drawerStyles.drawer_label_text}>Profilo utente</Text>
           ),
         }}
-      />        
+      />
       <Drawer.Screen
         name="Logout"
         component={LogOut}
@@ -218,7 +223,16 @@ export default function App() {
 
   const mapActionProvider = useMemo(
     () => ({
-      changeData: async (what: MapActionsType, data: MapTypes | number) => {
+      changeConfiguration: async (
+        what: MapActionChangeConfiguration,
+        data: MapTypes | number,
+      ) => {
+        mapDispatch({type: what, payload: data});
+      },
+      changeExtraFilter: async (
+        what: MapActionChangeExtraFilter,
+        data: string | boolean,
+      ) => {
         mapDispatch({type: what, payload: data});
       },
     }),
@@ -294,6 +308,14 @@ export default function App() {
                     component={MapSettings}
                     options={{
                       title: 'Impostazioni mappa',
+                      headerTitleStyle: {...drawerStyles.header_text},
+                    }}
+                  />
+                  <Stack.Screen
+                    name="MapFilters"
+                    component={MapFilters}
+                    options={{
+                      title: 'Filtri aggiuntivi mappa',
                       headerTitleStyle: {...drawerStyles.header_text},
                     }}
                   />

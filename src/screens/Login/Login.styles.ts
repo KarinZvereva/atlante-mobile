@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
     //fontFamily: 'Novecentosanswide-Normal',
   },
   forgot_button: {
-    height: 45,
+    height: 35,
     borderRadius: 30,
     width: '70%',
     alignItems: 'center',
@@ -56,11 +56,12 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#2191b0',
     fontFamily: 'Novecentosanswide-Normal',
+    fontSize: 12,
   },
-  loginBtnSubView:{
-      flexDirection:'row',
-      justifyContent:'space-between',
-      alignItems:'center'
+  loginBtnSubView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   loginFbBtn: {
     width: '80%',
@@ -77,7 +78,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     fontFamily: 'Novecentosanswide-Normal',
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 20,
+    marginBottom: 20,
   },
 });

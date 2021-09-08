@@ -10,7 +10,9 @@ import {mapSettingsStyles} from './MapSettings.styles';
 export const MapSettings = () => {
   // Context
   const {
-    data: {mapsType, searchAroundMeRadius, searchAroundPointRadius},
+    data: {
+      configuration: {mapsType, searchAroundMeRadius, searchAroundPointRadius},
+    },
     actionProvider,
   } = useContext(MapContext);
 
@@ -30,7 +32,10 @@ export const MapSettings = () => {
   }, [switchType]);
 
   useEffect(() => {
-    actionProvider?.changeData(MapActionsType.CHANGE_MAP_TYPE, mapType);
+    actionProvider?.changeConfiguration(
+      MapActionsType.CHANGE_MAP_TYPE,
+      mapType,
+    );
   }, [mapType]);
 
   return (
@@ -77,7 +82,7 @@ export const MapSettings = () => {
                 onValuesChangeFinish={(values) => {
                   setScrollEnabled(true);
                   setRangeAroundMe(values[0]);
-                  actionProvider?.changeData(
+                  actionProvider?.changeConfiguration(
                     MapActionsType.CHANGE_SEARCH_AROUND_ME,
                     values[0],
                   );
@@ -106,7 +111,7 @@ export const MapSettings = () => {
                 onValuesChangeFinish={(values) => {
                   setScrollEnabled(true);
                   setRangeAroundP(values[0]);
-                  actionProvider?.changeData(
+                  actionProvider?.changeConfiguration(
                     MapActionsType.CHANGE_SEARCH_AROUND_POINT,
                     values[0],
                   );
