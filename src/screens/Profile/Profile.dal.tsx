@@ -7,16 +7,6 @@ const updateAccountBuilder = () => <ProfileApiInputData, ProfileApiOutputData>(
   action: string, 
 ) => async (input: ProfileApiInputData, token : string): Promise<ProfileApiOutputData> => {
   try {
-    console.log("updateAccountBuilder");
-    //const actionsProvider = useContext(AuthContext);
-    //const userInfo = AuthTokenManager.decodeToken(actionsProvider.data.userToken) as ITokenData
-    //const token =  actionsProvider.data.userToken != null ? actionsProvider.data.userToken: "";
-    //const token ="test";
-
-    console.log("uri", `${webApiBaseUrl}/${action}`);
-    console.log("Data", input);
-    console.log("Token", token);
-    
     const response = await fetch(`${webApiBaseUrl}/${action}`, {
       method: 'PUT',
       headers: {
@@ -26,10 +16,6 @@ const updateAccountBuilder = () => <ProfileApiInputData, ProfileApiOutputData>(
       },
       body: JSON.stringify(input),
     });
-
-    console.log("Response", response);
-    //console.log("Response json", response.json());
-
     return (await response.json()) as ProfileApiOutputData;
   } catch (err) {
     console.error(err);

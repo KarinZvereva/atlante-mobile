@@ -11,24 +11,31 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
-    margin: 15,
   },
   logo: {
     height: 80,
     width: 80,
     resizeMode: 'center',
     position: 'relative',
-    marginBottom: 20,
+    marginTop: 40,
+    marginBottom: 40,
   },
   title_text: {
-    fontSize: 24,
+    fontSize: 30,
     fontFamily: 'Novecentosanswide-Bold',
-    marginBottom: 20,
+    marginTop: 0,
   },
-  normal_text: {
+  mail_text: {
+    fontSize: 18,
+    fontFamily: 'Novecentosanswide-Normal',
+    marginTop: 40,
+    color: '#4169e1',
+  },
+  facebook_text: {
     fontSize: 16,
     fontFamily: 'Novecentosanswide-Normal',
-    marginBottom: 20,
+    textAlign: 'center',
+    margin: 10,
   },
   modifyBtn: {
     width: '60%',
@@ -36,7 +43,6 @@ export const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
   },
   buttonText: {
     color: 'white',
@@ -56,8 +62,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 40,
+    justifyContent: 'flex-end',
+    marginBottom: 20,
   },
   inputView: {
     backgroundColor: markerDefaultGreen,
@@ -75,13 +81,10 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   button_container: {
-    flex: 1,
+    flex: 0,
     alignItems: 'center', 
     justifyContent: 'center',
     flexDirection: 'row',
-    width: '100%',
-    marginTop: 40,
-    marginBottom: 40,
   },
   saveBtn: {
     width: '40%',
@@ -89,7 +92,7 @@ export const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 0,
+    marginTop: 30,
     marginRight : 5,
   },
   undoBtn: {
@@ -98,13 +101,8 @@ export const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 0,
+    marginTop: 30,
     marginLeft: 5,
-  },
-  scroll_container: {
-    flex: 1,
-    marginHorizontal: 5,
-    width: '100%',
   },
   recaptcha_container: {
   },
