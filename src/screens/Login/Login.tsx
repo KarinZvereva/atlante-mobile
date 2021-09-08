@@ -77,7 +77,7 @@ export function Login(props: any) {
             AuthDal.facebooklogin({facebookToken})
               .then((res) => {
                 if (!res.token || !res.refreshToken) {
-                  setError('Dati errati');
+                  setError("Impossibile eseguire l'accesso con Facebook");
                   setIsError(true);
                   setLoading(false);
                   return;

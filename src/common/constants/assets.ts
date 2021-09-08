@@ -26,6 +26,7 @@ export const icons = {
   ingranaggio_piccolo: require('../../assets/icon/ingranaggio_piccolo.png'),
   filtri_piccolo: require('../../assets/icon/filtri_piccolo.png'),
   profilo: require('../../assets/icon/profilo.png'),
+  profilo_big: require('../../assets/icon/profilo_big.png'),
 };
 
 export const images = {
