@@ -4,12 +4,12 @@ import {View, Text, Image, Linking} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {icons, images} from '../../common/constants';
-import {IBaseRouteNavigationProps} from '../../common/interfaces';
+import {IRouteProps} from '../../common/interfaces';
 import {sendEmail} from '../../common/modules/email/sendEmail';
 import {openLink} from '../../common/modules/linking';
 import {homeStyles} from './Home.styles';
 
-export function Home(props: IBaseRouteNavigationProps) {
+export function Home(props: IRouteProps) {
   const navigation = useNavigation();
 
   const openMail = useCallback(() => {

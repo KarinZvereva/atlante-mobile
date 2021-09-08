@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {FC, useContext} from 'react';
 import {
   View,
   Image,
@@ -14,11 +14,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
 import {Marker, Callout} from 'react-native-maps';
 import {useState, useRef, useEffect} from 'react';
-import {
-  IBaseRouteNavigationProps,
-  Winery,
-  WineryType,
-} from '../../common/interfaces';
+import {IRouteProps, Winery, WineryType} from '../../common/interfaces';
 import {wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
 import {icons, markerDefaultGreen} from '../../common/constants';
@@ -46,7 +42,7 @@ const wineryFilterBase: string = `(${nameof<Winery>(
 
 const isAndroid = Platform.OS === 'android';
 
-export const WineriesMap = (props: IBaseRouteNavigationProps) => {
+export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
   // State
   const [loading, setLoading] = useState<boolean>(false);
   const [wineries, setWineries] = useState<Winery[]>();
@@ -55,7 +51,10 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
 
   // Context
   const {
-    data: {mapsType, searchAroundMeRadius, searchAroundPointRadius},
+    data: {
+      configuration: {mapsType, searchAroundMeRadius, searchAroundPointRadius},
+      extraFilter: {province, region, withBnB, withRestaurant},
+    },
   } = useContext(MapContext);
 
   // Ref
@@ -296,14 +295,16 @@ export const WineriesMap = (props: IBaseRouteNavigationProps) => {
               alignSelf: 'center',
               marginRight: 15,
             }}>
-            <Image
-              source={icons.filtri_piccolo}
-              style={{
-                width: 25,
-                height: 25,
-                resizeMode: 'contain',
-              }}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate('MapFilters')}>
+              <Image
+                source={icons.filtri_piccolo}
+                style={{
+                  width: 25,
+                  height: 25,
+                  resizeMode: 'contain',
+                }}
+              />
+            </TouchableOpacity>
           </View>,
         ]}
       />
