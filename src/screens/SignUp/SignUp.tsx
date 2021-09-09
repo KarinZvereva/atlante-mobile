@@ -9,7 +9,7 @@ import {styles} from './SignUp.styles';
 import {images, webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
 import {User} from '../../common/interfaces/web-api';
-import {Switch, CheckBox} from 'native-base';
+import {Switch} from 'native-base';
 
 export function SignUp(props: any) {
   const [userName, setUserName] = useState<string>();
@@ -265,7 +265,6 @@ export function SignUp(props: any) {
                 </View>
               </View>
           </ScrollView>
-
           <View>
             <Recaptcha
               ref={recaptcha}
@@ -278,7 +277,6 @@ export function SignUp(props: any) {
               style={styles.recaptcha_container}
             />
           </View>
-
           <View style={styles.acceptance_container}>
             <Switch
               style={styles.acceptanceSwitch}
@@ -288,7 +286,6 @@ export function SignUp(props: any) {
               value={isAcceptance}
               onValueChange={() => setAcceptance((previus) => !previus)}
             />
-
             <View style={styles.acceptanceText_container}>  
             <View>
               <Text style={[styles.acceptanceText]}>
@@ -301,8 +298,6 @@ export function SignUp(props: any) {
               </View>
             </View>
           </View>
-
-
           <View style={styles.button_container}>
             <LinearGradient
               colors={['#ce8a86', '#bd6665', '#a92a3f']}
@@ -319,7 +314,7 @@ export function SignUp(props: any) {
               colors={['#423E3F', '#605D5E', '#7F7C7D']}
               style={styles.undoBtn}>
               <TouchableOpacity
-                onPress={() => props.navigation.navigate('SignIn')} //SignIn
+                onPress={() => props.navigation.navigate('LoginStandard')} //SignIn
                 disabled={!actionsProvider}>
                 <View style={styles.loginBtnSubView}>
                   <Text style={styles.loginText}>Annulla</Text>
