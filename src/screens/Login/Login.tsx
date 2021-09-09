@@ -2,56 +2,21 @@ import React, {useContext, useState} from 'react';
 import {
   Text,
   View,
-  TextInput,
   ActivityIndicator,
   Image,
-  Platform,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import {markerDefaultGreen, tokenKey} from '../../common/constants';
+import {markerDefaultGreen} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './Login.styles';
 import {LoginManager, Settings, AccessToken} from 'react-native-fbsdk-next';
 
 export function Login(props: any) {
-  const [userName, setUserName] = useState<string>();
-  const [password, setPassword] = useState<string>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const {actionsProvider} = useContext(AuthContext);
-
-  const Login = () => {
-    if (!userName || !password) {
-      setError('Username o password non inseriti');
-      setIsError(true);
-      return;
-    }
-
-    setError('');
-    setIsError(false);
-    setLoading(true);
-    AuthDal.login({userName, password})
-      .then((res) => {
-        if (!res.token || !res.refreshToken) {
-          setError('Dati errati');
-          setIsError(true);
-          setLoading(false);
-          return;
-        }
-
-        if (actionsProvider) {
-          actionsProvider.signIn(res);
-        }
-      })
-      .catch((err) => {
-        console.log(JSON.stringify(err));
-        setError(JSON.stringify(err));
-        setIsError(true);
-        setLoading(false);
-      });
-  };
 
   /**
    *
@@ -112,42 +77,11 @@ export function Login(props: any) {
             style={styles.image}
             source={require('../../assets/img/login_logo.png')}
           />
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Username"
-              placeholderTextColor="#ffffff"
-              onChangeText={(value) => setUserName(value)}
-            />
-          </View>
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Password"
-              placeholderTextColor="#ffffff"
-              secureTextEntry={true}
-              onChangeText={(value) => setPassword(value)}
-            />
-          </View>
-          <View style={styles.forgot_button}>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('AccountRestore')}>
-              <Text style={styles.linkText}>Password dimenticata?</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.forgot_button}>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('SignUp')}>
-              <Text style={styles.linkText}>
-                Non hai un utente? Registrati!
-              </Text>
-            </TouchableOpacity>
-          </View>
           <LinearGradient
-            colors={['#ce8a86', '#bd6665', '#a92a3f']}
+            colors={['#659a4a', '#4b7240']}
             style={styles.loginBtn}>
             <TouchableOpacity
-              onPress={() => Login()}
+              onPress={() => props.navigation.navigate('LoginStandard')}
               disabled={!actionsProvider}>
               <View style={styles.loginBtnSubView}>
                 <Text style={styles.loginText}>Login</Text>

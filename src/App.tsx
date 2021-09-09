@@ -6,7 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Home} from './screens/Home/Home';
 //import {Journey} from './screens/Journey/Journey';
 import {AuthContext} from './common/modules/auth/AuthContext';
-import {Login} from './screens/Login';
+import {Login, LoginStandard} from './screens/Login';
 import {
   AuthActionsType,
   AuthReducer,
@@ -253,6 +253,14 @@ export default function App() {
                     name="SignIn"
                     component={Login}
                     options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="LoginStandard"
+                    component={LoginStandard}
+                    options={{
+                      title: 'Login NaTourWine',
+                      headerTitleStyle: {...drawerStyles.header_text},
+                    }}
                   />
                   <Stack.Screen
                     name="SignUp"
