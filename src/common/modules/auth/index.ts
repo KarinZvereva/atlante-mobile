@@ -5,3 +5,4 @@ export * from './AuthReducer';
 export * from './TokenDecoder';
 export * from './AuthTokenManager';
 export * from './auth.dal';
+export * from './AuthCredentialManager';
