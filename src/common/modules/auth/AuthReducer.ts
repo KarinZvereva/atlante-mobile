@@ -7,6 +7,8 @@ export const InitialAuthState: AuthState = {
   userToken: null,
   refreshToken: null,
   userData: null,
+  userName: null,
+  password: null,
 };
 
 export const AuthReducer: React.Reducer<AuthState, AuthActions> = (
@@ -38,6 +40,8 @@ export const AuthReducer: React.Reducer<AuthState, AuthActions> = (
         userToken: null,
         refreshToken: null,
         userData: null,
+        userName: null,
+        password: null,
       };
     case AuthActionsType.REFRESH_TOKEN:
       return {
@@ -47,6 +51,14 @@ export const AuthReducer: React.Reducer<AuthState, AuthActions> = (
         refreshToken: action.refreshToken,
         userData: action.userData,
       };
+    case AuthActionsType.RESTORE_CREDENTIAL: {
+      return {
+        ...prevState,
+        userName: action.userName,
+        password: action.password,
+        isLoading: false,
+      }; 
+    } 
     default:
       return {...prevState};
   }
