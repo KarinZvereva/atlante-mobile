@@ -1,10 +1,11 @@
-import {LoginApiOutputData} from '../../interfaces';
+import {LoginApiInputData, LoginApiOutputData} from '../../interfaces';
 import {AuthActionsType} from './auth.constants';
 
 export interface AuthActionsProvider {
   signIn: (loginOutput: LoginApiOutputData) => Promise<boolean>;
   signOut: () => Promise<boolean>;
   refresh: (data: LoginApiOutputData) => Promise<boolean>;
+  credentialIn: (LoginApiInputData: LoginApiInputData) => Promise<boolean>;
 }
 
 export interface AuthContextData {
@@ -17,6 +18,8 @@ export interface AuthActions {
   token?: string | null;
   refreshToken?: string | null;
   userData?: ITokenData | null;
+  userName?: string | null;
+  password?: string | null;
 }
 
 export interface AuthState {
@@ -25,6 +28,8 @@ export interface AuthState {
   userToken?: string | null;
   refreshToken?: string | null;
   userData?: ITokenData | null;
+  userName?: string | null;
+  password?: string | null;
 }
 
 /**

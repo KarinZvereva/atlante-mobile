@@ -41,6 +41,10 @@ export function LoginStandard(props: any) {
           return;
         }
 
+        if (isRemember) {
+          actionsProvider?.credentialIn({userName, password});
+        }
+
         if (actionsProvider) {
           actionsProvider.signIn(res);
         }

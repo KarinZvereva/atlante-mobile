@@ -12,8 +12,9 @@ import {
   AuthReducer,
   AuthTokenManager,
   InitialAuthState,
+  AuthCredentialManager,
 } from './common/modules/auth';
-import {LoginApiOutputData} from './common/interfaces';
+import {LoginApiInputData, LoginApiOutputData} from './common/interfaces';
 import SplashScreen from 'react-native-splash-screen';
 import {SignUp} from './screens/SignUp/SignUp';
 import {WineriesMap} from './screens/WineriesMap';
@@ -171,11 +172,19 @@ export default function App() {
   useEffect(() => {
     const bootstrapAsync = async () => {
       const userToken = await AuthTokenManager.getLoginDataObj();
+      const credential = await AuthCredentialManager.getCredential();
+      
       if (!AuthTokenManager.isExpiredToken(userToken?.token))
         authDispatch({
           type: AuthActionsType.RESTORE_TOKEN,
           token: userToken?.token,
           refreshToken: userToken?.refreshToken,
+        });
+      else if (credential != null) 
+        authDispatch({
+          type: AuthActionsType.RESTORE_CREDENTIAL,
+          userName: credential?.userName,
+          password: credential?.password,
         });
       else authDispatch({type: AuthActionsType.SIGN_OUT});
     };
@@ -203,19 +212,29 @@ export default function App() {
       },
       signOut: async () => {
         const result = await AuthTokenManager.removeSavedToken();
-        if (result) authDispatch({type: AuthActionsType.SIGN_OUT});
+        const resultCredential = await AuthCredentialManager.removeSavedCredential();
+        if (result && resultCredential) authDispatch({type: AuthActionsType.SIGN_OUT});
         return result;
       },
       refresh: async (token: LoginApiOutputData) => {
         const result = await AuthTokenManager.updateTokenData(token);
-        if (result) {
+        if (result)
           authDispatch({
             type: AuthActionsType.REFRESH_TOKEN,
             token: token?.token,
             refreshToken: token?.refreshToken,
             userData: AuthTokenManager.decodeToken(token.token),
           });
-        }
+        return result;
+      },
+      credentialIn: async (credential: LoginApiInputData) => {
+        const result = await AuthCredentialManager.saveCredentialData(credential);
+        if (result)
+          authDispatch({
+            type: AuthActionsType.RESTORE_CREDENTIAL,
+            userName: credential?.userName,
+            password: credential?.password,
+          });
         return result;
       },
     }),
