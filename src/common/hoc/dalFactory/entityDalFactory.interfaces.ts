@@ -77,7 +77,7 @@ export interface IDalBaseEntity {
 export interface IDalReadFilter<T> extends IDalBaseEntity {
   /** Crud GET operation with filter query string */
   get: <TRes = ILookupResultDTO<T>>(
-    filters?: ILookupRepositoryDTO,
+    filters?: ILookupRepositoryDTO | object,
   ) => Promise<ServerResponse<TRes>>;
 }
 

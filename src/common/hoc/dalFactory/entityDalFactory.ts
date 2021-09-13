@@ -84,7 +84,7 @@ export const entityDalFactory = <T, TOut extends IDalBaseEntity>(
   const dal: any = {entityName};
 
   const get = async <TRes = ILookupResultDTO<T>>(
-    filters?: ILookupRepositoryDTO,
+    filters?: ILookupRepositoryDTO | object,
   ): Promise<ServerResponse<TRes>> => {
     try {
       const url = `${entityUrlBuilder(entityName)}${

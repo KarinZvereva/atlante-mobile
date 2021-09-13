@@ -1,6 +1,15 @@
 import React, {useRef, useContext, useState, useEffect} from 'react';
-import {Text, View, TextInput, ActivityIndicator, 
-  Image, Alert, SafeAreaView, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  TextInput,
+  ActivityIndicator,
+  Image,
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  Switch,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen, defaultRed} from '../../common/constants';
@@ -9,7 +18,6 @@ import {styles} from './SignUp.styles';
 import {images, webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
 import {User} from '../../common/interfaces/web-api';
-import {Switch} from 'native-base';
 
 export function SignUp(props: any) {
   const [userName, setUserName] = useState<string>();
@@ -66,7 +74,7 @@ export function SignUp(props: any) {
       password: password,
       email: email,
       firstName: firstName,
-      lastName: lastName, 
+      lastName: lastName,
     } as User;
 
     setError('');
@@ -74,28 +82,28 @@ export function SignUp(props: any) {
     setLoading(true);
 
     AuthDal.register({userData, captcha})
-    .then((result) => {
-      if (result && result.success) {
-        Alert.alert(`Verifica la mail per attivare l'account`);
-        setLoading(false);
-        props.navigation.navigate('SignIn');
-      } else if (result && result.errors) {
-        var stringify = JSON.parse(JSON.stringify(result));
-        var status = stringify.status;
-        var errors = stringify.errors;
-        setError(JSON.stringify(Object.values(errors)[0]));
+      .then((result) => {
+        if (result && result.success) {
+          Alert.alert(`Verifica la mail per attivare l'account`);
+          setLoading(false);
+          props.navigation.navigate('SignIn');
+        } else if (result && result.errors) {
+          var stringify = JSON.parse(JSON.stringify(result));
+          var status = stringify.status;
+          var errors = stringify.errors;
+          setError(JSON.stringify(Object.values(errors)[0]));
+          setIsError(true);
+          setLoading(false);
+          return;
+        }
+      })
+      .catch((err) => {
+        console.log('Error', err);
+        console.log(JSON.stringify(err));
+        setError(JSON.stringify(err));
         setIsError(true);
         setLoading(false);
-        return;
-      }
-    })
-    .catch((err) => {
-      console.log('Error', err);
-      console.log(JSON.stringify(err));
-      setError(JSON.stringify(err));
-      setIsError(true);
-      setLoading(false);
-    });
+      });
   };
 
   /**
@@ -111,7 +119,9 @@ export function SignUp(props: any) {
    *
    */
   const onExpire = () => {
-    setError("Non è stato possibile verificare l'identità. Captcha verified expire");
+    setError(
+      "Non è stato possibile verificare l'identità. Captcha verified expire",
+    );
     setIsError(true);
     setLoading(false);
   };
@@ -121,14 +131,16 @@ export function SignUp(props: any) {
    * @param error
    */
   const onError = (error: string) => {
-    console.log("Non è stato possibile verificare l'identità. Recaptcha onError...", error);
+    console.log(
+      "Non è stato possibile verificare l'identità. Recaptcha onError...",
+      error,
+    );
   };
 
-
   /**
-   * 
+   *
    */
-  const onBlurUsername = () =>{
+  const onBlurUsername = () => {
     const data = userName;
     const what = 1;
 
@@ -136,51 +148,18 @@ export function SignUp(props: any) {
     setError('');
     setIsError(false);
 
-    if ( userName ) {
+    if (userName) {
       AuthDal.checkRegister({data, what})
-      .then((result) => {
-        if (result && !result.available) {
-          setUserNameAvailable(false);
-          setError('Username già utilizzato');
-          setIsError(true);
-        } else if (result && result.error) {
-          setUserNameAvailable(false);
-          setError('Username non verificabile, connessione con il server non disponibile');
-          setIsError(true);
-        }
-      })
-      .catch((err) => {
-        console.log('Error', err);
-        console.log(JSON.stringify(err));
-        setError(JSON.stringify(err));
-        setIsError(true);
-        setLoading(false);
-      });
-    }
-  };
-
-
-   /**
-   * 
-   */
-    const onBlurEmail = () =>{
-      const data = email;
-      const what = 0;
-  
-      setEmaiAvailable(true);
-      setError('');
-      setIsError(false);
-
-      if (email) {
-        AuthDal.checkRegister({data, what})
         .then((result) => {
           if (result && !result.available) {
-            setEmaiAvailable(false);
-            setError('Email già utilizzata');
+            setUserNameAvailable(false);
+            setError('Username già utilizzato');
             setIsError(true);
           } else if (result && result.error) {
-            setEmaiAvailable(false);
-            setError('Email non verificabile, connessione con il server non disponibile');
+            setUserNameAvailable(false);
+            setError(
+              'Username non verificabile, connessione con il server non disponibile',
+            );
             setIsError(true);
           }
         })
@@ -191,47 +170,83 @@ export function SignUp(props: any) {
           setIsError(true);
           setLoading(false);
         });
-      }
-   }
+    }
+  };
 
-   /**
-    * 
-    */
-   const goToLink = () =>{
+  /**
+   *
+   */
+  const onBlurEmail = () => {
+    const data = email;
+    const what = 0;
+
+    setEmaiAvailable(true);
+    setError('');
+    setIsError(false);
+
+    if (email) {
+      AuthDal.checkRegister({data, what})
+        .then((result) => {
+          if (result && !result.available) {
+            setEmaiAvailable(false);
+            setError('Email già utilizzata');
+            setIsError(true);
+          } else if (result && result.error) {
+            setEmaiAvailable(false);
+            setError(
+              'Email non verificabile, connessione con il server non disponibile',
+            );
+            setIsError(true);
+          }
+        })
+        .catch((err) => {
+          console.log('Error', err);
+          console.log(JSON.stringify(err));
+          setError(JSON.stringify(err));
+          setIsError(true);
+          setLoading(false);
+        });
+    }
+  };
+
+  /**
+   *
+   */
+  const goToLink = () => {
     console.log('link');
-   }
+  };
 
   return (
     <SafeAreaView style={styles.page}>
       <View style={styles.container}>
         {!isLoading && (
           <>
-          <View style={styles.image_container}>
-            <Image source={images.logo_calice} style={styles.logo} />
-          </View>
-          <ScrollView style={styles.scroll_container}>
-            <View style={styles.input_container}>
-              <View style={styles.inputView}>
-                <TextInput
-                  style={styles.TextInput}
-                  placeholder="Username"
-                  placeholderTextColor="#ffffff"
-                  onChangeText={(value) => setUserName(value)}
-                  onBlur= {() => onBlurUsername()}
-                />
-              </View>
-              <View style={styles.inputView}>
-                <TextInput
-                  style={styles.TextInput}
-                  placeholder="Mail"
-                  placeholderTextColor="#ffffff"
-                  onChangeText={(value) => setEMail(value)}
-                  onBlur= {() => onBlurEmail()}
-                />
-              </View>
-              <View style={styles.inputView}>
-                <TextInput
-                  style={styles.TextInput}
+            <View style={styles.image_container}>
+              <Image source={images.logo_calice} style={styles.logo} />
+            </View>
+            <ScrollView style={styles.scroll_container}>
+              <View style={styles.input_container}>
+                <View style={styles.inputView}>
+                  <TextInput
+                    style={styles.TextInput}
+                    placeholder="Username"
+                    placeholderTextColor="#ffffff"
+                    onChangeText={(value) => setUserName(value)}
+                    onBlur={() => onBlurUsername()}
+                  />
+                </View>
+                <View style={styles.inputView}>
+                  <TextInput
+                    style={styles.TextInput}
+                    placeholder="Mail"
+                    placeholderTextColor="#ffffff"
+                    onChangeText={(value) => setEMail(value)}
+                    onBlur={() => onBlurEmail()}
+                  />
+                </View>
+                <View style={styles.inputView}>
+                  <TextInput
+                    style={styles.TextInput}
                     placeholder="Nome"
                     placeholderTextColor="#ffffff"
                     onChangeText={(value) => setFirstname(value)}
@@ -264,64 +279,65 @@ export function SignUp(props: any) {
                   />
                 </View>
               </View>
-          </ScrollView>
-          <View>
-            <Recaptcha
-              ref={recaptcha}
-              siteKey={captchaSiteKey}
-              baseUrl={webCaptchaUrl}
-              onVerify={onVerify}
-              onExpire={onExpire}
-              onError={onError}
-              size="invisible"
-              style={styles.recaptcha_container}
-            />
-          </View>
-          <View style={styles.acceptance_container}>
-            <Switch
-              style={styles.acceptanceSwitch}
-              trackColor={{false: '#cecece', true: '#cecece'}}
-              thumbColor={isAcceptance ? markerDefaultGreen : '#a9a9a9'}
-              ios_backgroundColor="#3e3e3e"
-              value={isAcceptance}
-              onValueChange={() => setAcceptance((previus) => !previus)}
-            />
-            <View style={styles.acceptanceText_container}>  
+            </ScrollView>
             <View>
-              <Text style={[styles.acceptanceText]}>
-                Ho letto, compreso e accettato i    
-              </Text>
-              <Text style={[styles.acceptanceLinkText]} 
-                onPress={() => props.navigation.navigate('SignupTerms')}>
-                termini e condizioni
-              </Text>
+              <Recaptcha
+                ref={recaptcha}
+                siteKey={captchaSiteKey}
+                baseUrl={webCaptchaUrl}
+                onVerify={onVerify}
+                onExpire={onExpire}
+                onError={onError}
+                size="invisible"
+                style={styles.recaptcha_container}
+              />
+            </View>
+            <View style={styles.acceptance_container}>
+              <Switch
+                style={styles.acceptanceSwitch}
+                trackColor={{false: '#cecece', true: '#cecece'}}
+                thumbColor={isAcceptance ? markerDefaultGreen : '#a9a9a9'}
+                ios_backgroundColor="#3e3e3e"
+                value={isAcceptance}
+                onValueChange={() => setAcceptance((previus) => !previus)}
+              />
+              <View style={styles.acceptanceText_container}>
+                <View>
+                  <Text style={[styles.acceptanceText]}>
+                    Ho letto, compreso e accettato i
+                  </Text>
+                  <Text
+                    style={[styles.acceptanceLinkText]}
+                    onPress={() => props.navigation.navigate('SignupTerms')}>
+                    termini e condizioni
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-          <View style={styles.button_container}>
-            <LinearGradient
-              colors={['#ce8a86', '#bd6665', '#a92a3f']}
-              style={styles.signUpBtn}>
-              <TouchableOpacity
-                onPress={() => signUp()}
-                disabled={!actionsProvider}>
-                <View style={styles.loginBtnSubView}>
-                  <Text style={styles.loginText}>Registrati</Text>
-                </View>
-              </TouchableOpacity>
-            </LinearGradient>
-            <LinearGradient
-              colors={['#423E3F', '#605D5E', '#7F7C7D']}
-              style={styles.undoBtn}>
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate('LoginStandard')} //SignIn
-                disabled={!actionsProvider}>
-                <View style={styles.loginBtnSubView}>
-                  <Text style={styles.loginText}>Annulla</Text>
-                </View>
-              </TouchableOpacity>
-            </LinearGradient>
-          </View>
+            <View style={styles.button_container}>
+              <LinearGradient
+                colors={['#ce8a86', '#bd6665', '#a92a3f']}
+                style={styles.signUpBtn}>
+                <TouchableOpacity
+                  onPress={() => signUp()}
+                  disabled={!actionsProvider}>
+                  <View style={styles.loginBtnSubView}>
+                    <Text style={styles.loginText}>Registrati</Text>
+                  </View>
+                </TouchableOpacity>
+              </LinearGradient>
+              <LinearGradient
+                colors={['#423E3F', '#605D5E', '#7F7C7D']}
+                style={styles.undoBtn}>
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate('LoginStandard')} //SignIn
+                  disabled={!actionsProvider}>
+                  <View style={styles.loginBtnSubView}>
+                    <Text style={styles.loginText}>Annulla</Text>
+                  </View>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
           </>
         )}
         {isLoading && (
@@ -338,4 +354,3 @@ export function SignUp(props: any) {
     </SafeAreaView>
   );
 }
- 

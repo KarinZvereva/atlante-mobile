@@ -12,6 +12,7 @@ export type MapActionChangeExtraFilter =
   | MapActionsType.CHANGE_FILTER_PROVINCE
   | MapActionsType.CHANGE_BNB_FLAG
   | MapActionsType.CHANGE_REST_FLAG
+  | MapActionsType.CHANGE_EXTRA_FILTER
   | MapActionsType.RESET_EXTRA_FILTER;
 
 export interface IMapActionProvider {
@@ -21,7 +22,7 @@ export interface IMapActionProvider {
   ) => Promise<void>;
   changeExtraFilter: (
     what: MapActionChangeExtraFilter,
-    data: string | boolean,
+    data: string | boolean | IMapExtraFilterData,
   ) => Promise<void>;
 }
 
@@ -51,5 +52,5 @@ export interface MapState {
 export interface MapActions
   extends GenericActions<
     MapActionsType,
-    MapTypes | number | string | boolean
+    MapTypes | number | string | boolean | IMapExtraFilterData
   > {}
