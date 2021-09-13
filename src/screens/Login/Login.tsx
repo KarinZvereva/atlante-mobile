@@ -17,6 +17,7 @@ export function Login(props: any) {
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const {actionsProvider} = useContext(AuthContext);
+  const {data} = useContext(AuthContext);
 
   /**
    *
@@ -69,8 +70,42 @@ export function Login(props: any) {
       });
   };
 
+  /**
+   * Smart Login with credentials stored
+   */
+  const LoginSmart = () => {
+    const userName = data.userName;
+    const password = data.password
+
+    if ( userName && password) {
+      AuthDal.login({userName, password})
+      .then((res) => {
+        if (!res.token || !res.refreshToken) {
+          setError('Dati errati');
+          setIsError(true);
+          setLoading(false);
+          return;
+        }
+
+        if (actionsProvider) {
+          actionsProvider.signIn(res);
+        }
+      })
+      .catch((err) => {
+        console.log(JSON.stringify(err));
+        setError(JSON.stringify(err));
+        setIsError(true);
+        setLoading(false);
+      });
+    }
+  }
+
+
   return (
     <View style={styles.container}>
+      {!data.userToken && data.userName && !isLoading && (
+        LoginSmart()
+      )}
       {!isLoading && (
         <>
           <Image

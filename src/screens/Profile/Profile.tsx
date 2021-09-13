@@ -70,10 +70,11 @@ export function Profile(props: any) {
     .then((result) => {
       //console.log("result",result);
       if (result && result.success) {
-        Alert.alert("Profilo aggiornato");
+        Alert.alert("Profilo aggiornato, effettua nuovamente la login.");
         setShowEdit(false)
         setLoading(false);
         setShowEdit(false);
+        props.navigation.navigate('Logout');
       } else if (result && !result.success) {
         console.log(result.message)
         setError("Impossibile aggiornare l'account");

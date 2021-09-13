@@ -10,3 +10,5 @@ export const defaultRed = 'red';
 
 export const webCaptchaUrl = WEBAPI_URL;
 export const captchaSiteKey="6LfjS1kaAAAAAMchCu1PIhNfO0OeuSEdz8oUgBJt";
+
+export const credentialKey = 'ATLANTE_CREDENTIAL_AUTH_KEY';
