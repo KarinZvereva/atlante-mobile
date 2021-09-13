@@ -1,6 +1,11 @@
 import {MapTypes} from 'react-native-maps';
+import {act} from 'react-test-renderer';
 import {MapActionsType} from './map.constants';
-import {IMapContextData, MapActions} from './map.interface';
+import {
+  IMapContextData,
+  IMapExtraFilterData,
+  MapActions,
+} from './map.interface';
 
 export const InitialMapState: IMapContextData = {
   configuration: {
@@ -71,6 +76,11 @@ export const MapReducer: React.Reducer<IMapContextData, MapActions> = (
           ...prevState.extraFilter,
           withRestaurant: action.payload as boolean,
         },
+      };
+    case MapActionsType.CHANGE_EXTRA_FILTER:
+      return {
+        ...prevState,
+        extraFilter: {...(action.payload as IMapExtraFilterData)},
       };
     case MapActionsType.RESET_EXTRA_FILTER:
       return {

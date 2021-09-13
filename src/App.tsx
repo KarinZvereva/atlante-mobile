@@ -31,6 +31,7 @@ import {MapTypes} from 'react-native-maps';
 import {MapSettings} from './screens/MapSettings/MapSettings';
 import {Profile} from './screens/Profile';
 import {
+  IMapExtraFilterData,
   MapActionChangeConfiguration,
   MapActionChangeExtraFilter,
 } from './common/modules/map/map.interface';
@@ -231,7 +232,7 @@ export default function App() {
       },
       changeExtraFilter: async (
         what: MapActionChangeExtraFilter,
-        data: string | boolean,
+        data: string | boolean | IMapExtraFilterData,
       ) => {
         mapDispatch({type: what, payload: data});
       },

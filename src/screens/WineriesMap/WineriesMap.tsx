@@ -214,6 +214,52 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       loadWineriesFromCoordinates(selectedPosition, searchAroundPointRadius);
   }, [selectedPosition, searchAroundPointRadius]);
 
+  useEffect(() => {
+    let finalFilter = undefined;
+
+    finalFilter =
+      region !== undefined
+        ? `${nameof<Winery>('region')}.ToLower().Contains('${region
+            .trim()
+            .toLowerCase()}')`
+        : undefined;
+
+    finalFilter =
+      finalFilter && province
+        ? `${finalFilter} AND ${nameof<Winery>(
+            'province',
+          )}.ToLower().Contains('${province.trim().toLowerCase()}')`
+        : finalFilter
+        ? `${finalFilter}`
+        : province
+        ? `${nameof<Winery>('province')}.ToLower().Contains('${province
+            .trim()
+            .toLowerCase()}')`
+        : undefined;
+
+    const serviceFilter =
+      withBnB && withRestaurant
+        ? `${nameof<Winery>('services')} = 3`
+        : withBnB
+        ? `${nameof<Winery>('services')} = 1`
+        : withRestaurant
+        ? `${nameof<Winery>('services')} = 2`
+        : undefined;
+
+    finalFilter =
+      finalFilter && serviceFilter
+        ? `${finalFilter} AND ${serviceFilter}`
+        : finalFilter
+        ? finalFilter
+        : serviceFilter
+        ? serviceFilter
+        : undefined;
+
+    console.log(finalFilter);
+    console.log(JSON.stringify({region, province, withBnB, withRestaurant}));
+    if (finalFilter) loadWineriesCallback(finalFilter);
+  }, [province, region, withBnB, withRestaurant]);
+
   return (
     <View style={wineriesMapStyles.pageContainer}>
       <MapView

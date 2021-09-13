@@ -5,13 +5,13 @@ import {
   TextInput,
   ActivityIndicator,
   Image,
+  Switch,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen, images} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './LoginStandard.styles';
-import {Switch} from 'native-base';
 
 export function LoginStandard(props: any) {
   const [userName, setUserName] = useState<string>();
@@ -98,9 +98,7 @@ export function LoginStandard(props: any) {
               value={isRemember}
               onValueChange={() => setRemember((previus) => !previus)}
             />
-            <Text style={[styles.rememberText]}>
-                Ricordami
-            </Text>
+            <Text style={[styles.rememberText]}>Ricordami</Text>
           </View>
           <LinearGradient
             colors={['#ce8a86', '#bd6665', '#a92a3f']}
