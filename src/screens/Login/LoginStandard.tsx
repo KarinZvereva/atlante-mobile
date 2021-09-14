@@ -34,6 +34,7 @@ export function LoginStandard(props: any) {
     setLoading(true);
     AuthDal.login({userName, password})
       .then((res) => {
+        console.log(res)
         if (!res.token || !res.refreshToken) {
           setError('Dati errati');
           setIsError(true);
