@@ -100,4 +100,14 @@ export const mapFiltersStyles = StyleSheet.create({
     marginLeft: 10,
     color: 'white',
   },
+  logo: {
+    width: 40,
+    height: 60,
+    resizeMode: 'contain',
+    position: 'relative',
+    alignSelf: 'center',
+    marginTop: 15,
+    marginRight: 15,
+    marginBottom: 15,
+  },
 });
