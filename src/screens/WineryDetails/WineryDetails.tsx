@@ -239,7 +239,13 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
             <Text style={wineryDetailsStyles.normal_text}>{winery.region}</Text>
           </View>
           {winery.type === WineryType.Wrong_Position && (
-            <View>
+            <View
+              style={{
+                marginTop: 5,
+                alignContent: 'center',
+                alignItems: 'center',
+                alignSelf: 'center',
+              }}>
               <Text style={wineryDetailsStyles.footer_text}>
                 Geolocalizzazione approssimativa
               </Text>
