@@ -24,6 +24,7 @@ import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
 import {MapContext} from '../../common/modules/map/MapContext';
+import {MapActionsType} from '../../common/modules/map/map.constants';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
@@ -55,6 +56,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       configuration: {mapsType, searchAroundMeRadius, searchAroundPointRadius},
       extraFilter: {province, region, withBnB, withRestaurant},
     },
+    actionProvider,
   } = useContext(MapContext);
 
   // Ref
@@ -64,51 +66,54 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
   const navigation = useNavigation();
 
   // Calback
-  const loadWineriesWithFilters = useCallback(
-    (filters?: string) => {
-      setLoading(true);
-      if (wineries) setWineries(undefined);
-      wineryDataDal
-        .get({
-          filter: filters
-            ? `${wineryFilterBase} AND ${filters}`
-            : wineryFilterBase,
-        })
-        .then((result) => {
-          if (result && result.data) {
-            setWineries(result.data.data || []);
-            setLoading(false);
-            if (map && map.current)
-              map.current.fitToCoordinates(
-                result.data.data?.map((r) => ({
-                  latitude: r.location?.latitude!,
-                  longitude: r.location?.longitude!,
-                })),
-                {
-                  animated: true,
-                  edgePadding: {bottom: 10, left: 10, right: 10, top: 10},
-                },
-              );
-          } else {
-            if (result.error) console.error(JSON.stringify(result.error));
-            Alert.alert(`Nessuna cantina trovata!`);
-            setLoading(false);
-          }
-        })
-        .catch((_e) => {
-          Alert.alert(
-            `Connessione con il server non riuscita, riprova in seguito!`,
-          );
-          setLoading(false);
-        });
-    },
-    [wineries],
+  const resetWineries = () => setWineries(undefined);
+  const resetSelectedPosition = () => setSelectedPosition(undefined);
+  const resetExtraFilter = useCallback(
+    () =>
+      actionProvider?.changeExtraFilter(MapActionsType.RESET_EXTRA_FILTER, {}),
+    [actionProvider],
   );
+
+  const loadWineries = useCallback((filters?: string) => {
+    setLoading(true);
+    wineryDataDal
+      .get({
+        filter: filters
+          ? `${wineryFilterBase} AND ${filters}`
+          : wineryFilterBase,
+      })
+      .then((result) => {
+        if (result && result.data) {
+          setWineries(result.data.data || []);
+          setLoading(false);
+          if (map && map.current)
+            map.current.fitToCoordinates(
+              result.data.data?.map((r) => ({
+                latitude: r.location?.latitude!,
+                longitude: r.location?.longitude!,
+              })),
+              {
+                animated: true,
+                edgePadding: {bottom: 10, left: 10, right: 10, top: 10},
+              },
+            );
+        } else {
+          if (result.error) console.error(JSON.stringify(result.error));
+          Alert.alert(`Nessuna cantina trovata!`);
+          setLoading(false);
+        }
+      })
+      .catch((_e) => {
+        Alert.alert(
+          `Connessione con il server non riuscita, riprova in seguito!`,
+        );
+        setLoading(false);
+      });
+  }, []);
 
   const loadWineriesFromCoordinates = useCallback(
     ({latitude, longitude}: LatLng, radius: number = 40) => {
       setLoading(true);
-      if (wineries) setWineries(undefined);
       wineryDataDal
         .around({
           lat: latitude,
@@ -148,8 +153,26 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
           setLoading(false);
         });
     },
-    [wineries, map],
+    [map],
   );
+
+  const initMap = useCallback(() => {
+    Geolocation.getCurrentPosition(
+      ({coords}) => {
+        loadWineriesFromCoordinates(
+          {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+          },
+          120,
+        );
+      },
+      (_error) => {
+        loadWineries();
+      },
+      {enableHighAccuracy: true},
+    );
+  }, [loadWineriesFromCoordinates, loadWineries]);
 
   const gotToMyLocation = useCallback(() => {
     Geolocation.getCurrentPosition(
@@ -192,34 +215,25 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
     );
   }, [loadWineriesFromCoordinates, searchAroundMeRadius]);
 
-  const initMap = useCallback(() => {
-    Geolocation.getCurrentPosition(
-      ({coords}) => {
-        loadWineriesFromCoordinates(
-          {
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-          },
-          120,
-        );
-      },
-      (_error) => {
-        loadWineriesWithFilters();
-      },
-      {enableHighAccuracy: true},
-    );
-  }, [loadWineriesFromCoordinates, loadWineriesWithFilters]);
+  const resetMapState = useCallback(() => {
+    resetExtraFilter();
+    resetSelectedPosition();
+    resetWineries();
+  }, [resetExtraFilter]);
 
-  // Effects
+  /** Effects */
+  // Component did mount
   useEffect(() => {
     initMap();
   }, []);
 
+  // Triggered when the user select a position from pressing the map
   useEffect(() => {
     if (selectedPosition)
       loadWineriesFromCoordinates(selectedPosition, searchAroundPointRadius);
   }, [selectedPosition, searchAroundPointRadius]);
 
+  // Triggered when extra filter are changed from MapFilter page
   useEffect(() => {
     let finalFilter = undefined;
 
@@ -261,7 +275,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         ? serviceFilter
         : undefined;
 
-    if (finalFilter) loadWineriesWithFilters(finalFilter);
+    if (finalFilter) loadWineries(finalFilter);
   }, [province, region, withBnB, withRestaurant]);
 
   return (
@@ -375,7 +389,8 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       <TouchableOpacity
         style={wineriesMapStyles.reloadButton}
         onPress={() => {
-          initMap();
+          resetMapState();
+          loadWineries();
         }}
         disabled={loading}>
         <Image
@@ -385,10 +400,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={wineriesMapStyles.cleanButton}
-        onPress={() => {
-          setWineries(undefined);
-          setSelectedPosition(undefined);
-        }}
+        onPress={() => resetMapState()}
         disabled={loading}>
         <Image
           style={{width: 40, height: 40}}
@@ -405,7 +417,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          setSelectedPosition(undefined);
+          resetMapState();
           filterWithMyPosition();
         }}
         style={wineriesMapStyles.filterMyPositionButton}
@@ -418,8 +430,9 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       <TouchableOpacity
         style={wineriesMapStyles.searchButton}
         onPress={() => {
+          resetMapState();
           search !== ''
-            ? loadWineriesWithFilters(
+            ? loadWineries(
                 `(${nameof<Winery>('name')}.ToLower().Contains('${search
                   .trim()
                   .toLowerCase()}') OR ${nameof<Winery>(
@@ -430,7 +443,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
                   'vigneron',
                 )}.ToLower().Contains('${search.trim().toLowerCase()}'))`,
               )
-            : loadWineriesWithFilters();
+            : loadWineries();
         }}
         disabled={loading}>
         <Image
