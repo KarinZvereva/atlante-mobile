@@ -29,6 +29,8 @@ const getWineryDescription = (type?: WineryType) => {
       ? 'Vignaiolo Itinerante'
       : type === 3
       ? 'Progetto enologico'
+      : type === 6
+      ? 'Cantina con posizione approssimativa'
       : defaultDescription
     : defaultDescription;
 };
@@ -236,6 +238,13 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
             </Text>
             <Text style={wineryDetailsStyles.normal_text}>{winery.region}</Text>
           </View>
+          {winery.type === WineryType.Wrong_Position && (
+            <View>
+              <Text style={wineryDetailsStyles.footer_text}>
+                ATTENZIONE: la posizione geografica della cantina non è esatta
+              </Text>
+            </View>
+          )}
           {winery.services !== undefined && (
             <View
               style={{
