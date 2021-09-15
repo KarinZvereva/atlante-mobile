@@ -78,7 +78,7 @@ export const MapSettings = () => {
             <View
               style={mapSettingsStyles.form_item_container_with_label_inline}>
               <Text style={mapSettingsStyles.option_text_label}>
-                {rangeAroundMe}
+                {rangeAroundMe} km
               </Text>
               <MultiSlider
                 values={[rangeAroundMe]}
@@ -107,7 +107,7 @@ export const MapSettings = () => {
             <View
               style={mapSettingsStyles.form_item_container_with_label_inline}>
               <Text style={mapSettingsStyles.option_text_label}>
-                {rangeAroundP}
+                {rangeAroundP} km
               </Text>
               <MultiSlider
                 values={[rangeAroundP]}
