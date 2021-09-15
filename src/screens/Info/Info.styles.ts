@@ -103,10 +103,10 @@ export const styles = StyleSheet.create({
     color: 'white',
   },
   count_text_label: {
-    fontSize: 17,
+    fontSize: 19,
     fontFamily: 'Novecentosanswide-Bold',
     textAlignVertical: 'center',
     position: 'absolute',
-    right: 20,
+    right: 10,
   },
 });
