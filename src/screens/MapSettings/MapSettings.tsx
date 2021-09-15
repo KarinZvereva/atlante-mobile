@@ -1,8 +1,15 @@
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import React, {useContext, useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, View, Text, Switch} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  Switch,
+  Image,
+} from 'react-native';
 import {MapTypes} from 'react-native-maps';
-import {defaultRed} from '../../common/constants';
+import {defaultRed, images} from '../../common/constants';
 import {MapActionsType} from '../../common/modules/map/map.constants';
 import {MapContext} from '../../common/modules/map/MapContext';
 import {mapSettingsStyles} from './MapSettings.styles';
@@ -43,6 +50,7 @@ export const MapSettings = () => {
       <ScrollView
         style={mapSettingsStyles.scroll_container}
         scrollEnabled={scrollEnabled}>
+        <Image source={images.logo_calice} style={mapSettingsStyles.logo} />
         <View style={mapSettingsStyles.option_container}>
           <View>
             <Text style={mapSettingsStyles.option_title_text}>

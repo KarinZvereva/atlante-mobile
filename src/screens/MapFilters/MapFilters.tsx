@@ -7,9 +7,10 @@ import {
   View,
   Switch,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {defaultRed} from '../../common/constants';
+import {defaultRed, images} from '../../common/constants';
 import {remotePickerBuilder} from '../../common/hoc/pickerFactory/pickerFactory';
 import {MapActionsType} from '../../common/modules/map/map.constants';
 import {MapContext} from '../../common/modules/map/MapContext';
@@ -65,6 +66,7 @@ export const MapFilters: FC = () => {
   return (
     <SafeAreaView style={mapFiltersStyles.page}>
       <ScrollView style={mapFiltersStyles.scroll_container}>
+        <Image source={images.logo_calice} style={mapFiltersStyles.logo} />
         <View style={mapFiltersStyles.option_container}>
           <View>
             <Text style={mapFiltersStyles.option_title_text}>
