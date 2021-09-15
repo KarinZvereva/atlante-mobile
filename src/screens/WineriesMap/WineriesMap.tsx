@@ -63,7 +63,8 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
   // Navigation
   const navigation = useNavigation();
 
-  const loadWineriesCallback = useCallback(
+  // Calback
+  const loadWineriesWithFilters = useCallback(
     (filters?: string) => {
       setLoading(true);
       if (wineries) setWineries(undefined);
@@ -191,7 +192,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
     );
   }, [loadWineriesFromCoordinates, searchAroundMeRadius]);
 
-  useEffect(() => {
+  const initMap = useCallback(() => {
     Geolocation.getCurrentPosition(
       ({coords}) => {
         loadWineriesFromCoordinates(
@@ -203,10 +204,15 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         );
       },
       (_error) => {
-        loadWineriesCallback();
+        loadWineriesWithFilters();
       },
       {enableHighAccuracy: true},
     );
+  }, [loadWineriesFromCoordinates, loadWineriesWithFilters]);
+
+  // Effects
+  useEffect(() => {
+    initMap();
   }, []);
 
   useEffect(() => {
@@ -255,9 +261,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         ? serviceFilter
         : undefined;
 
-    console.log(finalFilter);
-    console.log(JSON.stringify({region, province, withBnB, withRestaurant}));
-    if (finalFilter) loadWineriesCallback(finalFilter);
+    if (finalFilter) loadWineriesWithFilters(finalFilter);
   }, [province, region, withBnB, withRestaurant]);
 
   return (
@@ -371,7 +375,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       <TouchableOpacity
         style={wineriesMapStyles.reloadButton}
         onPress={() => {
-          loadWineriesCallback();
+          initMap();
         }}
         disabled={loading}>
         <Image
@@ -415,7 +419,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         style={wineriesMapStyles.searchButton}
         onPress={() => {
           search !== ''
-            ? loadWineriesCallback(
+            ? loadWineriesWithFilters(
                 `(${nameof<Winery>('name')}.ToLower().Contains('${search
                   .trim()
                   .toLowerCase()}') OR ${nameof<Winery>(
@@ -426,7 +430,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
                   'vigneron',
                 )}.ToLower().Contains('${search.trim().toLowerCase()}'))`,
               )
-            : loadWineriesCallback();
+            : loadWineriesWithFilters();
         }}
         disabled={loading}>
         <Image
