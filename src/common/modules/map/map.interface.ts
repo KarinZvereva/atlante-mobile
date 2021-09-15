@@ -37,6 +37,7 @@ export interface IMapExtraFilterData {
   province?: string;
   withBnB?: boolean;
   withRestaurant?: boolean;
+  //filterReset?: boolean;
 }
 
 export interface IMapContextData {

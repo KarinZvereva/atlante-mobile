@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Picker, PickerProps} from '@react-native-picker/picker';
 import {IDalR, ILookupRepositoryDTO} from '../dalFactory';
 import {View} from 'react-native';
@@ -31,19 +31,33 @@ export const remotePickerBuilder = <E extends {value: string}>(
   dal: IDalR<E>,
 ): React.FC<RemotePickerProps<E>> => {
   return function MyRemotePicker(props: RemotePickerProps<E>) {
+    /** Props */
     const {reader, remoteFilter, ...pickerProps} = props;
+
+    /** States */
     const [items, setItems] = useState<IPickerItem[]>();
     const [dataReader, setDataReader] = useState<IDalR<E>>(reader || dal);
+    const isMounted = useRef<boolean>(true);
 
+    /** Callbacks */
     const loadDataClbk = useCallback(async () => {
       try {
         const result = await dataReader.get<E[]>(remoteFilter);
-        if (result && result.data)
+        if (result && result.data && isMounted.current)
           setItems(result.data.map((r) => ({label: r.value, value: r.value})));
       } catch (err) {
         console.error(JSON.stringify(err));
       }
     }, [dataReader, remoteFilter]);
+
+    /** Effects */
+    useEffect(() => {
+      isMounted.current = true;
+      loadDataClbk();
+      return () => {
+        isMounted.current = false;
+      };
+    }, []);
 
     useEffect(() => {
       setDataReader(dataReader);
@@ -52,10 +66,6 @@ export const remotePickerBuilder = <E extends {value: string}>(
     useEffect(() => {
       loadDataClbk();
     }, [loadDataClbk]);
-
-    useEffect(() => {
-      loadDataClbk();
-    }, []);
 
     return (
       <View style={{width: '100%'}}>

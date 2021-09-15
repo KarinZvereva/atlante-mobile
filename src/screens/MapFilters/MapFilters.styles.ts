@@ -75,22 +75,11 @@ export const mapFiltersStyles = StyleSheet.create({
     bottom: 15,
   },
   saveBtn: {
-    width: '40%',
+    width: '80%',
     borderRadius: 25,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 0,
-    marginRight: 5,
-  },
-  undoBtn: {
-    width: '40%',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 0,
-    marginLeft: 5,
   },
   buttonText: {
     color: 'white',

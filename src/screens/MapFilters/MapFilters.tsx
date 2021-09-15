@@ -20,6 +20,13 @@ const ProvincePicker = remotePickerBuilder(provinceDal);
 const RegionPicker = remotePickerBuilder(regionDal);
 
 export const MapFilters: FC = () => {
+  // State
+  const [_province, setProvince] = useState<string>();
+  const [_region, setRegion] = useState<string>();
+  const [_withBnB, setWithBnB] = useState<boolean>();
+  const [_withRestaurant, setWithRestaurant] = useState<boolean>();
+  const [regionDisabled, setRegionDisabled] = useState(false);
+
   // Context
   const {
     data: {
@@ -28,23 +35,8 @@ export const MapFilters: FC = () => {
     actionProvider,
   } = useContext(MapContext);
 
-  // State
-  const [_province, setProvince] = useState(province);
-  const [_region, setRegion] = useState(region);
-  const [_withBnB, setWithBnB] = useState(withBnB);
-  const [_withRestaurant, setWithRestaurant] = useState(withRestaurant);
-  const [regionDisabled, setRegionDisabled] = useState(false);
-
   // Navigation
   const navigator = useNavigation();
-
-  // Callback
-  const onResetFilters = useCallback(() => {
-    setProvince(undefined);
-    setRegion(undefined);
-    setWithBnB(undefined);
-    setWithRestaurant(undefined);
-  }, []);
 
   const onApplyFilters = useCallback(() => {
     actionProvider?.changeExtraFilter(MapActionsType.CHANGE_EXTRA_FILTER, {
@@ -53,10 +45,18 @@ export const MapFilters: FC = () => {
       withBnB: _withBnB,
       withRestaurant: _withRestaurant,
     });
+    // setClosePage(true);
     navigator.goBack();
   }, [actionProvider, _region, _province, _withBnB, _withRestaurant]);
 
   // Effects
+  useEffect(() => {
+    setProvince(province);
+    setRegion(region);
+    setWithBnB(withBnB);
+    setWithRestaurant(withRestaurant);
+  }, []);
+
   useEffect(() => {
     if (_province && !_region) setRegionDisabled(true);
     else if (regionDisabled) setRegionDisabled(false);
@@ -141,15 +141,6 @@ export const MapFilters: FC = () => {
           <TouchableOpacity onPress={onApplyFilters}>
             <View style={mapFiltersStyles.modifyBtnSubView}>
               <Text style={mapFiltersStyles.buttonText}>Applica</Text>
-            </View>
-          </TouchableOpacity>
-        </LinearGradient>
-        <LinearGradient
-          colors={['#423E3F', '#605D5E', '#7F7C7D']}
-          style={mapFiltersStyles.undoBtn}>
-          <TouchableOpacity onPress={onResetFilters}>
-            <View style={mapFiltersStyles.modifyBtnSubView}>
-              <Text style={mapFiltersStyles.buttonText}>Azzera</Text>
             </View>
           </TouchableOpacity>
         </LinearGradient>
