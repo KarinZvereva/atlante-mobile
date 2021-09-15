@@ -147,12 +147,20 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
               }}>
               <RoundImageButton
                 borderRadius={30}
-                image={icons.tel_popup}
+                image={
+                  winery.telephone && winery.telephone !== ''
+                    ? icons.tel_popup
+                    : icons.tel_popup_bn
+                }
                 onPress={() =>
-                  winery.telephone && openLink(`tel:${winery.telephone}`)
+                  winery.telephone &&
+                  winery.telephone !== '' &&
+                  openLink(`tel:${winery.telephone}`)
                 }
               />
-              <Text style={wineryDetailsStyles.small_text}>Chiama</Text>
+              <Text style={wineryDetailsStyles.small_text}>
+                {winery.telephone && winery.telephone !== '' ? 'Chiama' : '---'}
+              </Text>
             </View>
             <View
               style={{
@@ -162,10 +170,18 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
               }}>
               <RoundImageButton
                 borderRadius={30}
-                image={icons.mail_popup}
-                onPress={() => winery.email && sendEmail(winery.email)}
+                image={
+                  winery.email && winery.email !== ''
+                    ? icons.mail_popup
+                    : icons.mail_popup_bn
+                }
+                onPress={() =>
+                  winery.email && winery.email !== '' && sendEmail(winery.email)
+                }
               />
-              <Text style={wineryDetailsStyles.small_text}>Scrivi</Text>
+              <Text style={wineryDetailsStyles.small_text}>
+                {winery.email && winery.email !== '' ? 'Scrivi' : '---'}
+              </Text>
             </View>
             <View
               style={{
@@ -175,12 +191,20 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
               }}>
               <RoundImageButton
                 borderRadius={30}
-                image={icons.web_popup}
+                image={
+                  winery.webSite && winery.webSite !== ''
+                    ? icons.web_popup
+                    : icons.web_popup_BN
+                }
                 onPress={() =>
-                  winery.webSite && openLink(correctWebsiteUrl(winery.webSite))
+                  winery.webSite &&
+                  winery.webSite !== '' &&
+                  openLink(correctWebsiteUrl(winery.webSite))
                 }
               />
-              <Text style={wineryDetailsStyles.small_text}>Web</Text>
+              <Text style={wineryDetailsStyles.small_text}>
+                {winery.webSite && winery.webSite !== '' ? 'Web' : '---'}
+              </Text>
             </View>
             <View
               style={{
