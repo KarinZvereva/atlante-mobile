@@ -55,7 +55,7 @@ export const wineryDetailsStyles = StyleSheet.create({
   },
   wrong_position_text: {
     fontSize: 14,
-    fontFamily: 'Novecentosanswide-Normal',
+    fontFamily: 'Novecentosanswide-Bold',
   },
   winery_type_text: {fontSize: 18, fontFamily: 'Novecentosanswide-Bold'},
 });
