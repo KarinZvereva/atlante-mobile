@@ -83,5 +83,20 @@
 		<string>Novecentosanswide-Medium.otf</string>
 		<string>Novecentosanswide-Normal.otf</string>
 	</array>
+
+	<key>CFBundleURLTypes</key>
+	<array>
+	<dict>
+	<key>CFBundleURLSchemes</key>
+	<array>
+		<string>fb439436473797940</string>
+	</array>
+	</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>439436473797940</string>
+	<key>FacebookDisplayName</key>
+	<string>NaTourWine</string>
+
 </dict>
 </plist>
