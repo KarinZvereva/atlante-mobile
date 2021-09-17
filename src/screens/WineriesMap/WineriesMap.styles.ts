@@ -10,6 +10,10 @@ export const wineriesMapStyles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  map_ios: {
+    ...StyleSheet.absoluteFillObject,
+    top: 100,
+  },
   onLoading: {
     flex: 1,
     alignItems: 'center',
@@ -48,6 +52,17 @@ export const wineriesMapStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  reloadButton_ios: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    top: 120,
+    right: 20,
+    borderRadius: 30,
+    backgroundColor: '#d2d2d2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   mapSwitch: {
     position: 'absolute',
     top: 80,
@@ -58,6 +73,17 @@ export const wineriesMapStyles = StyleSheet.create({
     height: 40,
     position: 'absolute',
     top: 70,
+    right: 65,
+    borderRadius: 30,
+    backgroundColor: '#d2d2d2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cleanButton_ios: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    top: 120,
     right: 65,
     borderRadius: 30,
     backgroundColor: '#d2d2d2',
@@ -89,6 +115,11 @@ export const wineriesMapStyles = StyleSheet.create({
   infoMapsButton: {
     position: 'absolute',
     top: 70,
+    left: 20,
+  },
+  infoMapsButton_ios: {
+    position: 'absolute',
+    top: 120,
     left: 20,
   },
 });
