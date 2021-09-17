@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
-import {View, Text, Image, Linking} from 'react-native';
+import {View, Text, Image, Linking, SafeAreaView} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {icons, images} from '../../common/constants';
@@ -28,7 +28,7 @@ export function Home(props: IRouteProps) {
   }, []);
 
   return (
-    <View style={homeStyles.page}>
+    <SafeAreaView style={homeStyles.page}>
       <View>
         <Header {...props} showName="Home" />
       </View>
@@ -99,6 +99,6 @@ export function Home(props: IRouteProps) {
           />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
