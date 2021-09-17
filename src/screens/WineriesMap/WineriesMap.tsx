@@ -7,8 +7,9 @@ import {
   TextInput,
   Alert,
   Platform,
+  SafeAreaView,
 } from 'react-native';
-import MapView, {LatLng, Region} from 'react-native-maps';
+import MapView, {LatLng, PROVIDER_GOOGLE, Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
 import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
@@ -279,10 +280,11 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
   }, [province, region, withBnB, withRestaurant]);
 
   return (
-    <View style={wineriesMapStyles.pageContainer}>
+    <SafeAreaView style={wineriesMapStyles.pageContainer}>
       <MapView
         initialRegion={InitialRegion}
-        style={wineriesMapStyles.map}
+        style={Platform.OS == 'android' 
+            ? wineriesMapStyles.map : wineriesMapStyles.map_ios}
         ref={map}
         showsUserLocation={true}
         onLongPress={(event) => {
@@ -378,7 +380,8 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         </View>
       )}
       <TouchableOpacity
-        style={wineriesMapStyles.infoMapsButton}
+        style={Platform.OS == 'android' 
+            ? wineriesMapStyles.infoMapsButton : wineriesMapStyles.infoMapsButton_ios}
         onPress={() => navigation.navigate('MapsInfo')}
         disabled={loading}>
         <Image
@@ -387,7 +390,8 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        style={wineriesMapStyles.reloadButton}
+        style={Platform.OS == 'android' 
+            ? wineriesMapStyles.reloadButton : wineriesMapStyles.reloadButton_ios}
         onPress={() => {
           resetMapState();
           loadWineries();
@@ -399,7 +403,8 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        style={wineriesMapStyles.cleanButton}
+        style={Platform.OS == 'android' 
+            ? wineriesMapStyles.cleanButton : wineriesMapStyles.cleanButton_ios}
         onPress={() => resetMapState()}
         disabled={loading}>
         <Image
@@ -461,6 +466,6 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
           style={{fontFamily: 'Novecentosanswide-Normal'}}
         />
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
