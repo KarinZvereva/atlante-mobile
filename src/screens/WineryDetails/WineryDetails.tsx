@@ -241,15 +241,27 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
           {winery.type === WineryType.Wrong_Position && (
             <View
               style={{
-                marginLeft: 15,
+                position: 'absolute',
+                bottom: 70,
+                left: 10,
                 flexDirection: 'column',
+                borderRadius: 20,
+                backgroundColor: '#981731',
+                padding: 8,
               }}>
-              <Text style={wineryDetailsStyles.wrong_position_text}>
-                Geolocalizzazione
-              </Text>
-              <Text style={wineryDetailsStyles.wrong_position_text}>
-                approssimativa
-              </Text>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text style={wineryDetailsStyles.wrong_position_text}>
+                  Geolocalizzazione
+                </Text>
+                <Text style={wineryDetailsStyles.wrong_position_text}>
+                  approssimativa
+                </Text>
+              </View>
             </View>
           )}
           {winery.services !== undefined && (
