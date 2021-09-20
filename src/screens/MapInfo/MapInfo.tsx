@@ -72,8 +72,8 @@ export const MapInfo = React.memo(() => {
             nel raggio di 120 km dalla posizione rilevata.
           </Text>
           <Text style={mapsInfoStyles.search_text}>
-            Per visualizzare la mappa completa è sufficente premere sul pulsante
-            di reload.
+            Per visualizzare la mappa completa è sufficiente premere sul
+            pulsante di reload.
           </Text>
           <Text style={mapsInfoStyles.search_text}>
             Per poter usufruire di alcune funzionalità della mappa è necessario
