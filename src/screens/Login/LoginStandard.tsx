@@ -89,7 +89,7 @@ export function LoginStandard(props: any) {
             <TouchableOpacity
               onPress={() => props.navigation.navigate('SignUp')}>
               <Text style={styles.linkText}>
-                Non hai un utente? Registrati!
+                Non hai un account? Registrati!
               </Text>
             </TouchableOpacity>
           </View>
