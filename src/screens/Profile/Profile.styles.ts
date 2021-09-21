@@ -35,14 +35,31 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Novecentosanswide-Normal',
     textAlign: 'center',
-    margin: 10,
   },
-  modifyBtn: {
+  deleteFbBtn: {
     width: '60%',
     borderRadius: 25,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  modifyBtn: {
+    width: '40%',
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+    marginRight : 5,
+  },
+  deleteBtn: {
+    width: '40%',
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+    marginLeft: 5,
   },
   buttonText: {
     color: 'white',
@@ -105,5 +122,8 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
   },
   recaptcha_container: {
+  },
+  divider: {
+    marginVertical: 10,
   },
 });
