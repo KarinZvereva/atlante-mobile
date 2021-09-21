@@ -5,8 +5,6 @@ const restoreAccountBuilder = () => <RestoreApiInputData, RestoreApiOutputData>(
   action: string,
 ) => async (input: RestoreApiInputData): Promise<RestoreApiOutputData> => {
   try {
-    console.log("uri", `${webApiBaseUrl}/${action}`);
-    console.log("Data", input);
     const response = await fetch(`${webApiBaseUrl}/${action}`, {
       method: 'POST',
       headers: {

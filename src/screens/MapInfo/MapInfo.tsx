@@ -14,14 +14,14 @@ export const MapInfo = React.memo(() => {
         <View style={mapsInfoStyles.centered_container}>
           <View style={mapsInfoStyles.info_row}>
             <RoundImageButton borderRadius={20} image={icons.touch} />
-            <View style={mapsInfoStyles.divider}></View>
+            <View style={mapsInfoStyles.horizontal_divider_5}></View>
             <Text style={mapsInfoStyles.info_row_text}>
               Premi all'interno del pop-up e visualizza la scheda della cantina
             </Text>
           </View>
           <View style={mapsInfoStyles.info_row}>
             <RoundImageButton borderRadius={20} image={icons.touch} />
-            <View style={mapsInfoStyles.divider}></View>
+            <View style={mapsInfoStyles.horizontal_divider_5}></View>
             <Text style={mapsInfoStyles.info_row_text}>
               Tieni premuto su un punto della mappa e visualizza solo le cantine
               vicine
@@ -29,14 +29,14 @@ export const MapInfo = React.memo(() => {
           </View>
           <View style={mapsInfoStyles.info_row}>
             <Image source={icons.posizione} style={mapsInfoStyles.info_image} />
-            <View style={mapsInfoStyles.divider} />
+            <View style={mapsInfoStyles.horizontal_divider_5} />
             <Text style={mapsInfoStyles.info_row_text}>
               Centra la mappa sulla tua posizione rilevata dal GPS
             </Text>
           </View>
           <View style={mapsInfoStyles.info_row}>
             <Image source={icons.intorno} style={mapsInfoStyles.info_image} />
-            <View style={mapsInfoStyles.divider} />
+            <View style={mapsInfoStyles.horizontal_divider_5} />
             <Text style={mapsInfoStyles.info_row_text}>
               Visualizza solo le cantine situate nell'intorno della tua
               posizione
@@ -44,15 +44,15 @@ export const MapInfo = React.memo(() => {
           </View>
           <View style={mapsInfoStyles.info_row}>
             <Image source={icons.cerca} style={mapsInfoStyles.info_image} />
-            <View style={mapsInfoStyles.divider} />
+            <View style={mapsInfoStyles.horizontal_divider_5} />
             <Text style={mapsInfoStyles.info_row_text}>
-              Ricerca e visualizza le cantine per nome, ove presente anche per
-              vignaiolo
+              Ricerca e visualizza le cantine per nome o per vignaiolo, se
+              presente
             </Text>
           </View>
           <View style={mapsInfoStyles.info_row}>
             <Image source={icons.reload} style={mapsInfoStyles.info_image} />
-            <View style={mapsInfoStyles.divider} />
+            <View style={mapsInfoStyles.horizontal_divider_5} />
             <Text style={mapsInfoStyles.info_row_text}>
               Effettua il reset/reload della mappa
             </Text>
@@ -62,11 +62,12 @@ export const MapInfo = React.memo(() => {
               source={icons.clean_maps}
               style={mapsInfoStyles.info_image}
             />
-            <View style={mapsInfoStyles.divider}></View>
+            <View style={mapsInfoStyles.horizontal_divider_5}></View>
             <Text style={mapsInfoStyles.info_row_text}>
               Nascondi le cantine sulla mappa
             </Text>
           </View>
+          <View style={mapsInfoStyles.vertical_divider_10} />
           <Text style={mapsInfoStyles.search_text}>
             Con GPS attivo, all'apertura, vengono visualizzate solo le cantine
             nel raggio di 120 km dalla posizione rilevata.
