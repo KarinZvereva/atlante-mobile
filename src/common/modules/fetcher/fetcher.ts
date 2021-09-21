@@ -1,7 +1,20 @@
-import {AuthTokenManager} from '../auth';
+import {AuthDal, AuthTokenManager} from '../auth';
 
 const updateOptions = async (options: RequestInit) => {
-  const token = await AuthTokenManager.getToken();
+  let token = await AuthTokenManager.getToken();
+  if (AuthTokenManager.isExpiredToken(token)) {
+    try {
+      const refreshToken = await AuthTokenManager.getRefreshToken();
+      const refreshResult = await AuthDal.refresh({token, refreshToken});
+      if (refreshResult && refreshResult.token && refreshResult.refreshToken) {
+        await AuthTokenManager.updateTokenData(refreshResult);
+        token = refreshResult.token;
+      }
+    } catch (e) {
+      console.error(JSON.stringify(e));
+    }
+  }
+
   const update = {...options};
   if (token) {
     update.headers = {

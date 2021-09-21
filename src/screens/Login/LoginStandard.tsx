@@ -34,7 +34,6 @@ export function LoginStandard(props: any) {
     setLoading(true);
     AuthDal.login({userName, password})
       .then((res) => {
-        console.log(res)
         if (!res.token || !res.refreshToken) {
           setError('Dati errati');
           setIsError(true);
@@ -90,7 +89,7 @@ export function LoginStandard(props: any) {
             <TouchableOpacity
               onPress={() => props.navigation.navigate('SignUp')}>
               <Text style={styles.linkText}>
-                Non hai un utente? Registrati!
+                Non hai un account? Registrati!
               </Text>
             </TouchableOpacity>
           </View>

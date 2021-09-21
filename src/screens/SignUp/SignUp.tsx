@@ -151,7 +151,7 @@ export function SignUp(props: any) {
     if (userName) {
       AuthDal.checkRegister({data, what})
         .then((result) => {
-          if (result && !result.available) {
+          if (result && !result.available && result.is_active) {
             setUserNameAvailable(false);
             setError('Username già utilizzato');
             setIsError(true);
@@ -187,7 +187,7 @@ export function SignUp(props: any) {
     if (email) {
       AuthDal.checkRegister({data, what})
         .then((result) => {
-          if (result && !result.available) {
+          if (result && !result.available && result.is_active) {
             setEmaiAvailable(false);
             setError('Email già utilizzata');
             setIsError(true);
