@@ -169,7 +169,8 @@ export interface RegisterApiInputData {
  */
  export interface CheckRegisterApiOutputData {
   available?: boolean;
-  error?: boolean; 
+  error?: boolean;
+  is_active?: boolean;
 }
 
 
@@ -194,6 +195,29 @@ export interface RegisterApiInputData {
   success?: boolean | null;
   message?: string | null;
 }
+
+/**
+ * Delete Profile Api Input DTO
+ */
+ export interface ProfileDeleteApiInputData {
+  /**
+   * Captcha token for validating registration request
+   */
+  captcha?: string;
+}
+
+/**
+ * Delete Profile Api Output DTO
+ */
+ export interface ProfileDeleteApiOutputData {
+  /**
+   * Result success delete request
+   */
+  success?: boolean | null;
+  message?: string | null;
+}
+
+
 
 
 

@@ -28,6 +28,7 @@ export function Profile(props: any) {
   const [error, setError] = useState<string>('');
   const [showEdit, setShowEdit] = useState<boolean>(false);
   const recaptcha = useRef<RecaptchaHandles>(null);
+  const [isDelete, setDelete] = useState<boolean>(false);
 
   /**
    * 
@@ -54,7 +55,7 @@ export function Profile(props: any) {
    *
    * @param captcha
    */
-   const sendData = (captcha: string) => {
+   const sendUpdateData = (captcha: string) => {
     const userData = {      
       password: password,
       firstName: firstName,
@@ -68,7 +69,6 @@ export function Profile(props: any) {
     const token = actionsProvider.data.userToken != null ? actionsProvider.data.userToken : ""; 
     ProfileDal.update({userData, captcha}, token)
     .then((result) => {
-      //console.log("result",result);
       if (result && result.success) {
         Alert.alert("Profilo aggiornato, effettua nuovamente la login.");
         setShowEdit(false)
@@ -76,7 +76,6 @@ export function Profile(props: any) {
         setShowEdit(false);
         props.navigation.navigate('Logout');
       } else if (result && !result.success) {
-        console.log(result.message)
         setError("Impossibile aggiornare l'account");
         setIsError(true);
         setLoading(false);
@@ -84,7 +83,48 @@ export function Profile(props: any) {
       }
     })
     .catch((err) => {
-      console.log('Error', err);
+      console.log(JSON.stringify(err));
+      setError(JSON.stringify(err));
+      setIsError(true);
+      setLoading(false);
+    });
+  };
+
+  /**
+   * 
+   * @returns 
+   */
+  const Delete = () => {
+    setDelete(true);
+    recaptcha.current?.open();
+  };
+
+/**
+   *
+   * @param captcha
+   */
+  const sendDeleteData = (captcha: string) => {
+    setError('');
+    setIsError(false);
+    setLoading(true);
+
+    const token = actionsProvider.data.userToken != null ? actionsProvider.data.userToken : ""; 
+    ProfileDal.delete({captcha}, token)
+    .then((result) => {
+      if (result && result.success) {
+        Alert.alert("Account eliminato");
+        setShowEdit(false)
+        setLoading(false);
+        setShowEdit(false);
+        props.navigation.navigate('Logout');
+      } else if (result && !result.success) {
+        setError("Impossibile eliminare l'account");
+        setIsError(true);
+        setLoading(false);
+        return;
+      }
+    })
+    .catch((err) => {
       console.log(JSON.stringify(err));
       setError(JSON.stringify(err));
       setIsError(true);
@@ -97,10 +137,18 @@ export function Profile(props: any) {
    *
    * @param token
    */
-   const onVerify = (token: string) => {
-    const captcha = token;
-    sendData(token);
+   const onVerifyUpdate = (token: string) => {
+    sendUpdateData(token);
   };
+
+  /**+
+   *
+   * @param token
+   */
+   const onVerifyDelete = (token: string) => {
+    sendDeleteData(token);
+  };
+
 
   /**
    *
@@ -121,6 +169,28 @@ export function Profile(props: any) {
     setLoading(false);
   };
 
+  const showAlert = () =>
+    Alert.alert(
+    "Eliminazione account",
+    "Confermi l'eliminazione dell'account?",
+    [
+      {
+        text: "Elimina",
+        onPress: () => Delete(),
+        style: "cancel",
+      },
+      {
+        text: "Annulla",
+        style: "cancel",
+      },
+    ],
+    {
+      cancelable: true,
+      onDismiss: () => {}
+    }
+  );
+
+
   return (
     <SafeAreaView style={styles.container}>
       <Header {...props} showName="Profilo Utente" />
@@ -132,22 +202,50 @@ export function Profile(props: any) {
       </View>
       { (!showEdit && !isFacebookAutenticated) &&
       <View style={styles.modify_profile_container}>
-        <LinearGradient
-          colors={['#ce8a86', '#bd6665', '#a92a3f']}
-          style={styles.modifyBtn}>
-          <TouchableOpacity
-            onPress={() => setShowEdit(true)}
-            disabled={!actionsProvider}>
-            <View style={styles.modifyBtnSubView}>
-              <Text style={styles.buttonText}>Modifica</Text>
-            </View>
-          </TouchableOpacity>
-        </LinearGradient>
+        <View style={styles.button_container}>
+          <LinearGradient
+            colors={['#ce8a86', '#bd6665', '#a92a3f']}
+            style={styles.modifyBtn}>
+            <TouchableOpacity
+              onPress={() => setShowEdit(true)}
+              disabled={!actionsProvider}>
+              <View style={styles.modifyBtnSubView}>
+                <Text style={styles.buttonText}>Modifica</Text>
+              </View>
+            </TouchableOpacity>
+          </LinearGradient>
+          <LinearGradient
+            colors={['#423E3F', '#605D5E', '#7F7C7D']}
+            style={styles.deleteBtn}>
+            <TouchableOpacity
+              onPress={() => showAlert()}
+              disabled={!actionsProvider}>
+              <View style={styles.modifyBtnSubView}>
+                <Text style={styles.buttonText}>Elimina</Text>
+              </View>
+            </TouchableOpacity>
+          </LinearGradient>
+        </View>
       </View>
       }
       {(isFacebookAutenticated) &&
       <View style={styles.modify_profile_container}>
+        <View style={styles.button_container}>
+          <LinearGradient
+            colors={['#423E3F', '#605D5E', '#7F7C7D']}
+            style={styles.deleteFbBtn}>
+            <TouchableOpacity
+              onPress={() => showAlert()}
+              disabled={!actionsProvider}>
+              <View style={styles.modifyBtnSubView}>
+                <Text style={styles.buttonText}>Elimina</Text>
+              </View>
+            </TouchableOpacity>
+          </LinearGradient>
+        </View>
+        <View style={styles.divider}></View>
         <Text style={styles.facebook_text}>Non è possibile modificare il profilo</Text>
+        <View style={styles.divider}></View>
         <Text style={styles.facebook_text}>Le informazioi sopra riportate provengono da Facebook</Text>
       </View>
       }   
@@ -229,7 +327,7 @@ export function Profile(props: any) {
           ref={recaptcha}
           siteKey={captchaSiteKey}
           baseUrl={webCaptchaUrl}
-          onVerify={onVerify}
+          onVerify={isDelete ? onVerifyDelete : onVerifyUpdate}
           onExpire={onExpire}
           onError={onError}
           size="invisible"
