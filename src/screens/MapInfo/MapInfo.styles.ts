@@ -34,7 +34,7 @@ export const mapsInfoStyles = StyleSheet.create({
   },
   info_row: {
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    //paddingHorizontal: 30,
     marginHorizontal: 25,
     marginVertical: 10,
     fontSize: 13,
@@ -45,18 +45,23 @@ export const mapsInfoStyles = StyleSheet.create({
     borderRadius: 30,
     resizeMode: 'contain',
   },
-  divider: {
+  horizontal_divider_5: {
     marginHorizontal: 5,
   },
   info_row_text: {
     width: '100%',
+    paddingRight: 25,
     textAlignVertical: 'center',
     fontFamily: 'Novecentosanswide-Normal',
+  },
+  vertical_divider_10: {
+    marginVertical: 10,
   },
   search_text: {
     fontSize: 13,
     fontFamily: 'Novecentosanswide-Bold',
     marginTop: 10,
+    paddingRight: 25,
     alignSelf: 'center',
     textAlign: 'center',
     alignContent: 'center',
