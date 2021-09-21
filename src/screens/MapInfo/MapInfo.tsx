@@ -46,8 +46,8 @@ export const MapInfo = React.memo(() => {
             <Image source={icons.cerca} style={mapsInfoStyles.info_image} />
             <View style={mapsInfoStyles.divider} />
             <Text style={mapsInfoStyles.info_row_text}>
-              Ricerca e visualizza le cantine per nome, ove presente anche per
-              vignaiolo
+              Ricerca e visualizza le cantine per nome o per vignaiolo, se
+              presente
             </Text>
           </View>
           <View style={mapsInfoStyles.info_row}>

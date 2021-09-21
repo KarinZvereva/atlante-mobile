@@ -22,10 +22,12 @@ export const mapsInfoStyles = StyleSheet.create({
   scroll_container: {
     flex: 1,
     marginHorizontal: 10,
+    width: '100%',
   },
   centered_container: {
     flex: 1,
     top: 80,
+    width: '100%',
     alignContent: 'center',
     alignItems: 'center',
     minHeight: screenHeight - 80,
