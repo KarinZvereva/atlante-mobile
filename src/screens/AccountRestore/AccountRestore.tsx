@@ -89,6 +89,7 @@ export function AccountRestore(props: any) {
   const [error, setError] = useState<string>('');
   const recaptcha = useRef<RecaptchaHandles>(null);
   const [isEmailAvailable, setEmaiAvailable] = useState<boolean>(true);
+  const [isUserActive, setUserActive] = useState<boolean>(true);
   
   const restore = () => {
     if (!email) {
@@ -97,6 +98,10 @@ export function AccountRestore(props: any) {
       return;
     } else if ( !isEmailAvailable) {
       setError('Email non presente');
+      setIsError(true);
+      return;
+    } else if ( !isUserActive) {
+      setError('Email associata ad un account non attivo');
       setIsError(true);
       return;
     }
@@ -167,9 +172,6 @@ export function AccountRestore(props: any) {
     setLoading(false);
   };
 
-
-
-
    /**
    * 
    */
@@ -181,12 +183,20 @@ export function AccountRestore(props: any) {
       setError('');
       setIsError(false);
 
+      setEmaiAvailable(true);
+      setUserActive(true);
+
       if (email) {
         AuthDal.checkRegister({data, what})
         .then((result) => {
-          if (result && result.available) {
+          console.log(result)
+          if (result && result.available && (result.is_active == null) ) {
             setEmaiAvailable(false);
             setError('Email non presente');
+            setIsError(true);
+          } else if (result && !result.available && !result.is_active) {
+            setUserActive(false);
+            setError('Email associata ad un account non attivo');
             setIsError(true);
           } else if (result && result.error) {
             setEmaiAvailable(false);
@@ -212,7 +222,6 @@ export function AccountRestore(props: any) {
           <View style={styles.image_container}>
             <Image source={images.logo_calice} style={styles.logo} />
           </View>
-
           <View style={styles.input_container}>
             <View style={styles.inputView}>
               <TextInput
@@ -224,7 +233,6 @@ export function AccountRestore(props: any) {
               />
             </View>
           </View> 
-
           <View>
             <Recaptcha
               ref={recaptcha}
