@@ -119,17 +119,13 @@ export function AccountRestore(props: any) {
     setIsError(false);
     setLoading(true);
 
-
-    console.log("Data", {email, captcha})
     RestoreDal.restore({email, captcha})
     .then((result) => {
-      console.log("result",result);
       if (result && result.success) {
         Alert.alert(`Verifica la mail per ripristinare l'account`);
         setLoading(false);
         props.navigation.navigate('SignIn');
       } else if (result && !result.success) {
-        console.log(result.message)
         setError("Impossibile recuperare l'account");
         setIsError(true);
         setLoading(false);
@@ -137,8 +133,6 @@ export function AccountRestore(props: any) {
       }
     })
     .catch((err) => {
-      console.log('Error', err);
-      console.log(JSON.stringify(err));
       setError(JSON.stringify(err));
       setIsError(true);
       setLoading(false);
@@ -168,7 +162,9 @@ export function AccountRestore(props: any) {
    * @param error
    */
   const onError = (error: string) => {
-    console.log("Non è stato possibile verificare l'identità. Recaptcha onError...", error);
+    setError("Non è stato possibile verificare l'identità. Captcha error");
+    setIsError(true);
+    setLoading(false);
   };
 
 
@@ -199,7 +195,6 @@ export function AccountRestore(props: any) {
           }
         })
         .catch((err) => {
-          console.log('Error', err);
           console.log(JSON.stringify(err));
           setError(JSON.stringify(err));
           setIsError(true);
