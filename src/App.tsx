@@ -1,5 +1,5 @@
-import React, {useEffect, useMemo, useReducer} from 'react';
-import {Image, StyleSheet, Text} from 'react-native';
+import React, {useEffect, useMemo, useReducer, useRef} from 'react';
+import {AppState, AppStateStatus, Image, StyleSheet, Text} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -13,6 +13,7 @@ import {
   AuthTokenManager,
   InitialAuthState,
   AuthCredentialManager,
+  AuthDal,
 } from './common/modules/auth';
 import {LoginApiInputData, LoginApiOutputData} from './common/interfaces';
 import SplashScreen from 'react-native-splash-screen';
@@ -168,19 +169,20 @@ const PrivateNavigation = () => {
 export default function App() {
   const [authState, authDispatch] = useReducer(AuthReducer, InitialAuthState);
   const [mapState, mapDispatch] = useReducer(MapReducer, InitialMapState);
+  const appState = useRef(AppState.currentState);
 
   useEffect(() => {
     const bootstrapAsync = async () => {
       const userToken = await AuthTokenManager.getLoginDataObj();
       const credential = await AuthCredentialManager.getCredential();
-      
+
       if (!AuthTokenManager.isExpiredToken(userToken?.token))
         authDispatch({
           type: AuthActionsType.RESTORE_TOKEN,
           token: userToken?.token,
           refreshToken: userToken?.refreshToken,
         });
-      else if (credential != null) 
+      else if (credential != null)
         authDispatch({
           type: AuthActionsType.RESTORE_CREDENTIAL,
           userName: credential?.userName,
@@ -189,7 +191,33 @@ export default function App() {
       else authDispatch({type: AuthActionsType.SIGN_OUT});
     };
 
+    const subscription = (nextAppState: AppStateStatus) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        AuthTokenManager.getLoginDataObj().then((userToken) => {
+          if (userToken) {
+            if (AuthTokenManager.isExpiredToken(userToken?.token)) {
+              AuthDal.refresh(userToken).then((refreshResult) => {
+                const {token, refreshToken} = refreshResult;
+                if (token && refreshToken) {
+                  authActionProvider.refresh(refreshResult);
+                }
+              });
+            }
+          }
+        });
+      }
+
+      appState.current = nextAppState;
+    };
+
     bootstrapAsync();
+    AppState.addEventListener('change', subscription);
+    return () => {
+      AppState.removeEventListener('change', subscription);
+    };
   }, []);
 
   useEffect(() => {
@@ -212,8 +240,10 @@ export default function App() {
       },
       signOut: async () => {
         const result = await AuthTokenManager.removeSavedToken();
-        const resultCredential = await AuthCredentialManager.removeSavedCredential();
-        if (result && resultCredential) authDispatch({type: AuthActionsType.SIGN_OUT});
+        const resultCredential =
+          await AuthCredentialManager.removeSavedCredential();
+        if (result && resultCredential)
+          authDispatch({type: AuthActionsType.SIGN_OUT});
         return result;
       },
       refresh: async (token: LoginApiOutputData) => {
@@ -228,7 +258,9 @@ export default function App() {
         return result;
       },
       credentialIn: async (credential: LoginApiInputData) => {
-        const result = await AuthCredentialManager.saveCredentialData(credential);
+        const result = await AuthCredentialManager.saveCredentialData(
+          credential,
+        );
         if (result)
           authDispatch({
             type: AuthActionsType.RESTORE_CREDENTIAL,
