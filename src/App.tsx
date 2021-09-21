@@ -335,7 +335,7 @@ export default function App() {
                     name="AccountRestore"
                     component={AccountRestore}
                     options={{
-                      title: 'Recupera Account',
+                      title: 'Recupera Password',
                       headerTitleStyle: {...drawerStyles.header_text},
                     }}
                   />
