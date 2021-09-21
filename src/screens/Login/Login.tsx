@@ -1,10 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {
-  Text,
-  View,
-  ActivityIndicator,
-  Image,
-} from 'react-native';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
+import {Text, View, ActivityIndicator, Image} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen} from '../../common/constants';
@@ -16,14 +11,12 @@ export function Login(props: any) {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const {actionsProvider} = useContext(AuthContext);
-  const {data} = useContext(AuthContext);
+  const {data, actionsProvider} = useContext(AuthContext);
 
   /**
-   *
-   * @returns
+   * Execute Facebook Login
    */
-  const LoginFb = () => {
+  const LoginFb = useCallback(() => {
     Settings.initializeSDK(); // Possibly only do this for iOS if no need to handle a GDPR-type flow
     setError('');
     setIsError(false);
@@ -40,6 +33,7 @@ export function Login(props: any) {
           AccessToken.getCurrentAccessToken().then((data) => {
             const facebookToken =
               data?.accessToken != null ? data?.accessToken : '';
+
             AuthDal.facebooklogin({facebookToken})
               .then((res) => {
                 if (!res.token || !res.refreshToken) {
@@ -68,44 +62,38 @@ export function Login(props: any) {
         setIsError(true);
         setLoading(false);
       });
-  };
+  }, []);
 
   /**
    * Smart Login with credentials stored
    */
-  const LoginSmart = () => {
+  const LoginSmart = useCallback(() => {
     const userName = data.userName;
-    const password = data.password
+    const password = data.password;
 
-    if ( userName && password) {
+    if (userName && password) {
       AuthDal.login({userName, password})
-      .then((res) => {
-        if (!res.token || !res.refreshToken) {
-          setError('Dati errati');
+        .then((res) => {
+          if (!res.token || !res.refreshToken) {
+            setError('Dati errati');
+            setIsError(true);
+            setLoading(false);
+            return;
+          }
+          if (actionsProvider) actionsProvider.signIn(res);
+        })
+        .catch((err) => {
+          console.error(JSON.stringify(err));
+          setError(JSON.stringify(err));
           setIsError(true);
           setLoading(false);
-          return;
-        }
-
-        if (actionsProvider) {
-          actionsProvider.signIn(res);
-        }
-      })
-      .catch((err) => {
-        console.log(JSON.stringify(err));
-        setError(JSON.stringify(err));
-        setIsError(true);
-        setLoading(false);
-      });
+        });
     }
-  }
-
+  }, [data]);
 
   return (
     <View style={styles.container}>
-      {!data.userToken && data.userName && !isLoading && (
-        LoginSmart()
-      )}
+      {!data.userToken && data.userName && !isLoading && LoginSmart()}
       {!isLoading && (
         <>
           <Image
