@@ -116,6 +116,13 @@ export const styles = StyleSheet.create({
     top: 0,
     right: 0,
   },
+  acceptanceSwitch_ios: {
+    position: 'relative',
+    top: 0,
+    right: 0,
+    transform:  [{ scaleX: 0.8 }, { scaleY: 0.8 }] ,
+    marginRight: 5,
+  },
   acceptanceText: {
     fontSize: 10,
     justifyContent: 'center',
