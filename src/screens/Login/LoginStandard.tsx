@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Image,
   Switch,
+  Platform,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -95,10 +96,10 @@ export function LoginStandard(props: any) {
           </View>
           <View style={styles.remember_container}>
             <Switch
-              style={styles.rememberSwitch}
+              style={Platform.OS == 'ios' ? styles.rememberSwitch_ios : styles.rememberSwitch}
               trackColor={{false: '#cecece', true: '#cecece'}}
               thumbColor={isRemember ? markerDefaultGreen : '#a9a9a9'}
-              ios_backgroundColor="#3e3e3e"
+              ios_backgroundColor="#cecece"
               value={isRemember}
               onValueChange={() => setRemember((previus) => !previus)}
             />

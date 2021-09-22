@@ -18,6 +18,13 @@ export const homeStyles = StyleSheet.create({
     position: 'absolute',
     top: 10,
   },
+  logo_ios: {
+    height: 160,
+    width: 160,
+    resizeMode: 'contain',
+    position: 'absolute',
+    top: 10,
+  },
   title: {
     fontSize: 21,
     justifyContent: 'center',

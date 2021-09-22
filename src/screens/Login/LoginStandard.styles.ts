@@ -78,6 +78,13 @@ export const styles = StyleSheet.create({
     top: 0,
     right: 0,
   },
+  rememberSwitch_ios: {
+    position: 'relative',
+    top: 0,
+    right: 0,
+    transform:  [{ scaleX: 0.8 }, { scaleY: 0.8 }] ,
+    marginRight: 5,
+  },
   rememberText: {
     fontSize: 12,
     justifyContent: 'center',
