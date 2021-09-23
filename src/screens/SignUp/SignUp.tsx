@@ -221,11 +221,11 @@ export function SignUp(props: any) {
     <SafeAreaView style={styles.page}>
       <View style={styles.container}>
         {!isLoading && (
-          <>
-            <View style={styles.image_container}>
-              <Image source={images.logo_calice} style={styles.logo} />
-            </View>
+          <>            
             <ScrollView style={styles.scroll_container}>
+              <View style={styles.image_container}>
+                <Image source={images.logo_calice} style={styles.logo} />
+              </View>
               <View style={styles.input_container}>
                 <View style={styles.inputView}>
                   <TextInput

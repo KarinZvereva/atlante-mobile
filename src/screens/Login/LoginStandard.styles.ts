@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
   logo: {
     height: 135,
@@ -91,5 +92,32 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Novecentosanswide-Normal',
   },
-
+  page: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#FFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  },
+  scroll_container: {
+    flex: 1,
+    marginHorizontal: 5,
+    width: '100%',
+  },
+  image_container: {
+    flex: 0,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+    width: '100%',
+  },
+  input_container: {
+    flex: 1,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    width: '100%',
+    marginBottom : 80,
+  },
 });
