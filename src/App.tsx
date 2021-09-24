@@ -28,7 +28,7 @@ import {MapInfo} from './screens/MapInfo';
 import {SignupTerms} from './screens/SignUp/SignupTerms';
 import {InitialMapState, MapReducer} from './common/modules/map/MapReducer';
 import {MapContext} from './common/modules/map/MapContext';
-import {MapActionsType} from './common/modules/map/map.constants';
+//import {MapActionsType} from './common/modules/map/map.constants';
 import {MapTypes} from 'react-native-maps';
 import {MapSettings} from './screens/MapSettings/MapSettings';
 import {Profile} from './screens/Profile';

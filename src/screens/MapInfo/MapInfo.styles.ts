@@ -34,7 +34,6 @@ export const mapsInfoStyles = StyleSheet.create({
   },
   info_row: {
     flexDirection: 'row',
-    //paddingHorizontal: 30,
     marginHorizontal: 25,
     marginVertical: 10,
     fontSize: 13,
