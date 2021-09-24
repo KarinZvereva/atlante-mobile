@@ -1,6 +1,7 @@
 import {credentialKey} from '../../constants';
 import {LoginApiInputData} from '../../interfaces';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import { Platform } from 'react-native';
 
 export const AuthCredentialManager = {
   getCredential: async () => {
@@ -19,8 +20,12 @@ export const AuthCredentialManager = {
     try {
       await EncryptedStorage.removeItem(credentialKey);
       return true;
-    } catch (error) {
-      console.error('error when remove credentials on storage', error);
+    } catch (error: any) {
+      if (Platform.OS == 'ios' && error.code == "-25300") { // -25300 (errSecItemNotFound)
+        console.log('error when remove credentials on storage', error.code);
+        return true;
+      }
+      console.error('error when deleting credentials on storage', error);
       return false;
     }
   },

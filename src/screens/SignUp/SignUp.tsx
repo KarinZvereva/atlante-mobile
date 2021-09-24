@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   ScrollView,
   Switch,
+  Platform,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -220,11 +221,11 @@ export function SignUp(props: any) {
     <SafeAreaView style={styles.page}>
       <View style={styles.container}>
         {!isLoading && (
-          <>
-            <View style={styles.image_container}>
-              <Image source={images.logo_calice} style={styles.logo} />
-            </View>
+          <>            
             <ScrollView style={styles.scroll_container}>
+              <View style={styles.image_container}>
+                <Image source={images.logo_calice} style={styles.logo} />
+              </View>
               <View style={styles.input_container}>
                 <View style={styles.inputView}>
                   <TextInput
@@ -294,10 +295,10 @@ export function SignUp(props: any) {
             </View>
             <View style={styles.acceptance_container}>
               <Switch
-                style={styles.acceptanceSwitch}
+                style={Platform.OS == 'ios' ? styles.acceptanceSwitch_ios : styles.acceptanceSwitch}
                 trackColor={{false: '#cecece', true: '#cecece'}}
                 thumbColor={isAcceptance ? markerDefaultGreen : '#a9a9a9'}
-                ios_backgroundColor="#3e3e3e"
+                ios_backgroundColor="#cecece"
                 value={isAcceptance}
                 onValueChange={() => setAcceptance((previus) => !previus)}
               />

@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
-import {View, Text, Image, Linking, SafeAreaView} from 'react-native';
+import {View, Text, Image, Linking, SafeAreaView, Platform} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {icons, images} from '../../common/constants';
@@ -33,7 +33,8 @@ export function Home(props: IRouteProps) {
         <Header {...props} showName="Home" />
       </View>
       <View style={homeStyles.centered_container}>
-        <Image source={images.logo_calice} style={homeStyles.logo} />
+        <Image source={images.logo_calice} 
+          style={Platform.OS == 'ios' ? homeStyles.logo_ios : homeStyles.logo} />
         <Text style={homeStyles.title}>Benvenuto</Text>
         <Text style={[homeStyles.title, {marginBottom: 60}]}>
           Bevitore Errante
