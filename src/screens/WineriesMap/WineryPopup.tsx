@@ -1,7 +1,9 @@
 import React from 'react';
 import {Winery} from '../../common/interfaces';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Platform, LogBox} from 'react-native';
 import {defaultRed, icons, markerDefaultGreen} from '../../common/constants';
+
+LogBox.ignoreLogs(['Task orphaned']);
 
 interface IWineryPopupProps {
   winery: Winery;
@@ -42,6 +44,12 @@ const wineryPopupStyles = StyleSheet.create({
     alignSelf: 'center',
     top: -25,
   },
+  marker_image_wrapper_ios: {
+    height: 50,
+    position: 'absolute',
+    alignSelf: 'center',
+    top: -5,
+  },
   marker_image: {
     width: 100,
     height: 45,
@@ -67,7 +75,9 @@ export const WineryPopup = React.memo(({winery}: IWineryPopupProps) => {
   return (
     <View style={wineryPopupStyles.container}>
       <View style={wineryPopupStyles.internal_container}>
-        <Text style={wineryPopupStyles.marker_image_wrapper}>
+        <Text style={Platform.OS == 'android' ?           
+          wineryPopupStyles.marker_image_wrapper :
+          wineryPopupStyles.marker_image_wrapper_ios}>
           <Image
             style={wineryPopupStyles.marker_image}
             source={icons.natourwine_popup}
