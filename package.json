@@ -14,7 +14,8 @@
     "android-assemble-debug": "cd android && gradlew assembleDebug",
     "android-assemble-release": "cd android && gradlew assembleRelease",
     "android-bundle-release": "cd android && gradlew bundleRelease",
-    "android-gradlew-clean": "cd android && gradlew clean"
+    "android-gradlew-clean": "cd android && gradlew clean",
+    "android-emulator-release": "yarn android --variant=release"
   },
   "dependencies": {
     "@bam.tech/react-native-make": "^3.0.0",
