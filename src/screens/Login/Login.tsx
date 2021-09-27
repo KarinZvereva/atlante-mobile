@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Text, View, ActivityIndicator, Image} from 'react-native';
+import {Text, View, ActivityIndicator, Image, SafeAreaView, ScrollView} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen} from '../../common/constants';
@@ -92,49 +92,51 @@ export function Login(props: any) {
   }, [data]);
 
   return (
-    <View style={styles.container}>
-      {!data.userToken && data.userName && !isLoading && LoginSmart()}
-      {!isLoading && (
-        <>
-          <Image
-            style={styles.image}
-            source={require('../../assets/img/login_logo.png')}
-          />
-          <LinearGradient
-            colors={['#659a4a', '#4b7240']}
-            style={styles.loginBtn}>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('LoginStandard')}
-              disabled={!actionsProvider}>
-              <View style={styles.loginBtnSubView}>
-                <Text style={styles.loginText}>Login</Text>
-              </View>
-            </TouchableOpacity>
-          </LinearGradient>
-          <Text style={styles.separatorText}>- oppure -</Text>
-          <LinearGradient
-            colors={['#109bd9', '#0e5de3', '#0e12df']}
-            style={styles.loginFbBtn}>
-            <TouchableOpacity
-              onPress={() => LoginFb()}
-              disabled={!actionsProvider}>
-              <View style={styles.loginBtnSubView}>
-                <Text style={styles.loginText}>Login con Facebook</Text>
-              </View>
-            </TouchableOpacity>
-          </LinearGradient>
-        </>
-      )}
-      {isLoading && (
-        <View>
-          <ActivityIndicator size="large" color={markerDefaultGreen} />
-        </View>
-      )}
-      {isError && (
-        <View>
-          <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
-        </View>
-      )}
-    </View>
+    <SafeAreaView style={styles.page}>
+      <View style={styles.container}>
+        {!data.userToken && data.userName && !isLoading && LoginSmart()}
+        {!isLoading && (
+          <>
+            <Image
+              style={styles.image}
+              source={require('../../assets/img/login_logo.png')}
+            />
+            <LinearGradient
+              colors={['#659a4a', '#4b7240']}
+              style={styles.loginBtn}>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('LoginStandard')}
+                disabled={!actionsProvider}>
+                <View style={styles.loginBtnSubView}>
+                  <Text style={styles.loginText}>Login</Text>
+                </View>
+              </TouchableOpacity>
+            </LinearGradient>
+            <Text style={styles.separatorText}>- oppure -</Text>
+            <LinearGradient
+              colors={['#109bd9', '#0e5de3', '#0e12df']}
+              style={styles.loginFbBtn}>
+              <TouchableOpacity
+                onPress={() => LoginFb()}
+                disabled={!actionsProvider}>
+                <View style={styles.loginBtnSubView}>
+                  <Text style={styles.loginText}>Login con Facebook</Text>
+                </View>
+              </TouchableOpacity>
+            </LinearGradient>
+          </>
+        )}
+        {isLoading && (
+          <View>
+            <ActivityIndicator size="large" color={markerDefaultGreen} />
+          </View>
+        )}
+        {isError && (
+          <View>
+            <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
+          </View>
+        )}
+      </View>
+      </SafeAreaView>
   );
 }

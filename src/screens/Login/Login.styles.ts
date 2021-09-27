@@ -2,6 +2,17 @@ import {StyleSheet} from 'react-native';
 import {markerDefaultGreen} from '../../common/constants';
 
 export const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'column',
+    backgroundColor: '#FFF',
+  },
+  scroll_container: {
+    flex : 1,
+    marginHorizontal: 10,
+    width: '100%',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
