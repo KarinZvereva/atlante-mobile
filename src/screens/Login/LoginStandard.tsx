@@ -142,7 +142,7 @@ export function LoginStandard(props: any) {
           </View>
         )}
         {isError && (
-          <View>
+          <View style={{alignSelf: 'center'}}>
             <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
           </View>
         )}
