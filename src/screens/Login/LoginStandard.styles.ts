@@ -2,12 +2,33 @@ import {StyleSheet} from 'react-native';
 import {markerDefaultGreen} from '../../common/constants';
 
 export const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+  },
+  scroll_container: {
+    flex: 1,
+    marginHorizontal: 10,
+    width: '100%'
+  },
+  option_container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 15,
+    width: '100%',
+    marginTop: 40,
+  },
   logo: {
     height: 135,
     width: 135,
     resizeMode: 'center',
-    position: 'relative',
-    marginBottom: 75,
+    position: 'absolute',
+    top: 40,
+    alignSelf: 'center',
   },
   inputView: {
     backgroundColor: markerDefaultGreen,
@@ -59,7 +80,7 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   remember_container: {
-    flex: 1,
+    flex: 0,
     alignItems: 'center', 
     justifyContent: 'center',
     flexDirection: 'row',
@@ -84,28 +105,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     fontFamily: 'Novecentosanswide-Normal',
-  },
-  page: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#FFF',
-    justifyContent: 'center',
-  },
-  scroll_container: {
-    flex: 1,
-    marginHorizontal: 10,
-  },
-  option_container: {
-    width: '100%',
-    flexDirection: 'column',
-    padding: 15,
-  },
-  image_container: {
-    flex: 1,
-    alignItems: 'center', 
-    justifyContent: 'center',
-    marginTop: 40,
-  },
+  },  
   input_container: {
     flex: 1,
     alignItems: 'center', 

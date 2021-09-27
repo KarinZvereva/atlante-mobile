@@ -61,81 +61,73 @@ export function LoginStandard(props: any) {
   };
 
   return (
-    <SafeAreaView style={styles.page}>
-      
+    <SafeAreaView style={styles.page}>      
       {!isLoading && (
-        <ScrollView style={styles.scroll_container}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}} style={styles.scroll_container}>
         <>
+          <Image source={images.logo_calice} style={styles.logo} />
           <View style={styles.option_container}>
-            <View style={styles.image_container}>
-              <Image source={images.logo_calice} style={styles.logo} />
-            </View>
-            <View style={styles.input_container}>
-              <View style={styles.inputView}>
-                <TextInput
-                  style={styles.TextInput}
-                  placeholder="Username"
-                  placeholderTextColor="#ffffff"
-                  onChangeText={(value) => setUserName(value)}
-                />
-              </View>
-              <View style={styles.inputView}>
-                <TextInput
-                  style={styles.TextInput}
-                  placeholder="Password"
-                  placeholderTextColor="#ffffff"
-                  secureTextEntry={true}
-                  onChangeText={(value) => setPassword(value)}
-                />
-              </View>
-            </View>
-            <View style={styles.input_container}>
-              <View style={styles.remember_container}>
-                <Switch
-                  style={Platform.OS == 'ios' ? styles.rememberSwitch_ios : styles.rememberSwitch}
-                  trackColor={{false: '#cecece', true: '#cecece'}}
-                  thumbColor={isRemember ? markerDefaultGreen : '#a9a9a9'}
-                  ios_backgroundColor="#cecece"
-                  value={isRemember}
-                  onValueChange={() => setRemember((previus) => !previus)}
-                />
-                <Text style={[styles.rememberText]}>Ricordami</Text>
-              </View>
-              <View style={styles.forgot_button}>
-                <TouchableOpacity
-                  onPress={() => props.navigation.navigate('AccountRestore')}>
-                  <Text style={styles.linkText}>Password dimenticata?</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.forgot_button}>
-                <TouchableOpacity
-                  onPress={() => props.navigation.navigate('SignUp')}>
-                  <Text style={styles.linkText}>
-                    Non hai un account? Registrati!
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
             
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.TextInput}
+                placeholder="Username"
+                placeholderTextColor="#ffffff"
+                onChangeText={(value) => setUserName(value)}
+              />
+            </View>
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.TextInput}
+                placeholder="Password"
+                placeholderTextColor="#ffffff"
+                secureTextEntry={true}
+                onChangeText={(value) => setPassword(value)}
+              />
+            </View>
+           
+            <View style={styles.remember_container}>
+              <Switch
+                style={Platform.OS == 'ios' ? styles.rememberSwitch_ios : styles.rememberSwitch}
+                trackColor={{false: '#cecece', true: '#cecece'}}
+                thumbColor={isRemember ? markerDefaultGreen : '#a9a9a9'}
+                ios_backgroundColor="#cecece"
+                value={isRemember}
+                onValueChange={() => setRemember((previus) => !previus)}
+              />
+              <Text style={[styles.rememberText]}>Ricordami</Text>
+            </View>
+            <View style={styles.forgot_button}>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('AccountRestore')}>
+                <Text style={styles.linkText}>Password dimenticata?</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.forgot_button}>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('SignUp')}>
+                <Text style={styles.linkText}>
+                  Non hai un account? Registrati!
+                </Text>
+              </TouchableOpacity>
+            </View>            
           </View>
+          <View style={styles.login_button_container}>
+            <LinearGradient
+              colors={['#ce8a86', '#bd6665', '#a92a3f']}
+              style={styles.loginBtn}>
+              <TouchableOpacity
+                onPress={() => Login()}
+                disabled={!actionsProvider}>
+                <View style={styles.loginBtnSubView}>
+                  <Text style={styles.loginText}>Login</Text>
+                </View>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>          
         </>
         </ScrollView>    
-
         )}
-        <View style={styles.login_button_container}>
-          <LinearGradient
-            colors={['#ce8a86', '#bd6665', '#a92a3f']}
-            style={styles.loginBtn}>
-            <TouchableOpacity
-              onPress={() => Login()}
-              disabled={!actionsProvider}>
-              <View style={styles.loginBtnSubView}>
-                <Text style={styles.loginText}>Login</Text>
-              </View>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
-        
         {isLoading && (
           <View>
             <ActivityIndicator size="large" color={markerDefaultGreen} />
