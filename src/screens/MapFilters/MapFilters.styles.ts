@@ -25,6 +25,12 @@ export const mapFiltersStyles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
+  form_item_container_with_label_inline_ios: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    height: 'auto',
+  },
   vertical_divider: {
     paddingTop: 20,
     paddingBottom: 20,
@@ -52,6 +58,9 @@ export const mapFiltersStyles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     right: 0,
+  },
+  input_view_text_ios: {
+    width: '90%',
   },
   input_view: {
     width: '70%',
@@ -99,6 +108,17 @@ export const mapFiltersStyles = StyleSheet.create({
     width: '95%',
     marginLeft: 10,
     color: 'white',
+  },
+  pickers_style_ios: {
+    width: '75%',
+    marginLeft: 10,
+    color: 'white',
+    left: 95,
+  },
+  pickers_item_style: {
+    fontSize: 16,
+    fontFamily: 'Novecentosanswide-Normal',
+    height: 130,
   },
   logo: {
     width: 40,
