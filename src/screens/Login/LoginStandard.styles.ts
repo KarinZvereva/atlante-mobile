@@ -2,17 +2,11 @@ import {StyleSheet} from 'react-native';
 import {markerDefaultGreen} from '../../common/constants';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
   logo: {
     height: 135,
     width: 135,
-    resizeMode: 'contain',
+    resizeMode: 'center',
+    position: 'relative',
     marginBottom: 75,
   },
   inputView: {
@@ -42,7 +36,7 @@ export const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 0,
+    //marginTop: 75,
   },
   loginText: {
     color: 'white',
@@ -66,7 +60,7 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   remember_container: {
-    flex: 0,
+    flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
     flexDirection: 'row',
@@ -97,27 +91,45 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#FFF',
     justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
+    //alignItems: 'center',
+    //width: '100%',
   },
   scroll_container: {
     flex: 1,
-    marginHorizontal: 5,
+    marginHorizontal: 10,
+    
+    //width: '100%',
+    //alignContent: 'center',
+    //alignSelf: 'center',
+
+
+    //marginTop: 20,
+    //marginBottom: 20,
+  },
+  option_container: {
     width: '100%',
+    flexDirection: 'column',
+    padding: 15,
   },
   image_container: {
-    flex: 0,
+    flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 20,
-    width: '100%',
+    marginTop: 40,
   },
   input_container: {
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
     width: '100%',
-    marginBottom : 80,
+  },
+  login_button_container: {
+    flex: 1,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    flexDirection: 'row',
+    width: '100%',
+    position: 'absolute',
+    bottom: 15,
   },
 });
