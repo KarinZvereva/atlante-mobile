@@ -36,7 +36,6 @@ export const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    //marginTop: 75,
   },
   loginText: {
     color: 'white',
@@ -91,20 +90,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#FFF',
     justifyContent: 'center',
-    //alignItems: 'center',
-    //width: '100%',
   },
   scroll_container: {
     flex: 1,
     marginHorizontal: 10,
-    
-    //width: '100%',
-    //alignContent: 'center',
-    //alignSelf: 'center',
-
-
-    //marginTop: 20,
-    //marginBottom: 20,
   },
   option_container: {
     width: '100%',
