@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {images, markerDefaultGreen} from '../../common/constants';
@@ -191,12 +192,13 @@ export function Info(props: any) {
                   Numero di cantine per regione e provincia:
                 </Text>
               </View>
-              <View style={styles.vertical_divider} />
-              <View style={styles.form_item_container_with_label_inline}>
+              <View style={Platform.OS == 'android' ?  styles.vertical_divider : styles.vertical_divider_ios} />
+              <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
                 <Text style={styles.option_text_label}>Regione</Text>
-                <View style={styles.input_view_text}>
+                <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
                   <RegionPicker
-                    style={styles.pickers_style}
+                    style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
+                    itemStyle={styles.pickers_item_style}
                     selectedValue={_region}
                     onValueChange={(itemValue, _itemIndex) => {
                       setRegion(itemValue as string);
@@ -208,12 +210,13 @@ export function Info(props: any) {
                 </View>
                 <Text style={styles.count_text_label}>{countRegion}</Text>
               </View>
-              <View style={styles.vertical_divider} />
-              <View style={styles.form_item_container_with_label_inline}>
+              {Platform.OS == 'android' && <View style={styles.vertical_divider} />}
+              <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
                 <Text style={styles.option_text_label}>Provincia</Text>
-                <View style={styles.input_view_text}>
+                <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
                   <ProvincePicker
-                    style={styles.pickers_style}
+                    style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
+                    itemStyle={styles.pickers_item_style}
                     selectedValue={_province}
                     onValueChange={(itemValue, _itemIndex) => {
                       setProvince(itemValue as string);

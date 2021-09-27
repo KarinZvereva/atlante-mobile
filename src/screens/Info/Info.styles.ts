@@ -74,6 +74,10 @@ export const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
   },
+  vertical_divider_ios: {
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
   form_item_container_with_label_inline: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -81,6 +85,12 @@ export const styles = StyleSheet.create({
     height: 'auto',
     marginTop: 20,
     marginBottom: 20,
+  },
+  form_item_container_with_label_inline_ios: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    height: 'auto',
   },
   option_text_label: {
     fontSize: 17,
@@ -97,10 +107,24 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     right: 50,
   },
+  input_view_text_ios: {
+    width: '90%',
+  },
   pickers_style: {
     width: '95%',
     marginLeft: 10,
     color: 'white',
+  },
+  pickers_style_ios: {
+    width: '65%',
+    marginLeft: 10,
+    color: 'white',
+    left: 75,
+  },
+  pickers_item_style: {
+    fontSize: 16,
+    fontFamily: 'Novecentosanswide-Normal',
+    height: 130,
   },
   count_text_label: {
     fontSize: 19,
