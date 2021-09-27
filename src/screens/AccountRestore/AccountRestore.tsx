@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {Text, View, TextInput, ActivityIndicator, 
-  Image, Alert, StyleSheet} from 'react-native';
+  Image, Alert, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen, defaultRed} from '../../common/constants';
@@ -11,12 +11,23 @@ import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
 import {User} from '../../common/interfaces/web-api';
 
 const styles = StyleSheet.create({
-  container: {
+  page: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    backgroundColor: '#FFF',
   },
+  scroll_container: {
+    flex : 1,
+    marginHorizontal: 10,
+    width: '100%',
+  },
+  option_container: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'column',
+    padding: 15,
+  },  
   inputView: {
     backgroundColor: markerDefaultGreen,
     borderRadius: 30,
@@ -32,7 +43,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   restoreBtn: {
-    width: '40%',
+    width: '70%',
     borderRadius: 25,
     height: 50,
     alignItems: 'center',
@@ -51,24 +62,20 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   image_container: {
-    flex: 0,
+    flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
-    marginTop: 40,
   },
   input_container: {
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
-    width: '100%',
   },
   button_container: {
-    flex: 0,
+    flex: 1,
     alignItems: 'center', 
-    justifyContent: 'center',
-    flexDirection: 'row',
-    width: '100%',
-    marginBottom: 40,
+    justifyContent: 'flex-end',
+    bottom: 40,
   },
   recaptcha_container: {
   },
@@ -215,10 +222,11 @@ export function AccountRestore(props: any) {
 
 
   return (
-    
-      <View style={styles.container}>
-        {!isLoading && (
-          <>
+    <SafeAreaView style={styles.page}>
+      {!isLoading && (
+      <ScrollView contentContainerStyle={{flexGrow: 1}} style={styles.scroll_container}>
+        <>
+        <View style={styles.option_container}>
           <View style={styles.image_container}>
             <Image source={images.logo_calice} style={styles.logo} />
           </View>
@@ -233,44 +241,45 @@ export function AccountRestore(props: any) {
               />
             </View>
           </View> 
-          <View>
-            <Recaptcha
-              ref={recaptcha}
-              siteKey={captchaSiteKey}
-              baseUrl={webCaptchaUrl}
-              onVerify={onVerify}
-              onExpire={onExpire}
-              onError={onError}
-              size="invisible"
-              style={styles.recaptcha_container}
-            />
-          </View>
-
-          <View style={styles.button_container}>
-            <LinearGradient
-              colors={['#ce8a86', '#bd6665', '#a92a3f']}
-              style={styles.restoreBtn}>
-              <TouchableOpacity
-                onPress={() => restore()}>
-                <View style={styles.restoreBtnSubView}>
-                  <Text style={styles.restoreText}>Recupera</Text>
-                </View>
-              </TouchableOpacity>
-            </LinearGradient>
-            
-          </View>
-          </>
-        )}
-        {isLoading && (
-          <View>
-            <ActivityIndicator size="large" color={markerDefaultGreen} />
-          </View>
-        )}
-        {isError && (
-          <View>
-            <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
-          </View>
-        )}
+        </View>
+        <View style={styles.button_container}>
+        <LinearGradient
+          colors={['#ce8a86', '#bd6665', '#a92a3f']}
+          style={styles.restoreBtn}>
+          <TouchableOpacity
+            onPress={() => restore()}>
+            <View style={styles.restoreBtnSubView}>
+              <Text style={styles.restoreText}>Recupera</Text>
+            </View>
+          </TouchableOpacity>
+        </LinearGradient>
       </View>
+        </>
+      </ScrollView>
+      )}
+      
+      <View>
+        <Recaptcha
+          ref={recaptcha}
+          siteKey={captchaSiteKey}
+          baseUrl={webCaptchaUrl}
+          onVerify={onVerify}
+          onExpire={onExpire}
+          onError={onError}
+          size="invisible"
+          style={styles.recaptcha_container}
+        />
+      </View>
+      {isLoading && (
+        <View>
+          <ActivityIndicator size="large" color={markerDefaultGreen} />
+        </View>
+      )}
+      {isError && (
+        <View>
+          <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
+        </View>
+      )}
+    </SafeAreaView>
   );
 }
