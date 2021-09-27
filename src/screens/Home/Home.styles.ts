@@ -5,6 +5,11 @@ export const homeStyles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  scroll_container: {
+    flex : 1,
+    marginHorizontal: 10,
+    width: '100%',
+  },
   centered_container: {
     flex: 1,
     backgroundColor: '#fff',

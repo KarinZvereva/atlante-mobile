@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback} from 'react';
-import {View, Text, Image, Linking, SafeAreaView, Platform} from 'react-native';
+import {View, Text, Image, Linking, SafeAreaView, Platform, ScrollView} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {icons, images} from '../../common/constants';
@@ -28,78 +28,80 @@ export function Home(props: IRouteProps) {
   }, []);
 
   return (
-    <SafeAreaView style={homeStyles.page}>
+    <SafeAreaView style={homeStyles.page}>      
       <View>
         <Header {...props} showName="Home" />
       </View>
-      <View style={homeStyles.centered_container}>
-        <Image source={images.logo_calice} 
-          style={Platform.OS == 'ios' ? homeStyles.logo_ios : homeStyles.logo} />
-        <Text style={homeStyles.title}>Benvenuto</Text>
-        <Text style={[homeStyles.title, {marginBottom: 60}]}>
-          Bevitore Errante
-        </Text>
-        <RoundImageButton
-          borderRadius={40}
-          image={icons.wineries_map_big}
-          onPress={() => {
-            navigation.navigate('Wineries Map');
-          }}
-        />
-        <Text style={homeStyles.goToWineriesText}>
-          Visita la mappa delle cantine
-        </Text>
-        <Text style={homeStyles.keepInTouchText}>
-          Resta in contatto con noi
-        </Text>
-        <View style={homeStyles.socialIcons}>
+      <ScrollView contentContainerStyle={{flexGrow: 1}} style={homeStyles.scroll_container}>        
+        <View style={homeStyles.centered_container}>
+          <Image source={images.logo_calice} 
+            style={Platform.OS == 'ios' ? homeStyles.logo_ios : homeStyles.logo} />
+          <Text style={homeStyles.title}>Benvenuto</Text>
+          <Text style={[homeStyles.title, {marginBottom: 60}]}>
+            Bevitore Errante
+          </Text>
           <RoundImageButton
-            borderRadius={20}
-            style={{marginRight: 10}}
-            image={icons.facebook}
+            borderRadius={40}
+            image={icons.wineries_map_big}
             onPress={() => {
-              openLink('https://www.facebook.com/140077001562439');
+              navigation.navigate('Wineries Map');
             }}
           />
-          <RoundImageButton
-            borderRadius={20}
-            style={{marginRight: 10}}
-            image={icons.insta}
-            onPress={() => {
-              openLink('https://www.instagram.com/natourwine_official/');
-            }}
-          />
-          <RoundImageButton
-            borderRadius={20}
-            style={{marginRight: 10}}
-            image={icons.tele}
-            onPress={() => openTelegram()}
-          />
-          <RoundImageButton
-            borderRadius={20}
-            style={{marginRight: 10}}
-            image={icons.youtube}
-            onPress={() => {
-              openLink(
-                'https://www.youtube.com/channel/UC0B5koohj5rimZpW9NqMr8w',
-              );
-            }}
-          />
-          <RoundImageButton
-            borderRadius={20}
-            style={{marginRight: 10}}
-            image={icons.web}
-            onPress={() => {
-              openLink('https://atlantevignaiolinaturali.wordpress.com/');
-            }}
-          />
-          <RoundImageButton
-            borderRadius={20}
-            image={icons.mail}
-            onPress={() => openMail()}
-          />
+          <Text style={homeStyles.goToWineriesText}>
+            Visita la mappa delle cantine
+          </Text>
+          <Text style={homeStyles.keepInTouchText}>
+            Resta in contatto con noi
+          </Text>
+          <View style={homeStyles.socialIcons}>
+            <RoundImageButton
+              borderRadius={20}
+              style={{marginRight: 10}}
+              image={icons.facebook}
+              onPress={() => {
+                openLink('https://www.facebook.com/140077001562439');
+              }}
+            />
+            <RoundImageButton
+              borderRadius={20}
+              style={{marginRight: 10}}
+              image={icons.insta}
+              onPress={() => {
+                openLink('https://www.instagram.com/natourwine_official/');
+              }}
+            />
+            <RoundImageButton
+              borderRadius={20}
+              style={{marginRight: 10}}
+              image={icons.tele}
+              onPress={() => openTelegram()}
+            />
+            <RoundImageButton
+              borderRadius={20}
+              style={{marginRight: 10}}
+              image={icons.youtube}
+              onPress={() => {
+                openLink(
+                  'https://www.youtube.com/channel/UC0B5koohj5rimZpW9NqMr8w',
+                );
+              }}
+            />
+            <RoundImageButton
+              borderRadius={20}
+              style={{marginRight: 10}}
+              image={icons.web}
+              onPress={() => {
+                openLink('https://atlantevignaiolinaturali.wordpress.com/');
+              }}
+            />
+            <RoundImageButton
+              borderRadius={20}
+              image={icons.mail}
+              onPress={() => openMail()}
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
