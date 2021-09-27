@@ -130,6 +130,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     position: 'absolute',
-    bottom: 20,
+    bottom: 40,
   },
 });
