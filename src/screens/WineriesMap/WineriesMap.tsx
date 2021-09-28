@@ -463,7 +463,9 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
           onChangeText={(value) => setSearch(value)}
           editable={!loading}
           value={search}
-          style={{fontFamily: 'Novecentosanswide-Normal'}}
+          style={Platform.OS == 'android' 
+            ? wineriesMapStyles.searchMapInputText 
+            : wineriesMapStyles.searchMapInputText_ios}
         />
       </TouchableOpacity>
     </SafeAreaView>

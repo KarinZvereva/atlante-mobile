@@ -112,6 +112,14 @@ export const wineriesMapStyles = StyleSheet.create({
     left: 20,
     backgroundColor: 'rgba(210, 210, 210, 0.8)',
   },
+  searchMapInputText: {
+    fontFamily: 'Novecentosanswide-Normal',
+  },
+  searchMapInputText_ios: {
+    fontFamily: 'Novecentosanswide-Normal',
+    left:8, 
+    top:8,
+  },
   infoMapsButton: {
     position: 'absolute',
     top: 70,
