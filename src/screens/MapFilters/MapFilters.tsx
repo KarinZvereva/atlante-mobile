@@ -116,8 +116,9 @@ export const MapFilters: FC = () => {
             <Text style={mapFiltersStyles.option_text_label}>Dormire</Text>
             <View style={mapFiltersStyles.input_view}>
               <Switch
+                //style={Platform.OS == 'ios' ? styles.rememberSwitch_ios : styles.rememberSwitch}
                 trackColor={{false: '#cecece', true: '#cecece'}}
-                thumbColor={_withBnB ? defaultRed : '#2fcc5b'}
+                thumbColor={_withBnB ? '#2fcc5b' : '#a9a9a9'}
                 ios_backgroundColor="#3e3e3e"
                 value={_withBnB}
                 onValueChange={() => setWithBnB((previus) => !previus)}
@@ -130,26 +131,26 @@ export const MapFilters: FC = () => {
             <View style={mapFiltersStyles.input_view}>
               <Switch
                 trackColor={{false: '#cecece', true: '#cecece'}}
-                thumbColor={_withRestaurant ? defaultRed : '#2fcc5b'}
+                thumbColor={_withRestaurant ? '#2fcc5b' : '#a9a9a9'}
                 ios_backgroundColor="#3e3e3e"
                 value={_withRestaurant}
                 onValueChange={() => setWithRestaurant((previus) => !previus)}
               />
             </View>
           </View>
+          <View style={mapFiltersStyles.button_container}>
+            <LinearGradient
+              colors={['#ce8a86', '#bd6665', '#a92a3f']}
+              style={mapFiltersStyles.saveBtn}>
+              <TouchableOpacity onPress={onApplyFilters}>
+                <View style={mapFiltersStyles.modifyBtnSubView}>
+                  <Text style={mapFiltersStyles.buttonText}>Applica</Text>
+                </View>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
         </View>
       </ScrollView>
-      <View style={mapFiltersStyles.button_container}>
-        <LinearGradient
-          colors={['#ce8a86', '#bd6665', '#a92a3f']}
-          style={mapFiltersStyles.saveBtn}>
-          <TouchableOpacity onPress={onApplyFilters}>
-            <View style={mapFiltersStyles.modifyBtnSubView}>
-              <Text style={mapFiltersStyles.buttonText}>Applica</Text>
-            </View>
-          </TouchableOpacity>
-        </LinearGradient>
-      </View>
     </SafeAreaView>
   );
 };

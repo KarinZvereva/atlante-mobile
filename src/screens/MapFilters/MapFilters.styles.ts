@@ -80,8 +80,7 @@ export const mapFiltersStyles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     width: '100%',
-    position: 'absolute',
-    bottom: 15,
+    height: 150,
   },
   saveBtn: {
     width: '80%',
