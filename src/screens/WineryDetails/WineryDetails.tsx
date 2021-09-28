@@ -107,8 +107,8 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
             height: 60,
             resizeMode: 'contain',
             position: 'absolute',
-            top: 0,
-            right: 0,
+            top: 15,
+            right: 15,
           }}
           source={icons.winery_marker_big}
         />
