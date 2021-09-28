@@ -2,6 +2,16 @@ import {StyleSheet} from 'react-native';
 import {markerDefaultGreen} from '../../common/constants';
 
 export const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#FFF',
+  },
+  scroll_container: {
+    flex : 1,
+    marginHorizontal: 10,
+    width: '100%',
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -81,6 +91,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginBottom: 20,
+    //width: '100%',
+    //position: 'absolute',
+    //bottom: 10,
   },
   inputView: {
     backgroundColor: markerDefaultGreen,
