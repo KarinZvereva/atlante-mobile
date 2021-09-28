@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
     width: '60%',
     alignItems: 'center',
     position: 'absolute',
-    right: 50,
+    right: 42,
   },
   input_view_text_ios: {
     width: '90%',
@@ -131,6 +131,6 @@ export const styles = StyleSheet.create({
     fontFamily: 'Novecentosanswide-Bold',
     textAlignVertical: 'center',
     position: 'absolute',
-    right: 10,
+    right: 5,
   },
 });
