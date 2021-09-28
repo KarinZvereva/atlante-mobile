@@ -9,7 +9,7 @@ import {
   Platform,
   SafeAreaView,
 } from 'react-native';
-import MapView, {LatLng, PROVIDER_GOOGLE, Region} from 'react-native-maps';
+import MapView, {LatLng, Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
 import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
@@ -26,6 +26,7 @@ import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
 import {MapContext} from '../../common/modules/map/MapContext';
 import {MapActionsType} from '../../common/modules/map/map.constants';
+import {useAuth} from '../../common/customHooks';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
@@ -59,6 +60,9 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
     },
     actionProvider,
   } = useContext(MapContext);
+
+  // Auth
+  const isLogged = useAuth();
 
   // Ref
   const map = useRef<MapView>(null);
@@ -228,6 +232,10 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
     initMap();
   }, []);
 
+  useEffect(() => {
+    navigation.navigate('SignIn');
+  }, [isLogged]);
+
   // Triggered when the user select a position from pressing the map
   useEffect(() => {
     if (selectedPosition)
@@ -236,9 +244,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
 
   // Triggered when extra filter are changed from MapFilter page
   useEffect(() => {
-    let finalFilter = undefined;
-
-    finalFilter =
+    let finalFilter =
       region !== undefined
         ? `${nameof<Winery>('region')}.ToLower().Contains('${region
             .trim()
@@ -283,8 +289,11 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
     <SafeAreaView style={wineriesMapStyles.pageContainer}>
       <MapView
         initialRegion={InitialRegion}
-        style={Platform.OS == 'android' 
-            ? wineriesMapStyles.map : wineriesMapStyles.map_ios}
+        style={
+          Platform.OS == 'android'
+            ? wineriesMapStyles.map
+            : wineriesMapStyles.map_ios
+        }
         ref={map}
         showsUserLocation={true}
         onLongPress={(event) => {
@@ -380,8 +389,11 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         </View>
       )}
       <TouchableOpacity
-        style={Platform.OS == 'android' 
-            ? wineriesMapStyles.infoMapsButton : wineriesMapStyles.infoMapsButton_ios}
+        style={
+          Platform.OS == 'android'
+            ? wineriesMapStyles.infoMapsButton
+            : wineriesMapStyles.infoMapsButton_ios
+        }
         onPress={() => navigation.navigate('MapsInfo')}
         disabled={loading}>
         <Image
@@ -390,8 +402,11 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        style={Platform.OS == 'android' 
-            ? wineriesMapStyles.reloadButton : wineriesMapStyles.reloadButton_ios}
+        style={
+          Platform.OS == 'android'
+            ? wineriesMapStyles.reloadButton
+            : wineriesMapStyles.reloadButton_ios
+        }
         onPress={() => {
           resetMapState();
           loadWineries();
@@ -403,8 +418,11 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        style={Platform.OS == 'android' 
-            ? wineriesMapStyles.cleanButton : wineriesMapStyles.cleanButton_ios}
+        style={
+          Platform.OS == 'android'
+            ? wineriesMapStyles.cleanButton
+            : wineriesMapStyles.cleanButton_ios
+        }
         onPress={() => resetMapState()}
         disabled={loading}>
         <Image
@@ -463,9 +481,11 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
           onChangeText={(value) => setSearch(value)}
           editable={!loading}
           value={search}
-          style={Platform.OS == 'android' 
-            ? wineriesMapStyles.searchMapInputText 
-            : wineriesMapStyles.searchMapInputText_ios}
+          style={
+            Platform.OS == 'android'
+              ? wineriesMapStyles.searchMapInputText
+              : wineriesMapStyles.searchMapInputText_ios
+          }
         />
       </TouchableOpacity>
     </SafeAreaView>

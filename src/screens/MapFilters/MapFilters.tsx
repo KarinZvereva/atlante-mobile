@@ -11,7 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {defaultRed, images} from '../../common/constants';
+import {images} from '../../common/constants';
 import {remotePickerBuilder} from '../../common/hoc/pickerFactory/pickerFactory';
 import {MapActionsType} from '../../common/modules/map/map.constants';
 import {MapContext} from '../../common/modules/map/MapContext';
@@ -74,12 +74,28 @@ export const MapFilters: FC = () => {
               Visualizza le cantine della seguente regione e/o provincia:
             </Text>
           </View>
-          {Platform.OS == 'android' && <View style={mapFiltersStyles.vertical_divider} />}
-          <View style={Platform.OS == 'android' ?  mapFiltersStyles.form_item_container_with_label_inline : mapFiltersStyles.form_item_container_with_label_inline_ios}>
+          {Platform.OS == 'android' && (
+            <View style={mapFiltersStyles.vertical_divider} />
+          )}
+          <View
+            style={
+              Platform.OS == 'android'
+                ? mapFiltersStyles.form_item_container_with_label_inline
+                : mapFiltersStyles.form_item_container_with_label_inline_ios
+            }>
             <Text style={mapFiltersStyles.option_text_label}>Regione</Text>
-            <View style={Platform.OS == 'android' ? mapFiltersStyles.input_view_text : mapFiltersStyles.input_view_text_ios}>
+            <View
+              style={
+                Platform.OS == 'android'
+                  ? mapFiltersStyles.input_view_text
+                  : mapFiltersStyles.input_view_text_ios
+              }>
               <RegionPicker
-                style={Platform.OS == 'android' ?  mapFiltersStyles.pickers_style : mapFiltersStyles.pickers_style_ios}
+                style={
+                  Platform.OS == 'android'
+                    ? mapFiltersStyles.pickers_style
+                    : mapFiltersStyles.pickers_style_ios
+                }
                 itemStyle={mapFiltersStyles.pickers_item_style}
                 selectedValue={_region}
                 onValueChange={(itemValue, _itemIndex) => {
@@ -90,12 +106,28 @@ export const MapFilters: FC = () => {
               />
             </View>
           </View>
-          {Platform.OS == 'android' && <View style={mapFiltersStyles.vertical_divider} />}
-          <View style={Platform.OS == 'android' ?  mapFiltersStyles.form_item_container_with_label_inline : mapFiltersStyles.form_item_container_with_label_inline_ios}>
+          {Platform.OS == 'android' && (
+            <View style={mapFiltersStyles.vertical_divider} />
+          )}
+          <View
+            style={
+              Platform.OS == 'android'
+                ? mapFiltersStyles.form_item_container_with_label_inline
+                : mapFiltersStyles.form_item_container_with_label_inline_ios
+            }>
             <Text style={mapFiltersStyles.option_text_label}>Provincia</Text>
-            <View style={Platform.OS == 'android' ? mapFiltersStyles.input_view_text : mapFiltersStyles.input_view_text_ios}>
+            <View
+              style={
+                Platform.OS == 'android'
+                  ? mapFiltersStyles.input_view_text
+                  : mapFiltersStyles.input_view_text_ios
+              }>
               <ProvincePicker
-                style={Platform.OS == 'android' ?  mapFiltersStyles.pickers_style : mapFiltersStyles.pickers_style_ios}
+                style={
+                  Platform.OS == 'android'
+                    ? mapFiltersStyles.pickers_style
+                    : mapFiltersStyles.pickers_style_ios
+                }
                 itemStyle={mapFiltersStyles.pickers_item_style}
                 selectedValue={_province}
                 onValueChange={(itemValue, _itemIndex) =>
@@ -105,7 +137,9 @@ export const MapFilters: FC = () => {
               />
             </View>
           </View>
-          {Platform.OS == 'android' && <View style={mapFiltersStyles.vertical_divider} />}
+          {Platform.OS == 'android' && (
+            <View style={mapFiltersStyles.vertical_divider} />
+          )}
           <View>
             <Text style={mapFiltersStyles.option_title_text}>
               Visualizza le cantine che offrono i seguenti servizi:
@@ -116,7 +150,11 @@ export const MapFilters: FC = () => {
             <Text style={mapFiltersStyles.option_text_label}>Dormire</Text>
             <View style={mapFiltersStyles.input_view}>
               <Switch
-                style={Platform.OS == 'ios' ? mapFiltersStyles.service_switch_ios : null}
+                style={
+                  Platform.OS == 'ios'
+                    ? mapFiltersStyles.service_switch_ios
+                    : null
+                }
                 trackColor={{false: '#cecece', true: '#cecece'}}
                 thumbColor={_withBnB ? '#2fcc5b' : '#a9a9a9'}
                 ios_backgroundColor="#3e3e3e"
@@ -130,7 +168,11 @@ export const MapFilters: FC = () => {
             <Text style={mapFiltersStyles.option_text_label}>Mangiare</Text>
             <View style={mapFiltersStyles.input_view}>
               <Switch
-                style={Platform.OS == 'ios' ? mapFiltersStyles.service_switch_ios : null}
+                style={
+                  Platform.OS == 'ios'
+                    ? mapFiltersStyles.service_switch_ios
+                    : null
+                }
                 trackColor={{false: '#cecece', true: '#cecece'}}
                 thumbColor={_withRestaurant ? '#2fcc5b' : '#a9a9a9'}
                 ios_backgroundColor="#3e3e3e"

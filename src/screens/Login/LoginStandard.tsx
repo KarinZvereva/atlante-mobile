@@ -61,13 +61,13 @@ export function LoginStandard(props: any) {
   };
 
   return (
-    <SafeAreaView style={styles.page}>      
+    <SafeAreaView style={styles.page}>
       {!isLoading && (
-        <ScrollView contentContainerStyle={{flexGrow: 1}} style={styles.scroll_container}>
-        <>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          style={styles.scroll_container}>
           <Image source={images.logo_calice} style={styles.logo} />
           <View style={styles.option_container}>
-            
             <View style={styles.inputView}>
               <TextInput
                 style={styles.TextInput}
@@ -85,10 +85,14 @@ export function LoginStandard(props: any) {
                 onChangeText={(value) => setPassword(value)}
               />
             </View>
-           
+
             <View style={styles.remember_container}>
               <Switch
-                style={Platform.OS == 'ios' ? styles.rememberSwitch_ios : styles.rememberSwitch}
+                style={
+                  Platform.OS == 'ios'
+                    ? styles.rememberSwitch_ios
+                    : styles.rememberSwitch
+                }
                 trackColor={{false: '#cecece', true: '#cecece'}}
                 thumbColor={isRemember ? markerDefaultGreen : '#a9a9a9'}
                 ios_backgroundColor="#cecece"
@@ -110,7 +114,7 @@ export function LoginStandard(props: any) {
                   Non hai un account? Registrati!
                 </Text>
               </TouchableOpacity>
-            </View>            
+            </View>
           </View>
           <View style={styles.login_button_container}>
             <LinearGradient
@@ -124,21 +128,25 @@ export function LoginStandard(props: any) {
                 </View>
               </TouchableOpacity>
             </LinearGradient>
-          </View>          
-        </>
-        </ScrollView>    
-        )}
-        {isLoading && (
-          <View>
-            <ActivityIndicator size="large" color={markerDefaultGreen} />
           </View>
-        )}
-        {isError && (
-          <View style={{alignSelf: 'center'}}>
-            <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
-          </View>
-        )}
-      
+        </ScrollView>
+      )}
+      {isLoading && (
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            alignContent: 'center',
+            alignSelf: 'center',
+          }}>
+          <ActivityIndicator size="large" color={markerDefaultGreen} />
+        </View>
+      )}
+      {isError && (
+        <View style={{alignSelf: 'center'}}>
+          <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
