@@ -10,6 +10,7 @@ import {
   View,
   Platform,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {ExtraServices, icons, markerDefaultGreen} from '../../common/constants';
@@ -99,205 +100,207 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
 
   return (
     <SafeAreaView style={wineryDetailsStyles.page}>
-      <Image
-        style={{
-          width: 40,
-          height: 60,
-          resizeMode: 'contain',
-          position: 'absolute',
-          top: 15,
-          right: 15,
-        }}
-        source={icons.winery_marker_big}
-      />
-      {loading && (
-        <View
-          style={[
-            wineryDetailsStyles.flex_container,
-            wineryDetailsStyles.centered_container,
-          ]}>
-          <ActivityIndicator size="large" color={markerDefaultGreen} />
-        </View>
-      )}
-      {!loading && winery && logo && (
-        <View style={wineryDetailsStyles.flex_container}>
-          <View style={wineryDetailsStyles.centered_container}>
-            <View style={wineryDetailsStyles.logo}>
-              <Image
-                source={{uri: logo}}
-                style={wineryDetailsStyles.logoImage}
-              />
-            </View>
-            <View>
-              <Text style={wineryDetailsStyles.winery_type_text}>
-                {wineryTypeDescr}
-              </Text>
-            </View>
-          </View>
+      <ScrollView contentContainerStyle={{flexGrow: 1}} style={wineryDetailsStyles.scroll_container}>
+        <Image
+          style={{
+            width: 40,
+            height: 60,
+            resizeMode: 'contain',
+            position: 'absolute',
+            top: 0,
+            right: 0,
+          }}
+          source={icons.winery_marker_big}
+        />
+        {loading && (
           <View
-            style={{
-              height: 70,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <View
-              style={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <RoundImageButton
-                borderRadius={30}
-                image={
-                  winery.telephone && winery.telephone !== ''
-                    ? icons.tel_popup
-                    : icons.tel_popup_bn
-                }
-                onPress={() =>
-                  winery.telephone &&
-                  winery.telephone !== '' &&
-                  openLink(`tel:${winery.telephone}`)
-                }
-              />
-              <Text style={wineryDetailsStyles.small_text}>
-                {winery.telephone && winery.telephone !== '' ? 'Chiama' : '---'}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <RoundImageButton
-                borderRadius={30}
-                image={
-                  winery.email && winery.email !== ''
-                    ? icons.mail_popup
-                    : icons.mail_popup_bn
-                }
-                onPress={() =>
-                  winery.email && winery.email !== '' && sendEmail(winery.email)
-                }
-              />
-              <Text style={wineryDetailsStyles.small_text}>
-                {winery.email && winery.email !== '' ? 'Scrivi' : '---'}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <RoundImageButton
-                borderRadius={30}
-                image={
-                  winery.webSite && winery.webSite !== ''
-                    ? icons.web_popup
-                    : icons.web_popup_BN
-                }
-                onPress={() =>
-                  winery.webSite &&
-                  winery.webSite !== '' &&
-                  openLink(correctWebsiteUrl(winery.webSite))
-                }
-              />
-              <Text style={wineryDetailsStyles.small_text}>
-                {winery.webSite && winery.webSite !== '' ? 'Web' : '---'}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <RoundImageButton
-                borderRadius={30}
-                image={icons.go_to_popup}
-                onPress={openNavigatorMaps}
-              />
-              <Text style={wineryDetailsStyles.small_text}>Indicazioni</Text>
-            </View>
+            style={[
+              wineryDetailsStyles.flex_container,
+              wineryDetailsStyles.centered_container,
+            ]}>
+            <ActivityIndicator size="large" color={markerDefaultGreen} />
           </View>
-          <View style={{margin: 15}}>
-            <Text style={wineryDetailsStyles.title_text}>{winery.name}</Text>
-            {winery.vigneron && winery.vigneron !== 'Vigneron' && (
-              <Text style={wineryDetailsStyles.subtitle_text}>
-                {winery.vigneron}
-              </Text>
-            )}
-            <Text style={wineryDetailsStyles.normal_text}>
-              {winery.address}
-            </Text>
-            <Text style={wineryDetailsStyles.normal_text}>{winery.city}</Text>
-            <Text style={wineryDetailsStyles.normal_text}>
-              {winery.province}
-            </Text>
-            <Text style={wineryDetailsStyles.normal_text}>{winery.region}</Text>
-          </View>
-          {winery.type === WineryType.Wrong_Position && (
-            <View
-              style={{
-                position: 'absolute',
-                bottom: 70,
-                left: 10,
-                flexDirection: 'column',
-                borderRadius: 20,
-                backgroundColor: '#981731',
-                padding: 8,
-              }}>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text style={wineryDetailsStyles.wrong_position_text}>
-                  Geolocalizzazione
-                </Text>
-                <Text style={wineryDetailsStyles.wrong_position_text}>
-                  approssimativa
+        )}
+        {!loading && winery && logo && (
+          <View style={wineryDetailsStyles.flex_container}>
+            <View style={wineryDetailsStyles.centered_container}>
+              <View style={wineryDetailsStyles.logo}>
+                <Image
+                  source={{uri: logo}}
+                  style={wineryDetailsStyles.logoImage}
+                />
+              </View>
+              <View>
+                <Text style={wineryDetailsStyles.winery_type_text}>
+                  {wineryTypeDescr}
                 </Text>
               </View>
             </View>
-          )}
-          {winery.services !== undefined && (
             <View
               style={{
+                height: 70,
                 flexDirection: 'row',
-                position: 'absolute',
-                bottom: 70,
-                right: 10,
-                alignContent: 'flex-start',
-                alignItems: 'flex-start',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-              {(winery.services & ExtraServices.BnB) > 0 && (
-                <Image
-                  style={{height: 60, width: 60, resizeMode: 'contain'}}
-                  source={icons.cantina_b_b}
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <RoundImageButton
+                  borderRadius={30}
+                  image={
+                    winery.telephone && winery.telephone !== ''
+                      ? icons.tel_popup
+                      : icons.tel_popup_bn
+                  }
+                  onPress={() =>
+                    winery.telephone &&
+                    winery.telephone !== '' &&
+                    openLink(`tel:${winery.telephone}`)
+                  }
                 />
-              )}
-              {(winery.services & ExtraServices.Restaurant) > 0 && (
-                <Image
-                  style={{height: 60, width: 60, resizeMode: 'contain'}}
-                  source={icons.cantina_ristoro}
+                <Text style={wineryDetailsStyles.small_text}>
+                  {winery.telephone && winery.telephone !== '' ? 'Chiama' : '---'}
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <RoundImageButton
+                  borderRadius={30}
+                  image={
+                    winery.email && winery.email !== ''
+                      ? icons.mail_popup
+                      : icons.mail_popup_bn
+                  }
+                  onPress={() =>
+                    winery.email && winery.email !== '' && sendEmail(winery.email)
+                  }
                 />
-              )}
+                <Text style={wineryDetailsStyles.small_text}>
+                  {winery.email && winery.email !== '' ? 'Scrivi' : '---'}
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <RoundImageButton
+                  borderRadius={30}
+                  image={
+                    winery.webSite && winery.webSite !== ''
+                      ? icons.web_popup
+                      : icons.web_popup_BN
+                  }
+                  onPress={() =>
+                    winery.webSite &&
+                    winery.webSite !== '' &&
+                    openLink(correctWebsiteUrl(winery.webSite))
+                  }
+                />
+                <Text style={wineryDetailsStyles.small_text}>
+                  {winery.webSite && winery.webSite !== '' ? 'Web' : '---'}
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <RoundImageButton
+                  borderRadius={30}
+                  image={icons.go_to_popup}
+                  onPress={openNavigatorMaps}
+                />
+                <Text style={wineryDetailsStyles.small_text}>Indicazioni</Text>
+              </View>
             </View>
-          )}
-          <View style={wineryDetailsStyles.footer}>
-            <Text style={wineryDetailsStyles.footer_text}>
-              Contatta sempre in anticipo il Vignaiolo
-            </Text>
-            <Text style={wineryDetailsStyles.footer_text}>
-              per concordare la tua visita in cantina.
-            </Text>
+            <View style={{margin: 15}}>
+              <Text style={wineryDetailsStyles.title_text}>{winery.name}</Text>
+              {winery.vigneron && winery.vigneron !== 'Vigneron' && (
+                <Text style={wineryDetailsStyles.subtitle_text}>
+                  {winery.vigneron}
+                </Text>
+              )}
+              <Text style={wineryDetailsStyles.normal_text}>
+                {winery.address}
+              </Text>
+              <Text style={wineryDetailsStyles.normal_text}>{winery.city}</Text>
+              <Text style={wineryDetailsStyles.normal_text}>
+                {winery.province}
+              </Text>
+              <Text style={wineryDetailsStyles.normal_text}>{winery.region}</Text>
+            </View>
+            {winery.type === WineryType.Wrong_Position && (
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: 70,
+                  left: 10,
+                  flexDirection: 'column',
+                  borderRadius: 20,
+                  backgroundColor: '#981731',
+                  padding: 8,
+                }}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={wineryDetailsStyles.wrong_position_text}>
+                    Geolocalizzazione
+                  </Text>
+                  <Text style={wineryDetailsStyles.wrong_position_text}>
+                    approssimativa
+                  </Text>
+                </View>
+              </View>
+            )}
+            {winery.services !== undefined && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  position: 'absolute',
+                  bottom: 70,
+                  right: 10,
+                  alignContent: 'flex-start',
+                  alignItems: 'flex-start',
+                }}>
+                {(winery.services & ExtraServices.BnB) > 0 && (
+                  <Image
+                    style={{height: 60, width: 60, resizeMode: 'contain'}}
+                    source={icons.cantina_b_b}
+                  />
+                )}
+                {(winery.services & ExtraServices.Restaurant) > 0 && (
+                  <Image
+                    style={{height: 60, width: 60, resizeMode: 'contain'}}
+                    source={icons.cantina_ristoro}
+                  />
+                )}
+              </View>
+            )}
+            <View style={wineryDetailsStyles.footer}>
+              <Text style={wineryDetailsStyles.footer_text}>
+                Contatta sempre in anticipo il Vignaiolo
+              </Text>
+              <Text style={wineryDetailsStyles.footer_text}>
+                per concordare la tua visita in cantina.
+              </Text>
+            </View>
           </View>
-        </View>
-      )}
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 });

@@ -7,6 +7,10 @@ export const wineryDetailsStyles = StyleSheet.create({
     backgroundColor: '#FFF',
     padding: 15,
   },
+  scroll_container: {
+    flex : 1,
+    width: '100%',
+  },
   flex_container: {
     flex: 1,
   },
