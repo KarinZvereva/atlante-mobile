@@ -12,7 +12,7 @@ export const wineriesMapStyles = StyleSheet.create({
   },
   map_ios: {
     ...StyleSheet.absoluteFillObject,
-    top: 100,
+    top: 70,
   },
   onLoading: {
     flex: 1,
