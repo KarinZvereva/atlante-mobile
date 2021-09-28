@@ -24,8 +24,7 @@ import {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
-import {MapContext} from '../../common/modules/map/MapContext';
-import {MapActionsType} from '../../common/modules/map/map.constants';
+import {MapContext, MapActionsType} from '../../common/modules/map';
 import {useAuth} from '../../common/customHooks';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
