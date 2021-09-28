@@ -116,7 +116,7 @@ export const MapFilters: FC = () => {
             <Text style={mapFiltersStyles.option_text_label}>Dormire</Text>
             <View style={mapFiltersStyles.input_view}>
               <Switch
-                //style={Platform.OS == 'ios' ? styles.rememberSwitch_ios : styles.rememberSwitch}
+                style={Platform.OS == 'ios' ? mapFiltersStyles.service_switch_ios : null}
                 trackColor={{false: '#cecece', true: '#cecece'}}
                 thumbColor={_withBnB ? '#2fcc5b' : '#a9a9a9'}
                 ios_backgroundColor="#3e3e3e"
@@ -130,6 +130,7 @@ export const MapFilters: FC = () => {
             <Text style={mapFiltersStyles.option_text_label}>Mangiare</Text>
             <View style={mapFiltersStyles.input_view}>
               <Switch
+                style={Platform.OS == 'ios' ? mapFiltersStyles.service_switch_ios : null}
                 trackColor={{false: '#cecece', true: '#cecece'}}
                 thumbColor={_withRestaurant ? '#2fcc5b' : '#a9a9a9'}
                 ios_backgroundColor="#3e3e3e"

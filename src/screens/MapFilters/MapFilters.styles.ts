@@ -129,4 +129,8 @@ export const mapFiltersStyles = StyleSheet.create({
     marginRight: 15,
     marginBottom: 15,
   },
+  service_switch_ios: {
+    transform:  [{ scaleX: 0.8 }, { scaleY: 0.8 }] ,
+    marginRight: 5,
+  },
 });
