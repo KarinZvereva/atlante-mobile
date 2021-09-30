@@ -60,9 +60,6 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
     actionProvider,
   } = useContext(MapContext);
 
-  // Auth
-  const isLogged = useAuth();
-
   // Ref
   const map = useRef<MapView>(null);
 
@@ -230,10 +227,6 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
   useEffect(() => {
     initMap();
   }, []);
-
-  useEffect(() => {
-    navigation.navigate('SignIn');
-  }, [isLogged]);
 
   // Triggered when the user select a position from pressing the map
   useEffect(() => {

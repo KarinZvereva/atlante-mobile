@@ -1,45 +1,81 @@
-import {useContext, useEffect, useState} from 'react';
+import {useCallback, useContext, useEffect, useState} from 'react';
+import {LoginApiOutputData} from '../interfaces';
 import {AuthContext, AuthDal, AuthTokenManager} from '../modules/auth';
+
+const isDefined = (s?: string | null) =>
+  s !== undefined && s !== null && s.length > 0;
 
 // Custom hook are functions that starts with the keyword "use"
 export function useAuth() {
-  const {data, actionsProvider} = useContext(AuthContext);
-  const [isLogged, setIsLogged] = useState<boolean>(
-    !data.isLoading && data.userToken !== undefined && data.userToken !== null,
+  /** Context */
+  const {
+    data: {userToken, userName, password},
+    actionsProvider,
+  } = useContext(AuthContext);
+
+  /** States */
+  const [isLogged, setIsLogged] = useState<boolean>(isDefined(userToken));
+  const [newToken, setNewToken] = useState<LoginApiOutputData | null>();
+
+  /** Callbacks */
+  const notifyAuthRedux = useCallback(
+    (token: LoginApiOutputData | null) => {
+      if (token) {
+        actionsProvider?.refresh(token).then((r) => r && setIsLogged(true));
+      } else if (token === null) {
+        actionsProvider?.signOut().then((r) => r && setIsLogged(false));
+      }
+    },
+    [actionsProvider],
   );
 
+  /** Effects */
   useEffect(() => {
     const checkCallback = async () => {
-      const token = await AuthTokenManager.getToken();
-      if (AuthTokenManager.isExpiredToken(token)) {
-        try {
-          const refreshToken = await AuthTokenManager.getRefreshToken();
-          const refreshResult = await AuthDal.refresh({token, refreshToken});
-          if (
-            refreshResult &&
-            refreshResult.token &&
-            refreshResult.refreshToken
-          ) {
-            await actionsProvider?.refresh(refreshResult);
-            setIsLogged(true);
-          } else {
-            actionsProvider?.signOut();
-            setIsLogged(false);
+      if (AuthTokenManager.isExpiredToken(userToken)) {
+        const token = await AuthTokenManager.getToken();
+        if (AuthTokenManager.isExpiredToken(token)) {
+          try {
+            const refreshToken = await AuthTokenManager.getRefreshToken();
+            let result = await AuthDal.refresh({token, refreshToken});
+
+            // 1. refreshed
+            if (result && result.token && result.refreshToken) {
+              setNewToken(result);
+              return;
+            }
+
+            // 2. not refreshed, try to login again if possible
+            if (userName && password) {
+              result = await AuthDal.login({userName, password});
+              if (result && result.token && result.refreshToken) {
+                setNewToken(result);
+                return;
+              }
+            }
+
+            // 3. not possible, return undefined
+            setNewToken(null);
+          } catch (e) {
+            console.error(JSON.stringify(e));
+            setNewToken(null);
           }
-        } catch (e) {
-          console.error(JSON.stringify(e));
-          actionsProvider?.signOut();
-          setIsLogged(false);
         }
       }
     };
 
     // Define interval to run every 20 minutes
-    const interval = setInterval(checkCallback, 1200000);
+    const interval = setInterval(checkCallback, 60000);
 
     // Clean up function
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
+
+  useEffect(() => {
+    newToken !== undefined && notifyAuthRedux(newToken);
+  }, [newToken]);
 
   return isLogged;
 }

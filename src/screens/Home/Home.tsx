@@ -1,9 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback} from 'react';
-import {View, Text, Image, Linking, SafeAreaView, Platform, ScrollView} from 'react-native';
+import React, {useCallback, useEffect} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  Linking,
+  SafeAreaView,
+  Platform,
+  ScrollView,
+} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {icons, images} from '../../common/constants';
+import {useAuth} from '../../common/customHooks';
 import {IRouteProps} from '../../common/interfaces';
 import {sendEmail} from '../../common/modules/email/sendEmail';
 import {openLink} from '../../common/modules/linking';
@@ -11,6 +20,9 @@ import {homeStyles} from './Home.styles';
 
 export function Home(props: IRouteProps) {
   const navigation = useNavigation();
+
+  // Auth
+  const isLogged = useAuth();
 
   const openMail = useCallback(() => {
     sendEmail('atlantevignaiolinaturali@gmail.com');
@@ -27,15 +39,23 @@ export function Home(props: IRouteProps) {
     }
   }, []);
 
+  useEffect(() => {
+    if (!isLogged) navigation.navigate('SignIn');
+  }, [isLogged]);
+
   return (
-    <SafeAreaView style={homeStyles.page}>      
+    <SafeAreaView style={homeStyles.page}>
       <View>
         <Header {...props} showName="Home" />
       </View>
-      <ScrollView contentContainerStyle={{flexGrow: 1}} style={homeStyles.scroll_container}>        
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        style={homeStyles.scroll_container}>
         <View style={homeStyles.centered_container}>
-          <Image source={images.logo_calice} 
-            style={Platform.OS == 'ios' ? homeStyles.logo_ios : homeStyles.logo} />
+          <Image
+            source={images.logo_calice}
+            style={Platform.OS == 'ios' ? homeStyles.logo_ios : homeStyles.logo}
+          />
           <Text style={homeStyles.title}>Benvenuto</Text>
           <Text style={[homeStyles.title, {marginBottom: 60}]}>
             Bevitore Errante

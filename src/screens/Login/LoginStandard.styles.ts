@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   scroll_container: {
     flex: 1,
     marginHorizontal: 10,
-    width: '100%'
+    width: '100%',
   },
   option_container: {
     flex: 1,
@@ -26,8 +26,9 @@ export const styles = StyleSheet.create({
     height: 135,
     width: 135,
     resizeMode: 'center',
-    position: 'absolute',
-    top: 40,
+    paddingTop: 40,
+    // position: 'absolute',
+    // top: 40,
     alignSelf: 'center',
   },
   inputView: {
@@ -81,7 +82,7 @@ export const styles = StyleSheet.create({
   },
   remember_container: {
     flex: 0,
-    alignItems: 'center', 
+    alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     width: '100%',
@@ -97,7 +98,7 @@ export const styles = StyleSheet.create({
     position: 'relative',
     top: 0,
     right: 0,
-    transform:  [{ scaleX: 0.8 }, { scaleY: 0.8 }] ,
+    transform: [{scaleX: 0.8}, {scaleY: 0.8}],
     marginRight: 5,
   },
   rememberText: {
@@ -105,20 +106,21 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     fontFamily: 'Novecentosanswide-Normal',
-  },  
+  },
   input_container: {
     flex: 1,
-    alignItems: 'center', 
+    alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
   },
   login_button_container: {
     flex: 1,
-    alignItems: 'center', 
+    alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     width: '100%',
-    position: 'absolute',
-    bottom: 40,
+    marginTop: 20,
+    // position: 'absolute',
+    // bottom: 40,
   },
 });
