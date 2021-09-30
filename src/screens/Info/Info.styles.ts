@@ -96,16 +96,16 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: 'Novecentosanswide-Normal',
     textAlignVertical: 'center',
-    position: 'absolute',
-    left: 0,
   },
   input_view_text: {
     backgroundColor: markerDefaultGreen,
     borderRadius: 30,
     width: '60%',
     alignItems: 'center',
-    position: 'absolute',
-    right: 42,
+    marginLeft: 22,
+  },
+  input_view_province_text: {
+    marginLeft: 10,
   },
   input_view_text_ios: {
     width: '90%',
@@ -130,7 +130,6 @@ export const styles = StyleSheet.create({
     fontSize: 19,
     fontFamily: 'Novecentosanswide-Bold',
     textAlignVertical: 'center',
-    position: 'absolute',
-    right: 5,
+    marginLeft: 20,
   },
 });

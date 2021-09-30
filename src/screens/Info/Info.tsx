@@ -210,10 +210,9 @@ export function Info(props: any) {
                 </View>
                 <Text style={styles.count_text_label}>{countRegion}</Text>
               </View>
-              {Platform.OS == 'android' && <View style={styles.vertical_divider} />}
               <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
                 <Text style={styles.option_text_label}>Provincia</Text>
-                <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
+                <View style={Platform.OS == 'android' ? {...styles.input_view_text, ...styles.input_view_province_text} : styles.input_view_text_ios}>
                   <ProvincePicker
                     style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
                     itemStyle={styles.pickers_item_style}
