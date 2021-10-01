@@ -8,7 +8,7 @@ export const wineryDetailsStyles = StyleSheet.create({
     padding: 15,
   },
   scroll_container: {
-    flex : 1,
+    flex: 1,
     width: '100%',
   },
   flex_container: {
@@ -47,8 +47,7 @@ export const wineryDetailsStyles = StyleSheet.create({
   small_text: {fontSize: 11, fontFamily: 'Novecentosanswide-Normal'},
   footer: {
     width: '100%',
-    position: 'absolute',
-    bottom: 10,
+    marginTop: 60,
     flexDirection: 'column',
     alignContent: 'center',
     alignItems: 'center',
