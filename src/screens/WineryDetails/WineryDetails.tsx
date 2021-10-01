@@ -102,14 +102,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
     <SafeAreaView style={wineryDetailsStyles.page}>
       <ScrollView contentContainerStyle={{flexGrow: 1}} style={wineryDetailsStyles.scroll_container}>
         <Image
-          style={{
-            width: 40,
-            height: 60,
-            resizeMode: 'contain',
-            position: 'absolute',
-            top: 15,
-            right: 15,
-          }}
+          style={wineryDetailsStyles.logo_marker}
           source={icons.winery_marker_big}
         />
         {loading && (
@@ -242,15 +235,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
             </View>
             {winery.type === WineryType.Wrong_Position && (
               <View
-                style={{
-                  position: 'absolute',
-                  bottom: 70,
-                  left: 10,
-                  flexDirection: 'column',
-                  borderRadius: 20,
-                  backgroundColor: '#981731',
-                  padding: 8,
-                }}>
+                style={wineryDetailsStyles.wrong_position_container}>
                 <View
                   style={{
                     flex: 1,
@@ -268,14 +253,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
             )}
             {winery.services !== undefined && (
               <View
-                style={{
-                  flexDirection: 'row',
-                  position: 'absolute',
-                  bottom: 70,
-                  right: 10,
-                  alignContent: 'flex-start',
-                  alignItems: 'flex-start',
-                }}>
+                style={wineryDetailsStyles.extra_service_container}>
                 {(winery.services & ExtraServices.BnB) > 0 && (
                   <Image
                     style={{height: 60, width: 60, resizeMode: 'contain'}}

@@ -29,6 +29,14 @@ export const wineryDetailsStyles = StyleSheet.create({
     height: 210,
     resizeMode: 'contain',
   },
+  logo_marker: {
+    width: 40,
+    height: 60,
+    resizeMode: 'contain',
+    position: 'absolute',
+    top: 15,
+    right: 15,
+  },
   title_text: {
     fontSize: 24,
     fontFamily: 'Novecentosanswide-Bold',
@@ -62,4 +70,20 @@ export const wineryDetailsStyles = StyleSheet.create({
     color: 'white',
   },
   winery_type_text: {fontSize: 18, fontFamily: 'Novecentosanswide-Bold'},
+  wrong_position_container : {
+    flex: 1,
+    flexDirection: 'column',
+    alignContent: 'flex-start',
+    borderRadius: 20,
+    backgroundColor: '#981731',
+    padding: 8,
+    marginLeft: 10,
+    width: '40%',
+  },
+  extra_service_container : {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginRight: 10,
+  },
 });
