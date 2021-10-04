@@ -50,10 +50,20 @@ export function Info(props: any) {
 
     switch (countType) {
       case CountType.Region:
-        region = data;
+        if (data) 
+          region = data;
+        else {
+          setRegionCount(undefined);
+          return;
+        }
         break;
       case CountType.Province:
-        province = data;
+        if (data)
+          province = data;
+        else {
+          setProvinceCount(undefined)
+          return;
+        }
         break;
       default:
         break;
@@ -62,6 +72,7 @@ export function Info(props: any) {
     infoCountCall
       .count({region, province})
       .then((result) => {
+        console.log(result?.value)
         if (result) {
           switch (countType) {
             case CountType.Region:
