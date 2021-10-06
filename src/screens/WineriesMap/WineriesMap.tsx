@@ -285,7 +285,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
     <SafeAreaView style={wineriesMapStyles.pageContainer}>
       <KeyboardAvoidingView 
         style={{flex:1}}
-        keyboardVerticalOffset={0}
+        keyboardVerticalOffset={Platform.OS == 'android' ? 40 : 0}
         behavior="height"> 
         <MapView 
           initialRegion={InitialRegion}
