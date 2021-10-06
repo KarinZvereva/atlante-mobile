@@ -131,5 +131,11 @@ export const styles = StyleSheet.create({
     fontSize: 19,
     fontFamily: 'Novecentosanswide-Bold',
     textAlignVertical: 'center',
+    marginLeft: 25,
+  },
+  count_text_label_ios: {
+    fontSize: 19,
+    fontFamily: 'Novecentosanswide-Bold',
+    textAlignVertical: 'center',
   },
 });
