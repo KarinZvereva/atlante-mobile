@@ -283,13 +283,10 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
 
   return (
     <SafeAreaView style={wineriesMapStyles.pageContainer}>
-    <>  
-      {isIOS && (
       <KeyboardAvoidingView 
         style={{flex:1}}
         keyboardVerticalOffset={0}
-        behavior="height"  /> 
-      )}  
+        behavior="height"> 
         <MapView 
           initialRegion={InitialRegion}
           style={
@@ -491,8 +488,8 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
             }
           />
         </TouchableOpacity>
-        
-    </>  
+            </KeyboardAvoidingView> 
+      
     </SafeAreaView>
   );
 };
