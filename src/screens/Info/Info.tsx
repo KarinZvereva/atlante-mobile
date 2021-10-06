@@ -205,7 +205,7 @@ export function Info(props: any) {
               </View>
               <View style={Platform.OS == 'android' ?  styles.vertical_divider : styles.vertical_divider_ios} />
               <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
-                <Text style={styles.option_text_label}>Regione</Text>
+                <Text style={ Platform.OS == 'android' ? styles.option_text_label :  {...styles.option_text_label, ...{marginRight: 14}}}>Regione</Text>
                 <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
                   <RegionPicker
                     style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
