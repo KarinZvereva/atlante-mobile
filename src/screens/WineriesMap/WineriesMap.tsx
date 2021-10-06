@@ -76,6 +76,9 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
     [actionProvider],
   );
 
+  //Platform
+  const isIOS = Platform.OS == 'ios'; 
+
   const loadWineries = useCallback((filters?: string) => {
     setLoading(true);
     wineryDataDal
@@ -280,10 +283,13 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
 
   return (
     <SafeAreaView style={wineriesMapStyles.pageContainer}>
+    <>  
+      {isIOS && (
       <KeyboardAvoidingView 
         style={{flex:1}}
         keyboardVerticalOffset={0}
-        behavior="height"  > 
+        behavior="height"  /> 
+      )}  
         <MapView 
           initialRegion={InitialRegion}
           style={
@@ -485,7 +491,8 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
             }
           />
         </TouchableOpacity>
-      </KeyboardAvoidingView>
+        
+    </>  
     </SafeAreaView>
   );
 };
