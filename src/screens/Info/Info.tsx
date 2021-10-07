@@ -205,7 +205,7 @@ export function Info(props: any) {
               </View>
               <View style={Platform.OS == 'android' ?  styles.vertical_divider : styles.vertical_divider_ios} />
               <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
-                <Text style={styles.option_text_label}>Regione</Text>
+                <Text style={ Platform.OS == 'android' ? styles.option_text_label :  {...styles.option_text_label, ...{marginRight: 14}}}>Regione</Text>
                 <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
                   <RegionPicker
                     style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
@@ -219,9 +219,9 @@ export function Info(props: any) {
                     enabled={!regionDisabled}
                   />
                 </View>
-                <Text style={styles.count_text_label}>{countRegion}</Text>
+                <Text style={Platform.OS == 'android' ? styles.count_text_label : styles.count_text_label_ios}>{countRegion}</Text>
               </View>
-              <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
+              <View style={Platform.OS == 'android' ? styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
                 <Text style={styles.option_text_label}>Provincia</Text>
                 <View style={Platform.OS == 'android' ? {...styles.input_view_text, ...styles.input_view_province_text} : styles.input_view_text_ios}>
                   <ProvincePicker
@@ -235,7 +235,7 @@ export function Info(props: any) {
                     remoteFilter={_region ? {region: _region} : undefined}
                   />
                 </View>
-                <Text style={styles.count_text_label}>{countProvince}</Text>
+                <Text style={Platform.OS == 'android' ? styles.count_text_label : styles.count_text_label_ios}>{countProvince}</Text>
               </View>
             </View>
             <View style={{marginLeft: 10}}>

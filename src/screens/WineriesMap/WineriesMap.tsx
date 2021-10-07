@@ -8,6 +8,7 @@ import {
   Alert,
   Platform,
   SafeAreaView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import MapView, {LatLng, Region} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
@@ -74,6 +75,9 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       actionProvider?.changeExtraFilter(MapActionsType.RESET_EXTRA_FILTER, {}),
     [actionProvider],
   );
+
+  //Platform
+  const isIOS = Platform.OS == 'ios'; 
 
   const loadWineries = useCallback((filters?: string) => {
     setLoading(true);
@@ -279,207 +283,213 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
 
   return (
     <SafeAreaView style={wineriesMapStyles.pageContainer}>
-      <MapView
-        initialRegion={InitialRegion}
-        style={
-          Platform.OS == 'android'
-            ? wineriesMapStyles.map
-            : wineriesMapStyles.map_ios
-        }
-        ref={map}
-        showsUserLocation={true}
-        onLongPress={(event) => {
-          setSelectedPosition(event.nativeEvent.coordinate);
-        }}
-        mapType={mapsType}
-        showsCompass={true}
-        zoomEnabled={!loading}
-        scrollEnabled={!loading}
-        pitchEnabled={!loading}
-        rotateEnabled={!loading}>
-        <>
-          {wineries &&
-            wineries.map((d, i) => (
-              <Marker
-                key={d._id}
-                coordinate={{
-                  latitude: d.location?.latitude || 0,
-                  longitude: d.location?.longitude || 0,
-                }}
-                icon={isAndroid ? icons.winery_marker : null}
-                image={isAndroid ? null : icons.winery_marker}
-                tracksViewChanges={false}>
-                <Callout
-                  tooltip={true}
-                  onPress={() =>
-                    navigation.navigate('WineryDetails', {winery: d})
-                  }>
-                  <MapsCallout>
-                    <WineryPopup winery={d} />
-                  </MapsCallout>
-                </Callout>
-              </Marker>
-            ))}
-          {selectedPosition && (
-            <Marker
-              key={'Selected_position'}
-              coordinate={{
-                latitude: selectedPosition.latitude,
-                longitude: selectedPosition.longitude,
-              }}
-            />
-          )}
-        </>
-      </MapView>
-      <Header
-        {...props}
-        showName="Mappa Cantine"
-        extraButtons={[
-          <View
-            key="b1"
-            style={{
-              alignContent: 'center',
-              alignItems: 'center',
-              alignSelf: 'center',
-            }}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('MapSettings')}>
-              <Image
-                source={icons.ingranaggio_piccolo}
-                style={{
-                  width: 25,
-                  height: 25,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
-          </View>,
-          <View
-            key="b2"
-            style={{
-              alignContent: 'center',
-              alignItems: 'center',
-              alignSelf: 'center',
-              marginRight: 15,
-            }}>
-            <TouchableOpacity onPress={() => navigation.navigate('MapFilters')}>
-              <Image
-                source={icons.filtri_piccolo}
-                style={{
-                  width: 25,
-                  height: 25,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
-          </View>,
-        ]}
-      />
-      {loading && (
-        <View style={wineriesMapStyles.onLoading}>
-          <ActivityIndicator size="large" color={markerDefaultGreen} />
-        </View>
-      )}
-      <TouchableOpacity
-        style={
-          Platform.OS == 'android'
-            ? wineriesMapStyles.infoMapsButton
-            : wineriesMapStyles.infoMapsButton_ios
-        }
-        onPress={() => navigation.navigate('MapsInfo')}
-        disabled={loading}>
-        <Image
-          style={{width: 40, height: 40, resizeMode: 'contain'}}
-          source={icons.info_map}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={
-          Platform.OS == 'android'
-            ? wineriesMapStyles.reloadButton
-            : wineriesMapStyles.reloadButton_ios
-        }
-        onPress={() => {
-          resetMapState();
-          loadWineries();
-        }}
-        disabled={loading}>
-        <Image
-          style={{width: 40, height: 40}}
-          source={require('../../assets/icon/reload.png')}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={
-          Platform.OS == 'android'
-            ? wineriesMapStyles.cleanButton
-            : wineriesMapStyles.cleanButton_ios
-        }
-        onPress={() => resetMapState()}
-        disabled={loading}>
-        <Image
-          style={{width: 40, height: 40}}
-          source={require('../../assets/icon/clean_map.png')}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => gotToMyLocation()}
-        style={wineriesMapStyles.goToMyPositionButton}>
-        <Image
-          style={{width: 40, height: 40}}
-          source={require('../../assets/icon/posizione.png')}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          resetMapState();
-          filterWithMyPosition();
-        }}
-        style={wineriesMapStyles.filterMyPositionButton}
-        disabled={loading}>
-        <Image
-          style={{width: 40, height: 40}}
-          source={require('../../assets/icon/intorno.png')}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={wineriesMapStyles.searchButton}
-        onPress={() => {
-          resetMapState();
-          search !== ''
-            ? loadWineries(
-                `(${nameof<Winery>('name')}.ToLower().Contains('${search
-                  .trim()
-                  .toLowerCase()}') OR ${nameof<Winery>(
-                  'name2',
-                )}.ToLower().Contains('${search
-                  .trim()
-                  .toLowerCase()}') OR ${nameof<Winery>(
-                  'vigneron',
-                )}.ToLower().Contains('${search.trim().toLowerCase()}'))`,
-              )
-            : loadWineries();
-        }}
-        disabled={loading}>
-        <Image
-          style={{width: 40, height: 40}}
-          source={require('../../assets/icon/cerca.png')}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={wineriesMapStyles.searchMapText}>
-        <TextInput
-          placeholder="... cerca"
-          placeholderTextColor="#000000"
-          onChangeText={(value) => setSearch(value)}
-          editable={!loading}
-          value={search}
+      <KeyboardAvoidingView 
+        style={{flex:1}}
+        keyboardVerticalOffset={Platform.OS == 'android' ? 40 : 0}
+        behavior="height"> 
+        <MapView 
+          initialRegion={InitialRegion}
           style={
             Platform.OS == 'android'
-              ? wineriesMapStyles.searchMapInputText
-              : wineriesMapStyles.searchMapInputText_ios
+              ? wineriesMapStyles.map
+              : wineriesMapStyles.map_ios
           }
+          ref={map}
+          showsUserLocation={true}
+          onLongPress={(event) => {
+            setSelectedPosition(event.nativeEvent.coordinate);
+          }}
+          mapType={mapsType}
+          showsCompass={true}
+          zoomEnabled={!loading}
+          scrollEnabled={!loading}
+          pitchEnabled={!loading}
+          rotateEnabled={!loading}>
+          <>
+            {wineries &&
+              wineries.map((d, i) => (
+                <Marker
+                  key={d._id}
+                  coordinate={{
+                    latitude: d.location?.latitude || 0,
+                    longitude: d.location?.longitude || 0,
+                  }}
+                  icon={isAndroid ? icons.winery_marker : null}
+                  image={isAndroid ? null : icons.winery_marker}
+                  tracksViewChanges={false}>
+                  <Callout
+                    tooltip={true}
+                    onPress={() =>
+                      navigation.navigate('WineryDetails', {winery: d})
+                    }>
+                    <MapsCallout>
+                      <WineryPopup winery={d} />
+                    </MapsCallout>
+                  </Callout>
+                </Marker>
+              ))}
+            {selectedPosition && (
+              <Marker
+                key={'Selected_position'}
+                coordinate={{
+                  latitude: selectedPosition.latitude,
+                  longitude: selectedPosition.longitude,
+                }}
+              />
+            )}
+          </>
+        </MapView>
+        <Header
+          {...props}
+          showName="Mappa Cantine"
+          extraButtons={[
+            <View
+              key="b1"
+              style={{
+                alignContent: 'center',
+                alignItems: 'center',
+                alignSelf: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('MapSettings')}>
+                <Image
+                  source={icons.ingranaggio_piccolo}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    resizeMode: 'contain',
+                  }}
+                />
+              </TouchableOpacity>
+            </View>,
+            <View
+              key="b2"
+              style={{
+                alignContent: 'center',
+                alignItems: 'center',
+                alignSelf: 'center',
+                marginRight: 15,
+              }}>
+              <TouchableOpacity onPress={() => navigation.navigate('MapFilters')}>
+                <Image
+                  source={icons.filtri_piccolo}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    resizeMode: 'contain',
+                  }}
+                />
+              </TouchableOpacity>
+            </View>,
+          ]}
         />
-      </TouchableOpacity>
+        {loading && (
+          <View style={wineriesMapStyles.onLoading}>
+            <ActivityIndicator size="large" color={markerDefaultGreen} />
+          </View>
+        )}
+        <TouchableOpacity
+          style={
+            Platform.OS == 'android'
+              ? wineriesMapStyles.infoMapsButton
+              : wineriesMapStyles.infoMapsButton_ios
+          }
+          onPress={() => navigation.navigate('MapsInfo')}
+          disabled={loading}>
+          <Image
+            style={{width: 40, height: 40, resizeMode: 'contain'}}
+            source={icons.info_map}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={
+            Platform.OS == 'android'
+              ? wineriesMapStyles.reloadButton
+              : wineriesMapStyles.reloadButton_ios
+          }
+          onPress={() => {
+            resetMapState();
+            loadWineries();
+          }}
+          disabled={loading}>
+          <Image
+            style={{width: 40, height: 40}}
+            source={require('../../assets/icon/reload.png')}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={
+            Platform.OS == 'android'
+              ? wineriesMapStyles.cleanButton
+              : wineriesMapStyles.cleanButton_ios
+          }
+          onPress={() => resetMapState()}
+          disabled={loading}>
+          <Image
+            style={{width: 40, height: 40}}
+            source={require('../../assets/icon/clean_map.png')}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => gotToMyLocation()}
+          style={wineriesMapStyles.goToMyPositionButton}>
+          <Image
+            style={{width: 40, height: 40}}
+            source={require('../../assets/icon/posizione.png')}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            resetMapState();
+            filterWithMyPosition();
+          }}
+          style={wineriesMapStyles.filterMyPositionButton}
+          disabled={loading}>
+          <Image
+            style={{width: 40, height: 40}}
+            source={require('../../assets/icon/intorno.png')}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={wineriesMapStyles.searchButton}
+          onPress={() => {
+            resetMapState();
+            search !== ''
+              ? loadWineries(
+                  `(${nameof<Winery>('name')}.ToLower().Contains('${search
+                    .trim()
+                    .toLowerCase()}') OR ${nameof<Winery>(
+                    'name2',
+                  )}.ToLower().Contains('${search
+                    .trim()
+                    .toLowerCase()}') OR ${nameof<Winery>(
+                    'vigneron',
+                  )}.ToLower().Contains('${search.trim().toLowerCase()}'))`,
+                )
+              : loadWineries();
+          }}
+          disabled={loading}>
+          <Image
+            style={{width: 40, height: 40}}
+            source={require('../../assets/icon/cerca.png')}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity style={wineriesMapStyles.searchMapText}>
+          <TextInput
+            placeholder="... cerca"
+            placeholderTextColor="#000000"
+            onChangeText={(value) => setSearch(value)}
+            editable={!loading}
+            value={search}
+            style={
+              Platform.OS == 'android'
+                ? wineriesMapStyles.searchMapInputText
+                : wineriesMapStyles.searchMapInputText_ios
+            }
+          />
+        </TouchableOpacity>
+            </KeyboardAvoidingView> 
+      
     </SafeAreaView>
   );
 };

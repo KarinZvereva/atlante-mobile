@@ -108,7 +108,9 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
   input_view_text_ios: {
-    width: '90%',
+    flex:1,
+    width: 150,
+    marginLeft: 15,
   },
   pickers_style: {
     width: '95%',
@@ -116,10 +118,9 @@ export const styles = StyleSheet.create({
     color: 'white',
   },
   pickers_style_ios: {
-    width: '65%',
-    marginLeft: 10,
+    width: 150,
+    marginLeft: 15,
     color: 'white',
-    left: 75,
   },
   pickers_item_style: {
     fontSize: 16,
@@ -130,6 +131,11 @@ export const styles = StyleSheet.create({
     fontSize: 19,
     fontFamily: 'Novecentosanswide-Bold',
     textAlignVertical: 'center',
-    marginLeft: 20,
+    marginLeft: 25,
+  },
+  count_text_label_ios: {
+    fontSize: 19,
+    fontFamily: 'Novecentosanswide-Bold',
+    textAlignVertical: 'center',
   },
 });
