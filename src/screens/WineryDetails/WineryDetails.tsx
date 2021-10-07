@@ -100,7 +100,9 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
 
   return (
     <SafeAreaView style={wineryDetailsStyles.page}>
-      <ScrollView contentContainerStyle={{flexGrow: 1}} style={wineryDetailsStyles.scroll_container}>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        style={wineryDetailsStyles.scroll_container}>
         <Image
           style={wineryDetailsStyles.logo_marker}
           source={icons.winery_marker_big}
@@ -156,7 +158,9 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                   }
                 />
                 <Text style={wineryDetailsStyles.small_text}>
-                  {winery.telephone && winery.telephone !== '' ? 'Chiama' : '---'}
+                  {winery.telephone && winery.telephone !== ''
+                    ? 'Chiama'
+                    : '---'}
                 </Text>
               </View>
               <View
@@ -173,7 +177,9 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                       : icons.mail_popup_bn
                   }
                   onPress={() =>
-                    winery.email && winery.email !== '' && sendEmail(winery.email)
+                    winery.email &&
+                    winery.email !== '' &&
+                    sendEmail(winery.email)
                   }
                 />
                 <Text style={wineryDetailsStyles.small_text}>
@@ -231,11 +237,12 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
               <Text style={wineryDetailsStyles.normal_text}>
                 {winery.province}
               </Text>
-              <Text style={wineryDetailsStyles.normal_text}>{winery.region}</Text>
+              <Text style={wineryDetailsStyles.normal_text}>
+                {winery.region}
+              </Text>
             </View>
             {winery.type === WineryType.Wrong_Position && (
-              <View
-                style={wineryDetailsStyles.wrong_position_container}>
+              <View style={wineryDetailsStyles.wrong_position_container}>
                 <View
                   style={{
                     flex: 1,
@@ -243,17 +250,13 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                     justifyContent: 'center',
                   }}>
                   <Text style={wineryDetailsStyles.wrong_position_text}>
-                    Geolocalizzazione
-                  </Text>
-                  <Text style={wineryDetailsStyles.wrong_position_text}>
-                    approssimativa
+                    Geolocalizzazione{'\n'}approssimativa
                   </Text>
                 </View>
               </View>
             )}
             {winery.services !== undefined && (
-              <View
-                style={wineryDetailsStyles.extra_service_container}>
+              <View style={wineryDetailsStyles.extra_service_container}>
                 {(winery.services & ExtraServices.BnB) > 0 && (
                   <Image
                     style={{height: 60, width: 60, resizeMode: 'contain'}}
@@ -270,10 +273,8 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
             )}
             <View style={wineryDetailsStyles.footer}>
               <Text style={wineryDetailsStyles.footer_text}>
-                Contatta sempre in anticipo il Vignaiolo
-              </Text>
-              <Text style={wineryDetailsStyles.footer_text}>
-                per concordare la tua visita in cantina.
+                Contatta sempre in anticipo il Vignaiolo per concordare la tua
+                visita in cantina.
               </Text>
             </View>
           </View>

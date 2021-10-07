@@ -70,7 +70,7 @@ export const wineryDetailsStyles = StyleSheet.create({
     color: 'white',
   },
   winery_type_text: {fontSize: 18, fontFamily: 'Novecentosanswide-Bold'},
-  wrong_position_container : {
+  wrong_position_container: {
     flex: 1,
     flexDirection: 'column',
     alignContent: 'flex-start',
@@ -78,9 +78,9 @@ export const wineryDetailsStyles = StyleSheet.create({
     backgroundColor: '#981731',
     padding: 8,
     marginLeft: 10,
-    width: '40%',
+    width: '50%',
   },
-  extra_service_container : {
+  extra_service_container: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
