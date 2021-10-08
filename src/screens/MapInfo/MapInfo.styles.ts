@@ -12,7 +12,7 @@ export const mapsInfoStyles = StyleSheet.create({
   logo: {
     width: 40,
     height: 60,
-    resizeMode: 'center',
+    resizeMode: 'contain',
     position: 'absolute',
     top: 0,
   },
