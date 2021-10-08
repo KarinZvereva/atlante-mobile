@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
   logo: {
     height: 80,
     width: 80,
-    resizeMode: 'center',
+    resizeMode: 'contain',
     position: 'relative',
     marginBottom: 0,
   },

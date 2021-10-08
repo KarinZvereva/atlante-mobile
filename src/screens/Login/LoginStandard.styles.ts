@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
   logo: {
     height: 135,
     width: 135,
-    resizeMode: 'center',
+    resizeMode: 'contain',
     paddingTop: 40,
     // position: 'absolute',
     // top: 40,

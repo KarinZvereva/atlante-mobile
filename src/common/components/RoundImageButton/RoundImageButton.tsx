@@ -24,7 +24,7 @@ export const RoundImageButton = React.memo((props: IRoundImageButtonProps) => {
         style={{
           height: dimension,
           width: dimension,
-          resizeMode: 'center',
+          resizeMode: 'contain',
         }}
       />
     </TouchableOpacity>
