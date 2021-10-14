@@ -79,7 +79,7 @@ export function Home(props: IRouteProps) {
               style={{marginRight: 10}}
               image={icons.facebook}
               onPress={() => {
-                openLink('https://www.facebook.com/140077001562439');
+                openLink('https://www.facebook.com/NaTourWine');
               }}
             />
             <RoundImageButton

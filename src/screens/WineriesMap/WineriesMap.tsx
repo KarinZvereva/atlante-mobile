@@ -26,7 +26,6 @@ import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
 import {MapContext, MapActionsType} from '../../common/modules/map';
-import {useAuth} from '../../common/customHooks';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
@@ -77,7 +76,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
   );
 
   //Platform
-  const isIOS = Platform.OS == 'ios'; 
+  const isIOS = Platform.OS == 'ios';
 
   const loadWineries = useCallback((filters?: string) => {
     setLoading(true);
@@ -283,11 +282,11 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
 
   return (
     <SafeAreaView style={wineriesMapStyles.pageContainer}>
-      <KeyboardAvoidingView 
-        style={{flex:1}}
+      <KeyboardAvoidingView
+        style={{flex: 1}}
         keyboardVerticalOffset={Platform.OS == 'android' ? 40 : 0}
-        behavior="height"> 
-        <MapView 
+        behavior="height">
+        <MapView
           initialRegion={InitialRegion}
           style={
             Platform.OS == 'android'
@@ -370,7 +369,8 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
                 alignSelf: 'center',
                 marginRight: 15,
               }}>
-              <TouchableOpacity onPress={() => navigation.navigate('MapFilters')}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('MapFilters')}>
                 <Image
                   source={icons.filtri_piccolo}
                   style={{
@@ -488,8 +488,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
             }
           />
         </TouchableOpacity>
-            </KeyboardAvoidingView> 
-      
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
