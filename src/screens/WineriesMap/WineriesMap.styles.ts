@@ -56,7 +56,7 @@ export const wineriesMapStyles = StyleSheet.create({
     width: 40,
     height: 40,
     position: 'absolute',
-    top: 120,
+    top: 60,
     right: 20,
     borderRadius: 30,
     backgroundColor: '#d2d2d2',
@@ -83,7 +83,7 @@ export const wineriesMapStyles = StyleSheet.create({
     width: 40,
     height: 40,
     position: 'absolute',
-    top: 120,
+    top: 60,
     right: 65,
     borderRadius: 30,
     backgroundColor: '#d2d2d2',
@@ -127,7 +127,7 @@ export const wineriesMapStyles = StyleSheet.create({
   },
   infoMapsButton_ios: {
     position: 'absolute',
-    top: 120,
+    top: 60,
     left: 20,
   },
 });
