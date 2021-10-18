@@ -25,6 +25,17 @@ export interface FacebookLoginInputData {
    */
   facebookToken: string;
 }
+
+/**
+ * Apple login DTO for authenticate on web api
+ */
+ export interface AppleLoginInputData {
+  /**
+   * Apple identity token
+   */
+  appleToken: string;
+}
+
 export interface GeoCoordinate {
   latitude?: number; // double
   longitude?: number; // double

@@ -73,4 +73,12 @@ export const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
+  appleButton: {
+    width: '80%',
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
 });

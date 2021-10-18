@@ -7,6 +7,8 @@ export enum AuthActionsType {
 }
 
 export enum UserAuthenticationMode {
+  GOOGLE = 'from_google',
+  APPLE = 'from_apple',
   FACEBOOK = 'from_facebook',
   SERVER = 'from_server',
 }

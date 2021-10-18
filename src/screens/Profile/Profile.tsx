@@ -18,6 +18,8 @@ export function Profile(props: any) {
   const actionsProvider = useContext(AuthContext);
   const userInfo = AuthTokenManager.decodeToken(actionsProvider.data.userToken) as ITokenData
   const isFacebookAutenticated = userInfo != null ? userInfo.authentication == UserAuthenticationMode.FACEBOOK : false;
+  const isAppleAutenticated = userInfo != null ? userInfo.authentication == UserAuthenticationMode.APPLE : false;
+  const isGoogleAutenticated = userInfo != null ? userInfo.authentication == UserAuthenticationMode.GOOGLE : false;
   const [password, setPassword] = useState<string>();
   const [passwordConfirm, setPasswordConfirm] = useState<string>();
   const [email, setEMail] = useState<string>(userInfo != null ? userInfo.email : "");
@@ -29,6 +31,8 @@ export function Profile(props: any) {
   const [showEdit, setShowEdit] = useState<boolean>(false);
   const recaptcha = useRef<RecaptchaHandles>(null);
   const [isDelete, setDelete] = useState<boolean>(false);
+
+  console.log(userInfo)
 
   /**
    * 
@@ -203,7 +207,7 @@ export function Profile(props: any) {
           <Text style={styles.title_text}>{lastName}</Text>
           <Text style={styles.mail_text}>{email}</Text>
         </View>
-        { (!showEdit && !isFacebookAutenticated) &&
+        { (!showEdit && !isFacebookAutenticated && !isAppleAutenticated && !isGoogleAutenticated) &&
         <View style={styles.modify_profile_container}>
           <View style={styles.button_container}>
             <LinearGradient
@@ -231,7 +235,7 @@ export function Profile(props: any) {
           </View>
         </View>
         }
-        {(isFacebookAutenticated) &&
+        {(isFacebookAutenticated || isAppleAutenticated || isGoogleAutenticated) &&
         <View style={styles.modify_profile_container}>
           <View style={styles.button_container}>
             <LinearGradient
@@ -249,7 +253,7 @@ export function Profile(props: any) {
           <View style={styles.divider}></View>
           <Text style={styles.facebook_text}>Non è possibile modificare il profilo</Text>
           <View style={styles.divider}></View>
-          <Text style={styles.facebook_text}>Le informazioi sopra riportate provengono da Facebook</Text>
+          <Text style={styles.facebook_text}>Le informazioi sopra riportate provengono da {isFacebookAutenticated ? 'Facebook' : isAppleAutenticated ? 'Apple' : 'Google'}</Text>
         </View>
         }   
         { showEdit && 

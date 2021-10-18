@@ -45,6 +45,8 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Novecentosanswide-Normal',
     textAlign: 'center',
+    marginLeft: 20,
+    marginRight: 20,
   },
   deleteFbBtn: {
     width: '60%',

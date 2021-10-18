@@ -1,17 +1,104 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Text, View, ActivityIndicator, Image, SafeAreaView, ScrollView} from 'react-native';
+import {Text, View, ActivityIndicator, Image, SafeAreaView, ScrollView, Platform} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './Login.styles';
 import {LoginManager, Settings, AccessToken} from 'react-native-fbsdk-next';
+import appleAuth from '@invertase/react-native-apple-authentication'
 
 export function Login(props: any) {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const {data, actionsProvider} = useContext(AuthContext);
+
+
+const LoginApple = async () => {
+  /**
+   * You'd technically persist this somewhere for later use.
+   */
+  let user = null;
+  console.log('Beginning Apple Authentication');
+  setError('');
+  setIsError(false);
+  setLoading(true);
+
+  // start a login request
+  try {
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+
+    console.log('appleAuthRequestResponse', appleAuthRequestResponse);
+
+    const {
+      user: newUser,
+      email,
+      nonce,
+      identityToken,
+      realUserStatus /* etc */,
+    } = appleAuthRequestResponse;
+
+    user = newUser;
+
+    if (identityToken) {
+      // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
+      console.log('identityToken', identityToken);
+      const appleToken = identityToken;
+
+      AuthDal.applelogin({appleToken})
+      .then((res) => {
+        console.log("Result : ", res)
+        if (!res.token || !res.refreshToken) {
+          setError("Impossibile eseguire l'accesso con Apple");
+          setIsError(true);
+          setLoading(false);
+          return;
+        }
+
+        if (actionsProvider) {
+          actionsProvider.signIn(res);
+        }
+      })
+      .catch((err) => {
+        console.log(JSON.stringify(err));
+        setError(JSON.stringify(err));
+        setIsError(true);
+        setLoading(false);
+      });
+    } else {
+      // no token - failed sign-in?
+      setError("Impossibile eseguire l'accesso con Apple");
+      setIsError(true);
+      setLoading(false);
+    }
+
+    if (realUserStatus === appleAuth.UserStatus.LIKELY_REAL) {
+      console.log("I'm a real person!");
+    }
+
+    console.log(`Apple Authentication Completed, ${user}, ${email}`);
+  } catch (error:any) {
+    if (error.code === appleAuth.Error.CANCELED) {
+      console.log('User canceled Apple Sign in.');
+      setError('User canceled Apple Sign in.');
+      setIsError(true);
+      setLoading(false);
+      return;
+    } else {
+      console.error(error);
+      setError(error);
+      setIsError(true);
+      setLoading(false);
+      return;
+    }
+  }
+
+
+}
 
   /**
    * Execute Facebook Login
@@ -124,6 +211,19 @@ export function Login(props: any) {
                 </View>
               </TouchableOpacity>
             </LinearGradient>
+            {Platform.OS == 'ios' && 
+            <LinearGradient
+              colors={['#4d5152', '#000103', '#000000']}
+              style={styles.appleButton}>
+              <TouchableOpacity
+                onPress={() => LoginApple()}
+                disabled={!actionsProvider}>
+                <View style={styles.loginBtnSubView}>
+                  <Text style={styles.loginText}>Login con Apple</Text>
+                </View>
+              </TouchableOpacity>
+            </LinearGradient>
+            }
           </>
         )}
         {isLoading && (

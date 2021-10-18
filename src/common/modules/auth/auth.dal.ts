@@ -9,6 +9,7 @@ import {
   CheckRegisterApiOutputData,
   RefreshApiInputData,
   FacebookLoginInputData,
+  AppleLoginInputData,
 } from '../../interfaces/web-api';
 
 const authFetchBuilder = entityPostBuilder(Entities.Auth);
@@ -25,5 +26,8 @@ export const AuthDal = {
   >('check_user_data'),
   facebooklogin: authFetchBuilder<FacebookLoginInputData, LoginApiOutputData>(
     'login/facebook',
+  ),
+  applelogin: authFetchBuilder<AppleLoginInputData, LoginApiOutputData>(
+    'login/apple',
   ),
 };
