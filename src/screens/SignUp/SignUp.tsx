@@ -232,7 +232,7 @@ export function SignUp(props: any) {
                     style={styles.TextInput}
                     placeholder="Username"
                     placeholderTextColor="#ffffff"
-                    onChangeText={(value) => setUserName(value)}
+                    onChangeText={(value) => setUserName(value.trim())}
                     onBlur={() => onBlurUsername()}
                   />
                 </View>
@@ -241,7 +241,7 @@ export function SignUp(props: any) {
                     style={styles.TextInput}
                     placeholder="Mail"
                     placeholderTextColor="#ffffff"
-                    onChangeText={(value) => setEMail(value)}
+                    onChangeText={(value) => setEMail(value.trim())}
                     onBlur={() => onBlurEmail()}
                   />
                 </View>
@@ -250,7 +250,7 @@ export function SignUp(props: any) {
                     style={styles.TextInput}
                     placeholder="Nome"
                     placeholderTextColor="#ffffff"
-                    onChangeText={(value) => setFirstname(value)}
+                    onChangeText={(value) => setFirstname(value.trim())}
                   />
                 </View>
                 <View style={styles.inputView}>
@@ -258,7 +258,7 @@ export function SignUp(props: any) {
                     style={styles.TextInput}
                     placeholder="Cognome"
                     placeholderTextColor="#ffffff"
-                    onChangeText={(value) => setLastname(value)}
+                    onChangeText={(value) => setLastname(value.trim())}
                   />
                 </View>
                 <View style={styles.inputView}>
@@ -267,7 +267,7 @@ export function SignUp(props: any) {
                     placeholder="Password"
                     placeholderTextColor="#ffffff"
                     secureTextEntry={true}
-                    onChangeText={(value) => setPassword(value)}
+                    onChangeText={(value) => setPassword(value.trim())}
                   />
                 </View>
                 <View style={styles.inputView}>
@@ -276,7 +276,7 @@ export function SignUp(props: any) {
                     placeholder="Conferma Password"
                     placeholderTextColor="#ffffff"
                     secureTextEntry={true}
-                    onChangeText={(value) => setPasswordConfirm(value)}
+                    onChangeText={(value) => setPasswordConfirm(value.trim())}
                   />
                 </View>
               </View>

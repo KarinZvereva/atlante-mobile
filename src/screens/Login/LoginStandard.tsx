@@ -73,7 +73,7 @@ export function LoginStandard(props: any) {
                 style={styles.TextInput}
                 placeholder="Username"
                 placeholderTextColor="#ffffff"
-                onChangeText={(value) => setUserName(value)}
+                onChangeText={(value) => setUserName(value.trim())}
               />
             </View>
             <View style={styles.inputView}>
@@ -82,7 +82,7 @@ export function LoginStandard(props: any) {
                 placeholder="Password"
                 placeholderTextColor="#ffffff"
                 secureTextEntry={true}
-                onChangeText={(value) => setPassword(value)}
+                onChangeText={(value) => setPassword(value.trim())}
               />
             </View>
 
