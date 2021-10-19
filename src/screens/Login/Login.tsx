@@ -7,6 +7,7 @@ import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './Login.styles';
 import {LoginManager, Settings, AccessToken} from 'react-native-fbsdk-next';
 import appleAuth from '@invertase/react-native-apple-authentication'
+import {icons, images} from '../../common/constants';
 
 export function Login(props: any) {
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -195,31 +196,39 @@ const LoginApple = async () => {
                 onPress={() => props.navigation.navigate('LoginStandard')}
                 disabled={!actionsProvider}>
                 <View style={styles.loginBtnSubView}>
-                  <Text style={styles.loginText}>Login</Text>
+                  <Text style={styles.loginText}>Accedi</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>
             <Text style={styles.separatorText}>- oppure -</Text>
             <LinearGradient
-              colors={['#109bd9', '#0e5de3', '#0e12df']}
+              colors={['#1778F2', '#1778F2', '#1778F2']}
               style={styles.loginFbBtn}>
               <TouchableOpacity
                 onPress={() => LoginFb()}
                 disabled={!actionsProvider}>
                 <View style={styles.loginBtnSubView}>
-                  <Text style={styles.loginText}>Login con Facebook</Text>
+                  <Image
+                    source={images.facebook_logo}
+                    style={styles.facebook_logo}
+                  />
+                  <Text style={styles.loginFbText}>Accedi con Facebook</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>
             {Platform.OS == 'ios' && 
             <LinearGradient
-              colors={['#4d5152', '#000103', '#000000']}
+              colors={['#000000', '#000000', '#000000']}
               style={styles.appleButton}>
               <TouchableOpacity
                 onPress={() => LoginApple()}
                 disabled={!actionsProvider}>
                 <View style={styles.loginBtnSubView}>
-                  <Text style={styles.loginText}>Login con Apple</Text>
+                  <Image
+                    source={images.apple_logo}
+                    style={styles.apple_logo}
+                  />
+                  <Text style={styles.loginAppleText}>Accedi con Apple</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>

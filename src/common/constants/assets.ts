@@ -35,4 +35,6 @@ export const icons = {
 export const images = {
   logo_calice: require('../../assets/img/logo_calice.png'),
   login_logo: require('../../assets/img/login_logo.png'),
+  apple_logo: require('../../assets/img/apple_logo_square_1x.png'),
+  facebook_logo: require('../../assets/img/f_logo_RGB-Blue_58.png'),
 };
