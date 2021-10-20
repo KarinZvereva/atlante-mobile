@@ -284,12 +284,12 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
     <SafeAreaView style={wineriesMapStyles.pageContainer}>
       <KeyboardAvoidingView
         style={{flex: 1}}
-        keyboardVerticalOffset={Platform.OS == 'android' ? 40 : 0}
+        keyboardVerticalOffset={Platform.OS === 'android' ? 40 : 0}
         behavior="height">
         <MapView
           initialRegion={InitialRegion}
           style={
-            Platform.OS == 'android'
+            Platform.OS === 'android'
               ? wineriesMapStyles.map
               : wineriesMapStyles.map_ios
           }
@@ -390,7 +390,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         )}
         <TouchableOpacity
           style={
-            Platform.OS == 'android'
+            Platform.OS === 'android'
               ? wineriesMapStyles.infoMapsButton
               : wineriesMapStyles.infoMapsButton_ios
           }
@@ -403,7 +403,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={
-            Platform.OS == 'android'
+            Platform.OS === 'android'
               ? wineriesMapStyles.reloadButton
               : wineriesMapStyles.reloadButton_ios
           }

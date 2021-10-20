@@ -47,7 +47,6 @@ export const MapFilters: FC = () => {
       withBnB: _withBnB,
       withRestaurant: _withRestaurant,
     });
-    // setClosePage(true);
     navigator.goBack();
   }, [actionProvider, _region, _province, _withBnB, _withRestaurant]);
 
