@@ -85,7 +85,6 @@ export function LoginStandard(props: any) {
                 onChangeText={(value) => setPassword(value.trim())}
               />
             </View>
-
             <View style={styles.remember_container}>
               <Switch
                 style={

@@ -45,13 +45,13 @@ const wineryFilterBase: string = `(${nameof<Winery>(
 const isAndroid = Platform.OS === 'android';
 
 export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
-  // State
+  /** use State */
   const [loading, setLoading] = useState<boolean>(false);
   const [wineries, setWineries] = useState<Winery[]>();
   const [search, setSearch] = useState<string>('');
   const [selectedPosition, setSelectedPosition] = useState<LatLng>();
 
-  // Context
+  /** use Context */
   const {
     data: {
       configuration: {mapsType, searchAroundMeRadius, searchAroundPointRadius},
@@ -60,13 +60,13 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
     actionProvider,
   } = useContext(MapContext);
 
-  // Ref
+  /** Ref */
   const map = useRef<MapView>(null);
 
-  // Navigation
+  /** Navigation */
   const navigation = useNavigation();
 
-  // Calback
+  /** Callback */
   const resetWineries = () => setWineries(undefined);
   const resetSelectedPosition = () => setSelectedPosition(undefined);
   const resetExtraFilter = useCallback(
@@ -74,9 +74,6 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       actionProvider?.changeExtraFilter(MapActionsType.RESET_EXTRA_FILTER, {}),
     [actionProvider],
   );
-
-  //Platform
-  const isIOS = Platform.OS == 'ios';
 
   const loadWineries = useCallback((filters?: string) => {
     setLoading(true);
@@ -88,9 +85,10 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       })
       .then((result) => {
         if (result && result.data) {
-          setWineries(result.data.data || []);
+          const {data: newWineries} = result.data;
+          setWineries(newWineries || []);
           setLoading(false);
-          if (map && map.current)
+          if (map && map.current && newWineries) {
             map.current.fitToCoordinates(
               result.data.data?.map((r) => ({
                 latitude: r.location?.latitude!,
@@ -101,9 +99,14 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
                 edgePadding: {bottom: 10, left: 10, right: 10, top: 10},
               },
             );
+          } else {
+            Alert.alert(`Nessuna cantina trovata!`);
+          }
         } else {
           if (result.error) console.error(JSON.stringify(result.error));
-          Alert.alert(`Nessuna cantina trovata!`);
+          Alert.alert(
+            `Errore di comunicazione con il server, riprovare tra qualche minuto!`,
+          );
           setLoading(false);
         }
       })
@@ -148,6 +151,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
               );
           } else {
             setLoading(false);
+            Alert.alert(`Nessuna cantina trovata!`);
           }
         })
         .catch(() => {
