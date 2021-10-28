@@ -123,7 +123,7 @@ export function LoginStandard(props: any) {
                 onPress={() => Login()}
                 disabled={!actionsProvider}>
                 <View style={styles.loginBtnSubView}>
-                  <Text style={styles.loginText}>Login</Text>
+                  <Text style={styles.loginText}>Accedi</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>
