@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     flex: 1,
-    fontFamily: 'Novecentosanswide-Normal',
+    //fontFamily: 'Novecentosanswide-Normal',
     width: '100%',
   },
   signUpBtn: {
