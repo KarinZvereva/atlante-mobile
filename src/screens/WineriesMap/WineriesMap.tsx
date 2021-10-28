@@ -267,9 +267,9 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       withBnB && withRestaurant
         ? `${nameof<Winery>('services')} = 3`
         : withBnB
-        ? `${nameof<Winery>('services')} = 1`
+        ? `(${nameof<Winery>('services')} = 1 OR ${nameof<Winery>('services')} = 3)`
         : withRestaurant
-        ? `${nameof<Winery>('services')} = 2`
+        ? `(${nameof<Winery>('services')} = 2 OR ${nameof<Winery>('services')} = 3)` 
         : undefined;
 
     finalFilter =
