@@ -32,7 +32,7 @@ export function Profile(props: any) {
   const recaptcha = useRef<RecaptchaHandles>(null);
   const [isDelete, setDelete] = useState<boolean>(false);
 
-  console.log(userInfo)
+  //console.log(userInfo)
 
   /**
    * 

@@ -137,4 +137,87 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Novecentosanswide-Normal',
   },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: 'rgba(0,0,0,0.4)'
+  },
+  modalView: {
+    flex: 0,
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    borderColor: markerDefaultGreen,
+    borderWidth: 2, 
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 8
+  },
+  summary_container: {
+    flex: 0,
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    marginTop: 25,
+    marginBottom: 25,
+  },
+  bottom_container: {
+    justifyContent: "center",
+    alignSelf: 'center',
+    marginTop: 25,
+    marginBottom: 5,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  headerModalText: {
+    marginBottom: 15,
+    fontSize: 12,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: 'Novecentosanswide-Bold',
+  },
+  modalText: {
+    marginBottom: 15,
+    fontSize: 12,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: 'Novecentosanswide-Normal',
+  },
+  modal_warning_text: {
+    marginBottom: 15,
+    fontSize: 12,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: 'Novecentosanswide-Bold',
+    color : 'red',
+  },
+  field_container: {
+    flex: 0,
+    flexDirection: 'row',
+  },
+  header_field_container: {
+    flex: 1,
+    alignItems: 'flex-end', 
+  },
+  value_field_container: {
+    flex: 1,
+    alignItems: 'flex-start', 
+  },
+  button_modal_container: {
+    flex: 0,
+    alignItems: 'center', 
+    flexDirection: 'row',
+    width: '100%',
+  },
 });

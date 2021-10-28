@@ -10,6 +10,8 @@ import {
   ScrollView,
   Switch,
   Platform,
+  Modal,
+  Pressable,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,12 +21,13 @@ import {styles} from './SignUp.styles';
 import {images, webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
 import {User} from '../../common/interfaces/web-api';
+import { InternetDomains } from '../../common/constants';
 
 export function SignUp(props: any) {
   const [userName, setUserName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [passwordConfirm, setPasswordConfirm] = useState<string>();
-  const [email, setEMail] = useState<string>();
+  const [email, setEMail] = useState<string>("");
   const [firstName, setFirstname] = useState<string>();
   const [lastName, setLastname] = useState<string>();
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -35,6 +38,8 @@ export function SignUp(props: any) {
   const [isAcceptance, setAcceptance] = useState<boolean>(false);
   const [isEmailAvailable, setEmaiAvailable] = useState<boolean>(true);
   const [isUserNamelAvailable, setUserNameAvailable] = useState<boolean>(true);
+  const [isMailMalformed, setMailMalformed] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   /**
    * Execute sign up
@@ -57,13 +62,34 @@ export function SignUp(props: any) {
       setError("E' necessario accettare i Termini e Condizioni ");
       setIsError(true);
       return;
+    } else if (!validateEmail()) {
+      setMailMalformed(true);
     }
 
+    setModalVisible(true);
+  };
+
+  /**
+   * 
+   */
+  const openCaptcha = () => {
+    setModalVisible(!modalVisible)
     setError('');
     setIsError(false);
 
-    recaptcha.current?.open();
-  };
+    recaptcha.current?.open();  
+  }
+
+  /**
+   * 
+   */
+  const validateEmail = () => {
+    setMailMalformed(false);
+    const domain = email.substring(email.lastIndexOf(".") + 1).toUpperCase();
+    const inEnum = (Object.values(InternetDomains) as string[]).includes(domain);
+
+    return inEnum;
+  }
 
   /**
    *
@@ -223,6 +249,84 @@ export function SignUp(props: any) {
         {!isLoading && (
           <>            
             <ScrollView style={styles.scroll_container}>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  Alert.alert("Modal has been closed.");
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.headerModalText}>Riepilogo dati inseriti - Conferma</Text>
+                    <View style={styles.summary_container}>
+                      <View style={styles.field_container}>
+                        <View style={styles.header_field_container}>
+                          <Text style={styles.headerModalText}>Username : </Text>
+                        </View>
+                        <View style={styles.value_field_container}>
+                          <Text style={styles.modalText}>{userName}</Text>
+                        </View>
+                      </View>
+                      <View style={styles.field_container}>
+                        <View style={styles.header_field_container}>
+                          <Text style={styles.headerModalText}>Email : </Text>
+                        </View>
+                        <View style={styles.value_field_container}>
+                          <Text style={styles.modalText}>{email}</Text>
+                        </View>
+                      </View>
+                      <View style={styles.field_container}>
+                        <View style={styles.header_field_container}>
+                          <Text style={styles.headerModalText}>Nome : </Text>
+                        </View>
+                        <View style={styles.value_field_container}>
+                          <Text style={styles.modalText}>{firstName}</Text>
+                        </View>
+                      </View>
+                      <View style={styles.field_container}>
+                        <View style={styles.header_field_container}>
+                          <Text style={styles.headerModalText}>Cognome : </Text>
+                        </View>
+                        <View style={styles.value_field_container}>
+                          <Text style={styles.modalText}>{lastName}</Text>
+                        </View>
+                      </View>
+                    </View>
+                    {isMailMalformed && 
+                      <Text style={styles.modal_warning_text}>Attenzione, la mail sembra non essere valida, ti preghiamo di verificare.</Text>
+                    }
+                    <View style={styles.bottom_container}>
+                      <View style={styles.button_modal_container}>
+                        <LinearGradient
+                          colors={['#ce8a86', '#bd6665', '#a92a3f']}
+                          style={styles.signUpBtn}>
+                          <Pressable 
+                            onPress={() => openCaptcha()}
+                            >
+                            <View style={styles.loginBtnSubView}>
+                              <Text style={styles.loginText}>Conferma</Text>
+                            </View>
+                          </Pressable>
+                        </LinearGradient>
+                        <LinearGradient
+                          colors={['#423E3F', '#605D5E', '#7F7C7D']}
+                          style={styles.undoBtn}>
+                          <Pressable
+                            onPress={() => setModalVisible(!modalVisible)} 
+                            >
+                            <View style={styles.loginBtnSubView}>
+                              <Text style={styles.loginText}>Annulla</Text>
+                            </View>
+                          </Pressable>
+                        </LinearGradient>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
               <View style={styles.image_container}>
                 <Image source={images.logo_calice} style={styles.logo} />
               </View>
