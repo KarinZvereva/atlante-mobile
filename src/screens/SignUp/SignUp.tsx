@@ -22,6 +22,7 @@ import {images, webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
 import {User} from '../../common/interfaces/web-api';
 import { InternetDomains } from '../../common/constants';
+import {openLink} from '../../common/modules/linking';
 
 export function SignUp(props: any) {
   const [userName, setUserName] = useState<string>();
@@ -411,11 +412,12 @@ export function SignUp(props: any) {
                   <Text style={[styles.acceptanceText]}>
                     Ho letto, compreso e accettato i
                   </Text>
-                  <Text
-                    style={[styles.acceptanceLinkText]}
-                    onPress={() => props.navigation.navigate('SignupTerms')}>
-                    termini e condizioni
-                  </Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      openLink('https://app.natourwine.org/use-term/');
+                    }}>
+                    <Text style={[styles.acceptanceLinkText]}> termini e condizioni</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>

@@ -25,7 +25,6 @@ import {AccountRestore} from './screens/AccountRestore';
 import {Info} from './screens/Info';
 import {WineryDetail} from './screens/WineryDetails/WineryDetails';
 import {MapInfo} from './screens/MapInfo';
-import {SignupTerms} from './screens/SignUp/SignupTerms';
 import {InitialMapState, MapReducer} from './common/modules/map/MapReducer';
 import {MapContext} from './common/modules/map/MapContext';
 //import {MapActionsType} from './common/modules/map/map.constants';
@@ -321,14 +320,6 @@ export default function App() {
                       title: 'Registrati',
                       headerTitleStyle: {...drawerStyles.header_text},
                       headerLeft: () => null,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="SignupTerms"
-                    component={SignupTerms}
-                    options={{
-                      title: 'Termini e condizioni di utilizzo',
-                      headerTitleStyle: {...drawerStyles.header_text},
                     }}
                   />
                   <Stack.Screen
