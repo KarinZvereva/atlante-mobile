@@ -1,0 +1,8 @@
+{
+  "_comment": "src/localization/en/translation.json",
+  "login": {
+    "standard": "Login",
+    "facebook": "Login with Facebook",
+    "apple": "Login with Apple"
+  }
+}

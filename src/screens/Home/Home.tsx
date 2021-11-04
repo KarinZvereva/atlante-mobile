@@ -17,9 +17,11 @@ import {IRouteProps} from '../../common/interfaces';
 import {sendEmail} from '../../common/modules/email/sendEmail';
 import {openLink} from '../../common/modules/linking';
 import {homeStyles} from './Home.styles';
+import { useTranslation } from 'react-i18next'
 
 export function Home(props: IRouteProps) {
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   // Auth
   const isLogged = useAuth();
@@ -56,9 +58,9 @@ export function Home(props: IRouteProps) {
             source={images.logo_calice}
             style={Platform.OS == 'ios' ? homeStyles.logo_ios : homeStyles.logo}
           />
-          <Text style={homeStyles.title}>Benvenuto</Text>
+          <Text style={homeStyles.title}>{t('home.title_1')}</Text>
           <Text style={[homeStyles.title, {marginBottom: 60}]}>
-            Bevitore Errante
+            {t('home.title_2')}
           </Text>
           <RoundImageButton
             borderRadius={40}
@@ -68,10 +70,10 @@ export function Home(props: IRouteProps) {
             }}
           />
           <Text style={homeStyles.goToWineriesText}>
-            Visita la mappa delle cantine
+          {t('home.map')}
           </Text>
           <Text style={homeStyles.keepInTouchText}>
-            Resta in contatto con noi
+          {t('home.contact')}
           </Text>
           <View style={homeStyles.socialIcons}>
             <RoundImageButton

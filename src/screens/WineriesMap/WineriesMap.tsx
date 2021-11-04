@@ -26,6 +26,9 @@ import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
 import {MapContext, MapActionsType} from '../../common/modules/map';
+import { useTranslation } from 'react-i18next'
+
+
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
@@ -50,6 +53,8 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
   const [wineries, setWineries] = useState<Winery[]>();
   const [search, setSearch] = useState<string>('');
   const [selectedPosition, setSelectedPosition] = useState<LatLng>();
+
+  const { t } = useTranslation();
 
   /** use Context */
   const {
@@ -100,20 +105,16 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
               },
             );
           } else {
-            Alert.alert(`Nessuna cantina trovata!`);
+            Alert.alert(t('wineries_map.winery_not_found'));
           }
         } else {
           if (result.error) console.error(JSON.stringify(result.error));
-          Alert.alert(
-            `Errore di comunicazione con il server, riprovare tra qualche minuto!`,
-          );
+          Alert.alert(t('error.server.communication'));
           setLoading(false);
         }
       })
       .catch((_e) => {
-        Alert.alert(
-          `Connessione con il server non riuscita, riprova in seguito!`,
-        );
+        Alert.alert(t('error.server.connection'));
         setLoading(false);
       });
   }, []);
@@ -151,13 +152,11 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
               );
           } else {
             setLoading(false);
-            Alert.alert(`Nessuna cantina trovata!`);
+            Alert.alert(t('wineries_map.winery_not_found'));
           }
         })
         .catch(() => {
-          Alert.alert(
-            `Connessione con il server non riuscita, riprova in seguito!`,
-          );
+          Alert.alert(t('error.server.connection'));
           setLoading(false);
         });
     },
@@ -199,7 +198,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       },
       (error) => {
         console.error(JSON.stringify(error));
-        Alert.alert(`Errore nel recupero della posizione con il GPS!`);
+        Alert.alert(t('wineries_map.gps_error'));
       },
       {enableHighAccuracy: true},
     );
@@ -217,7 +216,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         );
       },
       (_error) => {
-        Alert.alert(`Errore nel recupero della posizione con il GPS!`);
+        Alert.alert(t('wineries_map.gps_error'));
       },
       {enableHighAccuracy: true},
     );
@@ -344,7 +343,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         </MapView>
         <Header
           {...props}
-          showName="Mappa Cantine"
+          showName={t('wineries_map.map')}
           extraButtons={[
             <View
               key="b1"
@@ -480,7 +479,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
         </TouchableOpacity>
         <TouchableOpacity style={wineriesMapStyles.searchMapText}>
           <TextInput
-            placeholder="... cerca"
+            placeholder={t('wineries_map.search')}
             placeholderTextColor="#000000"
             onChangeText={(value) => setSearch(value)}
             editable={!loading}

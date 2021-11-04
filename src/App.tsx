@@ -37,6 +37,8 @@ import {
   MapActionChangeExtraFilter,
 } from './common/modules/map/map.interface';
 import {MapFilters} from './screens/MapFilters';
+import './localization/i18n';
+import { useTranslation } from 'react-i18next'
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -47,6 +49,8 @@ const drawerStyles = StyleSheet.create({
 });
 
 const PrivateNavigation = () => {
+  const { t } = useTranslation();
+
   return (
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen
@@ -61,7 +65,7 @@ const PrivateNavigation = () => {
             />
           ),
           drawerLabel: () => (
-            <Text style={drawerStyles.drawer_label_text}>Home</Text>
+            <Text style={drawerStyles.drawer_label_text}>{t('menu.home')}</Text>
           ),
         }}
       />
@@ -77,7 +81,7 @@ const PrivateNavigation = () => {
             />
           ),
           drawerLabel: () => (
-            <Text style={drawerStyles.drawer_label_text}>Mappa Cantine</Text>
+            <Text style={drawerStyles.drawer_label_text}>{t('menu.map')}</Text>
           ),
         }}
       />
@@ -125,7 +129,7 @@ const PrivateNavigation = () => {
             />
           ),
           drawerLabel: () => (
-            <Text style={drawerStyles.drawer_label_text}>Il Progetto</Text>
+            <Text style={drawerStyles.drawer_label_text}>{t('menu.project')}</Text>
           ),
         }}
       />
@@ -141,7 +145,7 @@ const PrivateNavigation = () => {
             />
           ),
           drawerLabel: () => (
-            <Text style={drawerStyles.drawer_label_text}>Profilo utente</Text>
+            <Text style={drawerStyles.drawer_label_text}>{t('menu.profile')}</Text>
           ),
         }}
       />
@@ -157,7 +161,7 @@ const PrivateNavigation = () => {
             />
           ),
           drawerLabel: () => (
-            <Text style={drawerStyles.drawer_label_text}>Logout</Text>
+            <Text style={drawerStyles.drawer_label_text}>{t('menu.logout')}</Text>
           ),
         }}
       />

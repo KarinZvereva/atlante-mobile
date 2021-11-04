@@ -1,0 +1,41 @@
+{
+  "_comment": "src/localization/en/translation.json",
+  "login": {
+    "standard": "Accedi",
+    "facebook": "Accedi con Facebook",
+    "apple"   : "Accedi con Apple"
+  },
+  "home": {
+    "title_1" : "Banvenuto",
+    "title_2" : "Bevitore Errante",
+    "map"     : "Visita la mappa delle cantine",
+    "contact" : "Resta in contatto con noi"
+  },
+  "menu": {
+    "home"    : "Home",
+    "map"     : "Mappa Cantine",
+    "project" : "Il Progetto",
+    "profile" : "Profilo Utente",
+    "logout"  : "Logout"
+  },
+  "wineries_map": {
+    "map"               : "Mappa Cantine",
+    "search"            : "... cerca",
+    "winery_not_found"  : "Nessuna cantina trovata!",
+    "gps_error"         : "Errore nel recupero della posizione con il GPS!"
+  },
+
+
+
+
+
+
+
+
+  "error": {
+    "server" : {
+      "connection"     : "Connessione con il server non riuscita, riprova in seguito!",
+      "communication"  : "Errore di comunicazione con il server, riprovare tra qualche minuto!"
+    }
+  }
+}

@@ -7,99 +7,99 @@ import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './Login.styles';
 import {LoginManager, Settings, AccessToken} from 'react-native-fbsdk-next';
 import appleAuth from '@invertase/react-native-apple-authentication'
-import {icons, images} from '../../common/constants';
+import {images} from '../../common/constants';
+import { useTranslation } from 'react-i18next'
 
 export function Login(props: any) {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const {data, actionsProvider} = useContext(AuthContext);
+  const { t } = useTranslation();
 
 
-const LoginApple = async () => {
-  /**
-   * You'd technically persist this somewhere for later use.
-   */
-  let user = null;
-  console.log('Beginning Apple Authentication');
-  setError('');
-  setIsError(false);
-  setLoading(true);
+  const LoginApple = async () => {
+    /**
+     * You'd technically persist this somewhere for later use.
+     */
+    let user = null;
+    console.log('Beginning Apple Authentication');
+    setError('');
+    setIsError(false);
+    setLoading(true);
 
-  // start a login request
-  try {
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    });
+    // start a login request
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
 
-    console.log('appleAuthRequestResponse', appleAuthRequestResponse);
+      console.log('appleAuthRequestResponse', appleAuthRequestResponse);
 
-    const {
-      user: newUser,
-      email,
-      nonce,
-      identityToken,
-      realUserStatus /* etc */,
-    } = appleAuthRequestResponse;
+      const {
+        user: newUser,
+        email,
+        nonce,
+        identityToken,
+        realUserStatus /* etc */,
+      } = appleAuthRequestResponse;
 
-    user = newUser;
+      user = newUser;
 
-    if (identityToken) {
-      // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
-      console.log('identityToken', identityToken);
-      const appleToken = identityToken;
+      if (identityToken) {
+        // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
+        console.log('identityToken', identityToken);
+        const appleToken = identityToken;
 
-      AuthDal.applelogin({appleToken})
-      .then((res) => {
-        console.log("Result : ", res)
-        if (!res.token || !res.refreshToken) {
-          setError("Impossibile eseguire l'accesso con Apple");
+        AuthDal.applelogin({appleToken})
+        .then((res) => {
+          console.log("Result : ", res)
+          if (!res.token || !res.refreshToken) {
+            setError("Impossibile eseguire l'accesso con Apple");
+            setIsError(true);
+            setLoading(false);
+            return;
+          }
+
+          if (actionsProvider) {
+            actionsProvider.signIn(res);
+          }
+        })
+        .catch((err) => {
+          console.log(JSON.stringify(err));
+          setError(JSON.stringify(err));
           setIsError(true);
           setLoading(false);
-          return;
-        }
-
-        if (actionsProvider) {
-          actionsProvider.signIn(res);
-        }
-      })
-      .catch((err) => {
-        console.log(JSON.stringify(err));
-        setError(JSON.stringify(err));
+        });
+      } else {
+        // no token - failed sign-in?
+        setError("Impossibile eseguire l'accesso con Apple");
         setIsError(true);
         setLoading(false);
-      });
-    } else {
-      // no token - failed sign-in?
-      setError("Impossibile eseguire l'accesso con Apple");
-      setIsError(true);
-      setLoading(false);
-    }
+      }
 
-    if (realUserStatus === appleAuth.UserStatus.LIKELY_REAL) {
-      console.log("I'm a real person!");
-    }
+      if (realUserStatus === appleAuth.UserStatus.LIKELY_REAL) {
+        console.log("I'm a real person!");
+      }
 
-    console.log(`Apple Authentication Completed, ${user}, ${email}`);
-  } catch (error:any) {
-    if (error.code === appleAuth.Error.CANCELED) {
-      console.log('User canceled Apple Sign in.');
-      setError('User canceled Apple Sign in.');
-      setIsError(true);
-      setLoading(false);
-      return;
-    } else {
-      console.error(error);
-      setError(error);
-      setIsError(true);
-      setLoading(false);
-      return;
+      console.log(`Apple Authentication Completed, ${user}, ${email}`);
+    } catch (error:any) {
+      if (error.code === appleAuth.Error.CANCELED) {
+        console.log('User canceled Apple Sign in.');
+        setError('User canceled Apple Sign in.');
+        setIsError(true);
+        setLoading(false);
+        return;
+      } else {
+        console.error(error);
+        setError(error);
+        setIsError(true);
+        setLoading(false);
+        return;
+      }
     }
   }
-
-
-}
 
   /**
    * Execute Facebook Login
@@ -196,7 +196,7 @@ const LoginApple = async () => {
                 onPress={() => props.navigation.navigate('LoginStandard')}
                 disabled={!actionsProvider}>
                 <View style={styles.loginBtnSubView}>
-                  <Text style={styles.loginText}>Accedi</Text>
+                  <Text style={styles.loginText}>{t('login.standard')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>
@@ -212,7 +212,7 @@ const LoginApple = async () => {
                     source={images.facebook_logo}
                     style={styles.facebook_logo}
                   />
-                  <Text style={styles.loginFbText}>Accedi con Facebook</Text>
+                  <Text style={styles.loginFbText}>{t('login.facebook')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>
@@ -228,7 +228,7 @@ const LoginApple = async () => {
                     source={images.apple_logo}
                     style={styles.apple_logo}
                   />
-                  <Text style={styles.loginAppleText}>Accedi con Apple</Text>
+                  <Text style={styles.loginAppleText}>{t('login.apple')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>
