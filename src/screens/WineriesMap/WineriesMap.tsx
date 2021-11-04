@@ -26,7 +26,7 @@ import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
 import {MapContext, MapActionsType} from '../../common/modules/map';
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next';
 
 
 

@@ -13,6 +13,7 @@ import {defaultRed, images} from '../../common/constants';
 import {MapActionsType} from '../../common/modules/map/map.constants';
 import {MapContext} from '../../common/modules/map/MapContext';
 import {mapSettingsStyles} from './MapSettings.styles';
+import { useTranslation } from 'react-i18next';
 
 export const MapSettings = () => {
   // Context
@@ -45,6 +46,8 @@ export const MapSettings = () => {
     );
   }, [mapType]);
 
+  const { t } = useTranslation();
+
   return (
     <SafeAreaView style={mapSettingsStyles.page}>
       <ScrollView
@@ -54,12 +57,12 @@ export const MapSettings = () => {
         <View style={mapSettingsStyles.option_container}>
           <View>
             <Text style={mapSettingsStyles.option_title_text}>
-              Selezione tipologia mappa stradale o satellitare
+              {t('map_settings.map_type_title')}
             </Text>
           </View>
           <View style={mapSettingsStyles.form_item_container_with_label_inline}>
             <Text style={mapSettingsStyles.option_text_label}>
-              {mapType === 'standard' ? 'Stradale' : 'Satellitare'}
+              {mapType === 'standard' ? t('map_settings.map_type_road') : t('map_settings.map_type_satellite')}
             </Text>
             <Switch
               trackColor={{false: '#cecece', true: '#cecece'}}
@@ -73,7 +76,7 @@ export const MapSettings = () => {
         <View style={mapSettingsStyles.option_container}>
           <View>
             <Text style={mapSettingsStyles.option_title_text}>
-              Raggio di visualizzazione intorno alla mia posizione
+              {t('map_settings.map_radius_gps')}
             </Text>
             <View
               style={mapSettingsStyles.form_item_container_with_label_inline}>
@@ -102,7 +105,7 @@ export const MapSettings = () => {
         <View style={mapSettingsStyles.option_container}>
           <View>
             <Text style={mapSettingsStyles.option_title_text}>
-              Raggio di visualizzazione intorno al punto della mappa
+              {t('map_settings.map_radius_point')}
             </Text>
             <View
               style={mapSettingsStyles.form_item_container_with_label_inline}>

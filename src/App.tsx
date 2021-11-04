@@ -50,7 +50,6 @@ const drawerStyles = StyleSheet.create({
 
 const PrivateNavigation = () => {
   const { t } = useTranslation();
-
   return (
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen
@@ -294,6 +293,7 @@ export default function App() {
     [],
   );
 
+  const { t } = useTranslation();
   return (
     <AuthContext.Provider
       value={{data: authState, actionsProvider: authActionProvider}}>
@@ -346,7 +346,7 @@ export default function App() {
                     name="WineryDetails"
                     component={WineryDetail}
                     options={{
-                      title: 'Dettagli cantina',
+                      title: t('winery_details.title'),
                       headerTitleStyle: {...drawerStyles.header_text},
                     }}
                   />
@@ -354,7 +354,7 @@ export default function App() {
                     name="MapsInfo"
                     component={MapInfo}
                     options={{
-                      title: 'Info utilizzo mappa',
+                      title: t('map_info.title'),
                       headerTitleStyle: {...drawerStyles.header_text},
                     }}
                   />
@@ -362,7 +362,7 @@ export default function App() {
                     name="MapSettings"
                     component={MapSettings}
                     options={{
-                      title: 'Impostazioni mappa',
+                      title: t('map_settings.title'),
                       headerTitleStyle: {...drawerStyles.header_text},
                     }}
                   />
@@ -370,7 +370,7 @@ export default function App() {
                     name="MapFilters"
                     component={MapFilters}
                     options={{
-                      title: 'Filtri aggiuntivi mappa',
+                      title: t('map_filters.title'),
                       headerTitleStyle: {...drawerStyles.header_text},
                     }}
                   />

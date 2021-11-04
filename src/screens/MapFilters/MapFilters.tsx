@@ -17,6 +17,7 @@ import {MapActionsType} from '../../common/modules/map/map.constants';
 import {MapContext} from '../../common/modules/map/MapContext';
 import {provinceDal, regionDal} from './MapFilters.dal';
 import {mapFiltersStyles} from './MapFilters.styles';
+import { useTranslation } from 'react-i18next';
 
 const ProvincePicker = remotePickerBuilder(provinceDal);
 const RegionPicker = remotePickerBuilder(regionDal);
@@ -63,6 +64,8 @@ export const MapFilters: FC = () => {
     else if (regionDisabled) setRegionDisabled(false);
   }, [_province, _region, regionDisabled]);
 
+  const { t } = useTranslation();
+  
   return (
     <SafeAreaView style={mapFiltersStyles.page}>
       <ScrollView style={mapFiltersStyles.scroll_container}>
@@ -70,7 +73,7 @@ export const MapFilters: FC = () => {
         <View style={mapFiltersStyles.option_container}>
           <View>
             <Text style={mapFiltersStyles.option_title_text}>
-              Visualizza le cantine della seguente regione e/o provincia:
+              {t('map_filters.location_title')}
             </Text>
           </View>
           {Platform.OS == 'android' && (
@@ -82,7 +85,7 @@ export const MapFilters: FC = () => {
                 ? mapFiltersStyles.form_item_container_with_label_inline
                 : mapFiltersStyles.form_item_container_with_label_inline_ios
             }>
-            <Text style={mapFiltersStyles.option_text_label}>Regione</Text>
+            <Text style={mapFiltersStyles.option_text_label}>{t('map_filters.region')}</Text>
             <View
               style={
                 Platform.OS == 'android'
@@ -114,7 +117,7 @@ export const MapFilters: FC = () => {
                 ? mapFiltersStyles.form_item_container_with_label_inline
                 : mapFiltersStyles.form_item_container_with_label_inline_ios
             }>
-            <Text style={mapFiltersStyles.option_text_label}>Provincia</Text>
+            <Text style={mapFiltersStyles.option_text_label}>{t('map_filters.province')}</Text>
             <View
               style={
                 Platform.OS == 'android'
@@ -141,12 +144,12 @@ export const MapFilters: FC = () => {
           )}
           <View>
             <Text style={mapFiltersStyles.option_title_text}>
-              Visualizza le cantine che offrono i seguenti servizi:
+            {t('map_filters.services_title')}
             </Text>
           </View>
           <View style={mapFiltersStyles.vertical_divider} />
           <View style={mapFiltersStyles.form_item_container_with_label_inline}>
-            <Text style={mapFiltersStyles.option_text_label}>Dormire</Text>
+            <Text style={mapFiltersStyles.option_text_label}>{t('map_filters.service_sleep')}</Text>
             <View style={mapFiltersStyles.input_view}>
               <Switch
                 style={
@@ -164,7 +167,7 @@ export const MapFilters: FC = () => {
           </View>
           <View style={mapFiltersStyles.vertical_divider} />
           <View style={mapFiltersStyles.form_item_container_with_label_inline}>
-            <Text style={mapFiltersStyles.option_text_label}>Mangiare</Text>
+            <Text style={mapFiltersStyles.option_text_label}>{t('map_filters.service_food')}</Text>
             <View style={mapFiltersStyles.input_view}>
               <Switch
                 style={
@@ -186,7 +189,7 @@ export const MapFilters: FC = () => {
               style={mapFiltersStyles.saveBtn}>
               <TouchableOpacity onPress={onApplyFilters}>
                 <View style={mapFiltersStyles.modifyBtnSubView}>
-                  <Text style={mapFiltersStyles.buttonText}>Applica</Text>
+                  <Text style={mapFiltersStyles.buttonText}>{t('map_filters.button_apply')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>

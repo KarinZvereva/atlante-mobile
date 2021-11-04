@@ -16,6 +16,7 @@ import {infoCountCall} from './Info.dal';
 import {remotePickerBuilder} from '../../common/hoc/pickerFactory/pickerFactory';
 import {provinceDal, regionDal} from '../MapFilters/MapFilters.dal';
 import {getVersion, getBuildNumber} from 'react-native-device-info';
+import { useTranslation } from 'react-i18next';
 
 const ProvincePicker = remotePickerBuilder(provinceDal);
 const RegionPicker = remotePickerBuilder(regionDal);
@@ -105,6 +106,8 @@ export function Info(props: any) {
     setBuildNumber(getBuildNumber());
   }, []);
 
+  const { t } = useTranslation();
+
   return (
     <SafeAreaView style={styles.page}>
       {!isLoading && (
@@ -114,98 +117,102 @@ export function Info(props: any) {
             <View style={styles.centered_container}>
               <Image source={images.logo_calice} style={styles.logo} />
               <Text style={[styles.infoText]}>
-                Il contenuto di questa app è frutto
+                {t('info.info_row_1')}
               </Text>
               <Text style={[styles.infoText]}>
-                del lavoro di bevitori appassionati
+                {t('info.info_row_2')}
               </Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
-                di Vino Naturale.
+                {t('info.info_row_3')}
               </Text>
               <Text style={[styles.infoText]}>
-                La lista delle cantine è stata in larga parte
+                {t('info.info_row_4')}
               </Text>
               <Text style={[styles.infoText]}>
-                ottenuta grazie al contributo degli utenti
+                {t('info.info_row_5')}
               </Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
-                del gruppo Facebook Be.Vi.Amo Naturale.
+                {t('info.info_row_6')}
               </Text>
               <Text style={[styles.infoText]}>
-                Abbiamo utilizzato un metodo di selezione
+                {t('info.info_row_7')}
               </Text>
               <Text style={[styles.infoText]}>
-                inclusivo, che tenesse conto dei diversi
+                {t('info.info_row_8')}
               </Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
-                disciplinari delle Associazioni esistenti.
+                {t('info.info_row_9')}
               </Text>
               <Text style={[styles.infoText]}>
-                In vigna: no pesticidi e prodotti di sintesi
-              </Text>
-              <Text style={[styles.infoText]}>raccolta manuale delle uve.</Text>
-              <Text style={[styles.infoText]}>
-                In cantina: no lieviti selezionati, no chiarifica,
+                {t('info.info_row_10')}
               </Text>
               <Text style={[styles.infoText]}>
-                no filtrazione sterile, no coadiuvanti e additivi,
+                {t('info.info_row_10b')}
               </Text>
               <Text style={[styles.infoText]}>
-                no trattamenti fisici e termici invasivi,
+                {t('info.info_row_11')}
+              </Text>
+              <Text style={[styles.infoText]}>
+                {t('info.info_row_12')}
+              </Text>
+              <Text style={[styles.infoText]}>
+                {t('info.info_row_13')}
               </Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
-                no alti livelli di solforosa.
+                {t('info.info_row_14')}
               </Text>
               <Text style={[styles.infoText]}>
-                Non abbiamo la pretesa che tutti i dati
+                {t('info.info_row_15')}
               </Text>
               <Text style={[styles.infoText]}>
-                siano corretti e aggiornati, per questo
+                {t('info.info_row_16')}
               </Text>
               <Text style={[styles.infoText]}>
-                motivo chiunque avesse informazioni
+                {t('info.info_row_17')}
               </Text>
               <Text style={[styles.infoText]}>
-                utili a migliorare la nostra selezione
+                {t('info.info_row_18')}
               </Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
-                è il benvenuto, ci contatti.
+                {t('info.info_row_19')}
               </Text>
               <Text style={[styles.infoText]}>
-                Per la sua stessa genesi ed a causa della
+                {t('info.info_row_20')}
               </Text>
               <Text style={[styles.infoText]}>
-                grande vitalità del settore, la app sarà
+                {t('info.info_row_21')}
               </Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
-                in continua evoluzione.
+                {t('info.info_row_22')}
               </Text>
               <Text style={[styles.infoText]}>
-                Se anche tu, Bevitore Errante,
+                {t('info.info_row_23')}
               </Text>
               <Text style={[styles.infoText]}>
-                desideri contribuire, condividi le
+                {t('info.info_row_24')}
               </Text>
-              <Text style={[styles.infoText]}>tue conoscenze con lo</Text>
+              <Text style={[styles.infoText]}>
+                {t('info.info_row_25')}
+              </Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
-                staff di NaTourWine.
+                {t('info.info_row_26')}
               </Text>
             </View>
             <View style={styles.option_container}>
               <View>
                 <Text style={styles.option_title_text}>
-                  Cantine totali : {countGlobal}
+                  {t('info.wineries_total')} {countGlobal}
                 </Text>
               </View>
               <View style={styles.vertical_divider} />
               <View>
                 <Text style={styles.option_title_text}>
-                  Numero di cantine per regione e provincia:
+                {t('info.location_title')}
                 </Text>
               </View>
               <View style={Platform.OS == 'android' ?  styles.vertical_divider : styles.vertical_divider_ios} />
               <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
-                <Text style={ Platform.OS == 'android' ? styles.option_text_label :  {...styles.option_text_label, ...{marginRight: 14}}}>Regione</Text>
+                <Text style={ Platform.OS == 'android' ? styles.option_text_label :  {...styles.option_text_label, ...{marginRight: 14}}}>{t('info.region')}</Text>
                 <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
                   <RegionPicker
                     style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
@@ -222,7 +229,7 @@ export function Info(props: any) {
                 <Text style={Platform.OS == 'android' ? styles.count_text_label : styles.count_text_label_ios}>{countRegion}</Text>
               </View>
               <View style={Platform.OS == 'android' ? styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
-                <Text style={styles.option_text_label}>Provincia</Text>
+                <Text style={styles.option_text_label}>{t('info.province')}</Text>
                 <View style={Platform.OS == 'android' ? {...styles.input_view_text, ...styles.input_view_province_text} : styles.input_view_text_ios}>
                   <ProvincePicker
                     style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
