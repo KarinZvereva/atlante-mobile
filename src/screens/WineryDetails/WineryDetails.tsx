@@ -20,6 +20,7 @@ import {openLink} from '../../common/modules/linking';
 import {IWineryDetailProps, linkProtocol} from './WineryDetails.interfaces';
 import {wineryDetailsStyles} from './WineryDetails.styles';
 import {wineryLogoDal} from './WineyDetails.dal';
+import { useTranslation } from 'react-i18next';
 
 const getWineryDescription = (type?: WineryType) => {
   const defaultDescription = 'Cantina';
@@ -44,6 +45,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
   const [wineryTypeDescr, setWineryTypeDescr] = useState<string>(
     getWineryDescription(winery.type),
   );
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (wineryProps) setWinery(wineryProps);
@@ -159,7 +161,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                 />
                 <Text style={wineryDetailsStyles.small_text}>
                   {winery.telephone && winery.telephone !== ''
-                    ? 'Chiama'
+                    ? t('winery_details.call')
                     : '---'}
                 </Text>
               </View>
@@ -183,7 +185,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                   }
                 />
                 <Text style={wineryDetailsStyles.small_text}>
-                  {winery.email && winery.email !== '' ? 'Scrivi' : '---'}
+                  {winery.email && winery.email !== '' ? t('winery_details.write') : '---'}
                 </Text>
               </View>
               <View
@@ -220,7 +222,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                   image={icons.go_to_popup}
                   onPress={openNavigatorMaps}
                 />
-                <Text style={wineryDetailsStyles.small_text}>Indicazioni</Text>
+                <Text style={wineryDetailsStyles.small_text}>{t('winery_details.directions')}</Text>
               </View>
             </View>
             <View style={{margin: 15}}>
@@ -250,7 +252,8 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
                     justifyContent: 'center',
                   }}>
                   <Text style={wineryDetailsStyles.wrong_position_text}>
-                    Geolocalizzazione{'\n'}approssimativa
+                    {t('winery_details.geo_localization_1')}{'\n'}
+                    {t('winery_details.geo_localization_2')}
                   </Text>
                 </View>
               </View>
@@ -273,8 +276,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
             )}
             <View style={wineryDetailsStyles.footer}>
               <Text style={wineryDetailsStyles.footer_text}>
-                Contatta sempre in anticipo il Vignaiolo per concordare la tua
-                visita in cantina.
+                {t('winery_details.contact')}
               </Text>
             </View>
           </View>

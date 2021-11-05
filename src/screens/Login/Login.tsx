@@ -56,7 +56,7 @@ export function Login(props: any) {
         .then((res) => {
           console.log("Result : ", res)
           if (!res.token || !res.refreshToken) {
-            setError("Impossibile eseguire l'accesso con Apple");
+            setError(t('error.login.0003'));
             setIsError(true);
             setLoading(false);
             return;
@@ -74,7 +74,7 @@ export function Login(props: any) {
         });
       } else {
         // no token - failed sign-in?
-        setError("Impossibile eseguire l'accesso con Apple");
+        setError(t('error.login.0003'));
         setIsError(true);
         setLoading(false);
       }
@@ -86,8 +86,7 @@ export function Login(props: any) {
       console.log(`Apple Authentication Completed, ${user}, ${email}`);
     } catch (error:any) {
       if (error.code === appleAuth.Error.CANCELED) {
-        console.log('User canceled Apple Sign in.');
-        setError('User canceled Apple Sign in.');
+        setError(t('error.login.0004'));
         setIsError(true);
         setLoading(false);
         return;
@@ -113,7 +112,7 @@ export function Login(props: any) {
     LoginManager.logInWithPermissions(['public_profile', 'email'])
       .then((result) => {
         if (result.isCancelled) {
-          setError('Login Facebook Cancelled');
+          setError(t('error.login.0005'));
           setIsError(true);
           setLoading(false);
           return;
@@ -125,7 +124,7 @@ export function Login(props: any) {
             AuthDal.facebooklogin({facebookToken})
               .then((res) => {
                 if (!res.token || !res.refreshToken) {
-                  setError("Impossibile eseguire l'accesso con Facebook");
+                  setError(t('error.login.0006'));
                   setIsError(true);
                   setLoading(false);
                   return;
@@ -200,7 +199,7 @@ export function Login(props: any) {
                 </View>
               </TouchableOpacity>
             </LinearGradient>
-            <Text style={styles.separatorText}>- oppure -</Text>
+            <Text style={styles.separatorText}>{t('login.or')}</Text>
             <LinearGradient
               colors={['#1778F2', '#1778F2', '#1778F2']}
               style={styles.loginFbBtn}>

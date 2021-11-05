@@ -294,6 +294,7 @@ export default function App() {
   );
 
   const { t } = useTranslation();
+
   return (
     <AuthContext.Provider
       value={{data: authState, actionsProvider: authActionProvider}}>
@@ -313,7 +314,7 @@ export default function App() {
                     name="LoginStandard"
                     component={LoginStandard}
                     options={{
-                      title: 'Login NaTourWine',
+                      title: t('login_standard.title'),
                       headerTitleStyle: {...drawerStyles.header_text},
                     }}
                   />
@@ -321,7 +322,7 @@ export default function App() {
                     name="SignUp"
                     component={SignUp}
                     options={{
-                      title: 'Registrati',
+                      title: t('signup.title'),
                       headerTitleStyle: {...drawerStyles.header_text},
                       headerLeft: () => null,
                     }}
@@ -330,7 +331,7 @@ export default function App() {
                     name="AccountRestore"
                     component={AccountRestore}
                     options={{
-                      title: 'Recupera Password',
+                      title: t('account_restore.title'),
                       headerTitleStyle: {...drawerStyles.header_text},
                     }}
                   />

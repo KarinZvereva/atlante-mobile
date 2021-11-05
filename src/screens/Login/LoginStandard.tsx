@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen, images} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './LoginStandard.styles';
+import { useTranslation } from 'react-i18next';
 
 export function LoginStandard(props: any) {
   const [userName, setUserName] = useState<string>();
@@ -24,10 +25,11 @@ export function LoginStandard(props: any) {
   const [error, setError] = useState<string>('');
   const {actionsProvider} = useContext(AuthContext);
   const [isRemember, setRemember] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const Login = () => {
     if (!userName || !password) {
-      setError('Username o password non inseriti');
+      setError(t('error.login.0001'));
       setIsError(true);
       return;
     }
@@ -38,7 +40,7 @@ export function LoginStandard(props: any) {
     AuthDal.login({userName, password})
       .then((res) => {
         if (!res.token || !res.refreshToken) {
-          setError('Dati errati');
+          setError(t('error.login.0002'));
           setIsError(true);
           setLoading(false);
           return;
@@ -98,19 +100,19 @@ export function LoginStandard(props: any) {
                 value={isRemember}
                 onValueChange={() => setRemember((previus) => !previus)}
               />
-              <Text style={[styles.rememberText]}>Ricordami</Text>
+              <Text style={[styles.rememberText]}>{t('login_standard.remember')}</Text>
             </View>
             <View style={styles.forgot_button}>
               <TouchableOpacity
                 onPress={() => props.navigation.navigate('AccountRestore')}>
-                <Text style={styles.linkText}>Password dimenticata?</Text>
+                <Text style={styles.linkText}>{t('login_standard.password_lost')}</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.forgot_button}>
               <TouchableOpacity
                 onPress={() => props.navigation.navigate('SignUp')}>
                 <Text style={styles.linkText}>
-                  Non hai un account? Registrati!
+                  {t('login_standard.signup')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -123,7 +125,7 @@ export function LoginStandard(props: any) {
                 onPress={() => Login()}
                 disabled={!actionsProvider}>
                 <View style={styles.loginBtnSubView}>
-                  <Text style={styles.loginText}>Accedi</Text>
+                  <Text style={styles.loginText}>{t('login_standard.login')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>

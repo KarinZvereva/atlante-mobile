@@ -12,7 +12,7 @@ import {User} from '../../common/interfaces/web-api';
 import {ProfileDal} from './Profile.dal';
 import {webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import {UserAuthenticationMode} from '../../common/modules/auth/auth.constants';
-
+import { useTranslation } from 'react-i18next';
 
 export function Profile(props: any) {
   const actionsProvider = useContext(AuthContext);
@@ -31,8 +31,8 @@ export function Profile(props: any) {
   const [showEdit, setShowEdit] = useState<boolean>(false);
   const recaptcha = useRef<RecaptchaHandles>(null);
   const [isDelete, setDelete] = useState<boolean>(false);
+  const { t } = useTranslation();
 
-  //console.log(userInfo)
 
   /**
    * 
@@ -40,11 +40,11 @@ export function Profile(props: any) {
    */
   const Modify = () => {
     if (!firstName || !lastName || !password || !passwordConfirm) {
-      setError('Nome, Cognome o password non inseriti');
+      setError(t('error.profile.0001'));
       setIsError(true);
       return;
     } else if (password != passwordConfirm) {
-      setError('Le password non sono identiche');
+      setError(t('error.profile.0002'));
       setIsError(true);
       return;
     }
@@ -74,13 +74,13 @@ export function Profile(props: any) {
     ProfileDal.update({userData, captcha}, token)
     .then((result) => {
       if (result && result.success) {
-        Alert.alert("Profilo aggiornato, effettua nuovamente la login.");
+        Alert.alert(t('profile.update_message'));
         setShowEdit(false)
         setLoading(false);
         setShowEdit(false);
         props.navigation.navigate('Logout');
       } else if (result && !result.success) {
-        setError("Impossibile aggiornare l'account");
+        setError(t('error.profile.0003'));
         setIsError(true);
         setLoading(false);
         return;
@@ -116,13 +116,13 @@ export function Profile(props: any) {
     ProfileDal.delete({captcha}, token)
     .then((result) => {
       if (result && result.success) {
-        Alert.alert("Account eliminato");
+        Alert.alert(t('profile.delete_message'));
         setShowEdit(false)
         setLoading(false);
         setShowEdit(false);
         props.navigation.navigate('Logout');
       } else if (result && !result.success) {
-        setError("Impossibile eliminare l'account");
+        setError(t('error.profile.0004'));
         setIsError(true);
         setLoading(false);
         return;
@@ -135,7 +135,6 @@ export function Profile(props: any) {
       setLoading(false);
     });
   };
-
 
   /**+
    *
@@ -153,12 +152,11 @@ export function Profile(props: any) {
     sendDeleteData(token);
   };
 
-
   /**
    *
    */
   const onExpire = () => {
-    setError("Non è stato possibile verificare l'identità. Captcha verified expire");
+    setError(t('error.captcha.expire'));
     setIsError(true);
     setLoading(false);
   };
@@ -168,23 +166,23 @@ export function Profile(props: any) {
    * @param error
    */
   const onError = (error: string) => {
-    setError("Non è stato possibile verificare l'identità. Captcha error");
+    setError(t('error.captcha.error'));
     setIsError(true);
     setLoading(false);
   };
 
   const showAlert = () =>
     Alert.alert(
-    "Eliminazione account",
-    "Confermi l'eliminazione dell'account?",
+    t('profile.confirm_title'),
+    t('profile.confirm_message'),
     [
       {
-        text: "Elimina",
+        text: t('button.delete'),
         onPress: () => Delete(),
         style: "cancel",
       },
       {
-        text: "Annulla",
+        text: t('button.undo'),
         style: "cancel",
       },
     ],
@@ -193,7 +191,6 @@ export function Profile(props: any) {
       onDismiss: () => {}
     }
   );
-
 
   return (
     <SafeAreaView style={styles.page}>
@@ -217,7 +214,7 @@ export function Profile(props: any) {
                 onPress={() => setShowEdit(true)}
                 disabled={!actionsProvider}>
                 <View style={styles.modifyBtnSubView}>
-                  <Text style={styles.buttonText}>Modifica</Text>
+                  <Text style={styles.buttonText}>{t('button.modify')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>
@@ -228,7 +225,7 @@ export function Profile(props: any) {
                 onPress={() => showAlert()}
                 disabled={!actionsProvider}>
                 <View style={styles.modifyBtnSubView}>
-                  <Text style={styles.buttonText}>Elimina</Text>
+                  <Text style={styles.buttonText}>{t('button.delete')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>
@@ -245,15 +242,15 @@ export function Profile(props: any) {
                 onPress={() => showAlert()}
                 disabled={!actionsProvider}>
                 <View style={styles.modifyBtnSubView}>
-                  <Text style={styles.buttonText}>Elimina</Text>
+                  <Text style={styles.buttonText}>{t('button.delete')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>
           </View>
           <View style={styles.divider}></View>
-          <Text style={styles.facebook_text}>Non è possibile modificare il profilo</Text>
+          <Text style={styles.facebook_text}>{t('profile.delete_summary_1')}</Text>
           <View style={styles.divider}></View>
-          <Text style={styles.facebook_text}>Le informazioi sopra riportate provengono da {isFacebookAutenticated ? 'Facebook' : isAppleAutenticated ? 'Apple' : 'Google'}</Text>
+          <Text style={styles.facebook_text}>{t('profile.delete_summary_2')} {isFacebookAutenticated ? 'Facebook' : isAppleAutenticated ? 'Apple' : 'Google'}</Text>
         </View>
         }   
         { showEdit && 
@@ -261,7 +258,7 @@ export function Profile(props: any) {
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
-              placeholder="Nome"
+              placeholder={t('person.name')}
               placeholderTextColor="#ffffff"
               onChangeText={(value) => setFirstname(value)}
               value= {firstName}
@@ -270,7 +267,7 @@ export function Profile(props: any) {
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
-              placeholder="Cognome"
+              placeholder={t('person.surname')}
               placeholderTextColor="#ffffff"
               onChangeText={(value) => setLastname(value)}
               value= {lastName}
@@ -288,7 +285,7 @@ export function Profile(props: any) {
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
-              placeholder="Conferma Password"
+              placeholder={t('profile.confirm_password')}
               placeholderTextColor="#ffffff"
               secureTextEntry={true}
               onChangeText={(value) => setPasswordConfirm(value)}
@@ -302,7 +299,7 @@ export function Profile(props: any) {
                 onPress={() => Modify()}
                 disabled={!actionsProvider}>
                 <View style={styles.modifyBtnSubView}>
-                  <Text style={styles.buttonText}>Aggiorna</Text>
+                  <Text style={styles.buttonText}>{t('button.update')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>
@@ -317,7 +314,7 @@ export function Profile(props: any) {
                   }}
                 disabled={!actionsProvider}>
                 <View style={styles.modifyBtnSubView}>
-                  <Text style={styles.buttonText}>Annulla</Text>
+                  <Text style={styles.buttonText}>{t('button.undo')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>

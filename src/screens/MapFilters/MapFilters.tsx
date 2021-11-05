@@ -189,7 +189,7 @@ export const MapFilters: FC = () => {
               style={mapFiltersStyles.saveBtn}>
               <TouchableOpacity onPress={onApplyFilters}>
                 <View style={mapFiltersStyles.modifyBtnSubView}>
-                  <Text style={mapFiltersStyles.buttonText}>{t('map_filters.button_apply')}</Text>
+                  <Text style={mapFiltersStyles.buttonText}>{t('button.apply')}</Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>

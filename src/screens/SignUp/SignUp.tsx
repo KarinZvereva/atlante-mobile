@@ -23,6 +23,7 @@ import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
 import {User} from '../../common/interfaces/web-api';
 import { InternetDomains } from '../../common/constants';
 import {openLink} from '../../common/modules/linking';
+import { useTranslation } from 'react-i18next';
 
 export function SignUp(props: any) {
   const [userName, setUserName] = useState<string>();
@@ -41,6 +42,7 @@ export function SignUp(props: any) {
   const [isUserNamelAvailable, setUserNameAvailable] = useState<boolean>(true);
   const [isMailMalformed, setMailMalformed] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const { t } = useTranslation();
 
   /**
    * Execute sign up
@@ -48,19 +50,19 @@ export function SignUp(props: any) {
    */
   const signUp = () => {
     if (!userName || !password || !passwordConfirm || !email) {
-      setError('Username, password o mail non inseriti');
+      setError(t('error.signup.0001'));
       setIsError(true);
       return;
     } else if (password != passwordConfirm) {
-      setError('Le password non sono identiche');
+      setError(t('error.signup.0002'));
       setIsError(true);
       return;
     } else if (!isUserNamelAvailable || !isEmailAvailable) {
-      setError('Username o mail non disponibili');
+      setError(t('error.signup.0003'));
       setIsError(true);
       return;
     } else if (!isAcceptance) {
-      setError("E' necessario accettare i Termini e Condizioni ");
+      setError(t('error.signup.0004'));
       setIsError(true);
       return;
     } else if (!validateEmail()) {
@@ -112,7 +114,7 @@ export function SignUp(props: any) {
     AuthDal.register({userData, captcha})
       .then((result) => {
         if (result && result.success) {
-          Alert.alert(`Verifica la mail per attivare l'account`);
+          Alert.alert(t('signup.mail_message'));
           setLoading(false);
           props.navigation.navigate('SignIn');
         } else if (result && result.errors) {
@@ -147,9 +149,7 @@ export function SignUp(props: any) {
    *
    */
   const onExpire = () => {
-    setError(
-      "Non è stato possibile verificare l'identità. Captcha verified expire",
-    );
+    setError(t('error.captcha.expire'));
     setIsError(true);
     setLoading(false);
   };
@@ -159,8 +159,7 @@ export function SignUp(props: any) {
    * @param error
    */
   const onError = (error: string) => {
-    console.log(
-      "Non è stato possibile verificare l'identità. Recaptcha onError...",
+    console.log(t('error.captcha.error'),
       error,
     );
   };
@@ -181,13 +180,11 @@ export function SignUp(props: any) {
         .then((result) => {
           if (result && !result.available && result.is_active) {
             setUserNameAvailable(false);
-            setError('Username già utilizzato');
+            setError(t('error.signup.0005'));
             setIsError(true);
           } else if (result && result.error) {
             setUserNameAvailable(false);
-            setError(
-              'Username non verificabile, connessione con il server non disponibile',
-            );
+            setError(t('error.server.connection'));
             setIsError(true);
           }
         })
@@ -217,12 +214,11 @@ export function SignUp(props: any) {
         .then((result) => {
           if (result && !result.available && result.is_active) {
             setEmaiAvailable(false);
-            setError('Email già utilizzata');
+            setError(t('error.signup.0006'));
             setIsError(true);
           } else if (result && result.error) {
             setEmaiAvailable(false);
-            setError(
-              'Email non verificabile, connessione con il server non disponibile',
+            setError(t('error.server.comunication'),
             );
             setIsError(true);
           }
@@ -255,13 +251,13 @@ export function SignUp(props: any) {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                  Alert.alert("Modal has been closed.");
+                  //Alert.alert("Modal has been closed.");
                   setModalVisible(!modalVisible);
                 }}
               >
                 <View style={styles.centeredView}>
                   <View style={styles.modalView}>
-                    <Text style={styles.headerModalText}>Riepilogo dati inseriti - Conferma</Text>
+                    <Text style={styles.headerModalText}>{t('signup.summary_confirm')}</Text>
                     <View style={styles.summary_container}>
                       <View style={styles.field_container}>
                         <View style={styles.header_field_container}>
@@ -281,7 +277,7 @@ export function SignUp(props: any) {
                       </View>
                       <View style={styles.field_container}>
                         <View style={styles.header_field_container}>
-                          <Text style={styles.headerModalText}>Nome : </Text>
+                          <Text style={styles.headerModalText}>{t('person.name')} : </Text>
                         </View>
                         <View style={styles.value_field_container}>
                           <Text style={styles.modalText}>{firstName}</Text>
@@ -289,7 +285,7 @@ export function SignUp(props: any) {
                       </View>
                       <View style={styles.field_container}>
                         <View style={styles.header_field_container}>
-                          <Text style={styles.headerModalText}>Cognome : </Text>
+                          <Text style={styles.headerModalText}>{t('person.surname')} : </Text>
                         </View>
                         <View style={styles.value_field_container}>
                           <Text style={styles.modalText}>{lastName}</Text>
@@ -297,7 +293,7 @@ export function SignUp(props: any) {
                       </View>
                     </View>
                     {isMailMalformed && 
-                      <Text style={styles.modal_warning_text}>Attenzione, la mail sembra non essere valida, ti preghiamo di verificare.</Text>
+                      <Text style={styles.modal_warning_text}>{t('error.signup.0007')}</Text>
                     }
                     <View style={styles.bottom_container}>
                       <View style={styles.button_modal_container}>
@@ -308,7 +304,7 @@ export function SignUp(props: any) {
                             onPress={() => openCaptcha()}
                             >
                             <View style={styles.loginBtnSubView}>
-                              <Text style={styles.loginText}>Conferma</Text>
+                              <Text style={styles.loginText}>{t('button.confirm')}</Text>
                             </View>
                           </Pressable>
                         </LinearGradient>
@@ -319,7 +315,7 @@ export function SignUp(props: any) {
                             onPress={() => setModalVisible(!modalVisible)} 
                             >
                             <View style={styles.loginBtnSubView}>
-                              <Text style={styles.loginText}>Annulla</Text>
+                              <Text style={styles.loginText}>{t('button.undo')}</Text>
                             </View>
                           </Pressable>
                         </LinearGradient>
@@ -353,7 +349,7 @@ export function SignUp(props: any) {
                 <View style={styles.inputView}>
                   <TextInput
                     style={styles.TextInput}
-                    placeholder="Nome"
+                    placeholder={t('person.name')}
                     placeholderTextColor="#ffffff"
                     onChangeText={(value) => setFirstname(value.trim())}
                   />
@@ -361,7 +357,7 @@ export function SignUp(props: any) {
                 <View style={styles.inputView}>
                   <TextInput
                     style={styles.TextInput}
-                    placeholder="Cognome"
+                    placeholder={t('person.surname')}
                     placeholderTextColor="#ffffff"
                     onChangeText={(value) => setLastname(value.trim())}
                   />
@@ -378,7 +374,7 @@ export function SignUp(props: any) {
                 <View style={styles.inputView}>
                   <TextInput
                     style={styles.TextInput}
-                    placeholder="Conferma Password"
+                    placeholder={t('signup.confirm_password')}
                     placeholderTextColor="#ffffff"
                     secureTextEntry={true}
                     onChangeText={(value) => setPasswordConfirm(value.trim())}
@@ -410,13 +406,13 @@ export function SignUp(props: any) {
               <View style={styles.acceptanceText_container}>
                 <View>
                   <Text style={[styles.acceptanceText]}>
-                    Ho letto, compreso e accettato i
+                    {t('signup.terms_1')}
                   </Text>
                   <TouchableOpacity
                     onPress={() => {
                       openLink('https://app.natourwine.org/use-term/');
                     }}>
-                    <Text style={[styles.acceptanceLinkText]}> termini e condizioni</Text>
+                    <Text style={[styles.acceptanceLinkText]}> {t('signup.terms_2')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -429,7 +425,7 @@ export function SignUp(props: any) {
                   onPress={() => signUp()}
                   disabled={!actionsProvider}>
                   <View style={styles.loginBtnSubView}>
-                    <Text style={styles.loginText}>Registrati</Text>
+                    <Text style={styles.loginText}>{t('button.signin')}</Text>
                   </View>
                 </TouchableOpacity>
               </LinearGradient>
@@ -440,7 +436,7 @@ export function SignUp(props: any) {
                   onPress={() => props.navigation.navigate('LoginStandard')} //SignIn
                   disabled={!actionsProvider}>
                   <View style={styles.loginBtnSubView}>
-                    <Text style={styles.loginText}>Annulla</Text>
+                    <Text style={styles.loginText}>{t('button.undo')}</Text>
                   </View>
                 </TouchableOpacity>
               </LinearGradient>

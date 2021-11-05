@@ -112,7 +112,7 @@ export function Info(props: any) {
     <SafeAreaView style={styles.page}>
       {!isLoading && (
         <>
-          <Header {...props} showName="Il Progetto NaTourWine" />
+          <Header {...props} showName={t('info.header')} />
           <ScrollView style={styles.scroll_container}>
             <View style={styles.centered_container}>
               <Image source={images.logo_calice} style={styles.logo} />

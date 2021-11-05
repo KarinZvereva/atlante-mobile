@@ -9,6 +9,7 @@ import {RestoreDal} from './AccountRestore.dal';
 import {images, webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
 import {User} from '../../common/interfaces/web-api';
+import { useTranslation } from 'react-i18next';
 
 const styles = StyleSheet.create({
   page: {
@@ -97,18 +98,19 @@ export function AccountRestore(props: any) {
   const recaptcha = useRef<RecaptchaHandles>(null);
   const [isEmailAvailable, setEmaiAvailable] = useState<boolean>(true);
   const [isUserActive, setUserActive] = useState<boolean>(true);
-  
+  const { t } = useTranslation();
+
   const restore = () => {
     if (!email) {
-      setError('Mail non inserita');
+      setError(t('error.account_restore.0001'));
       setIsError(true);
       return;
     } else if ( !isEmailAvailable) {
-      setError('Email non presente');
+      setError(t('error.account_restore.0002'));
       setIsError(true);
       return;
     } else if ( !isUserActive) {
-      setError('Email associata ad un account non attivo');
+      setError(t('error.account_restore.0003'));
       setIsError(true);
       return;
     }
@@ -134,11 +136,11 @@ export function AccountRestore(props: any) {
     RestoreDal.restore({email, captcha})
     .then((result) => {
       if (result && result.success) {
-        Alert.alert(`Verifica la mail per ripristinare l'account`);
+        Alert.alert(t('account_restore.mail_message'));
         setLoading(false);
         props.navigation.navigate('SignIn');
       } else if (result && !result.success) {
-        setError("Impossibile recuperare l'account");
+        setError(t('error.account_restore.0004'));
         setIsError(true);
         setLoading(false);
         return;
@@ -164,7 +166,7 @@ export function AccountRestore(props: any) {
    *
    */
   const onExpire = () => {
-    setError("Non è stato possibile verificare l'identità. Captcha verified expire");
+    setError(t('error.captcha.expire'));
     setIsError(true);
     setLoading(false);
   };
@@ -174,7 +176,7 @@ export function AccountRestore(props: any) {
    * @param error
    */
   const onError = (error: string) => {
-    setError("Non è stato possibile verificare l'identità. Captcha error");
+    setError(t('error.captcha.error'));
     setIsError(true);
     setLoading(false);
   };
@@ -199,15 +201,15 @@ export function AccountRestore(props: any) {
           console.log(result)
           if (result && result.available && (result.is_active == null) ) {
             setEmaiAvailable(false);
-            setError('Email non presente');
+            setError(t('error.account_restore.0002'));
             setIsError(true);
           } else if (result && !result.available && !result.is_active) {
             setUserActive(false);
-            setError('Email associata ad un account non attivo');
+            setError(t('error.account_restore.0003'));
             setIsError(true);
           } else if (result && result.error) {
             setEmaiAvailable(false);
-            setError('Email non verificabile, connessione con il server non disponibile');
+            setError(t('error.server.connection'));
             setIsError(true);
           }
         })
@@ -249,7 +251,7 @@ export function AccountRestore(props: any) {
           <TouchableOpacity
             onPress={() => restore()}>
             <View style={styles.restoreBtnSubView}>
-              <Text style={styles.restoreText}>Recupera</Text>
+              <Text style={styles.restoreText}>{t('button.restore')}</Text>
             </View>
           </TouchableOpacity>
         </LinearGradient>
