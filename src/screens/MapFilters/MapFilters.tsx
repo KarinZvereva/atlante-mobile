@@ -65,7 +65,7 @@ export const MapFilters: FC = () => {
     setRegion(region);
     setWithBnB(withBnB);
     setWithRestaurant(withRestaurant);
-  }, []);
+  }, [region, province, withBnB, withRestaurant]);
 
   useEffect(() => {
     if (!isLogged) navigator.navigate('SignIn');
@@ -149,7 +149,7 @@ export const MapFilters: FC = () => {
                 onValueChange={(itemValue, _itemIndex) =>
                   setProvince(itemValue as string)
                 }
-                remoteFilter={_region ? {region: _region} : undefined}
+                remoteFilter={{region: _region}}
               />
             </View>
           </View>

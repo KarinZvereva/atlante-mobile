@@ -26,9 +26,8 @@ import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
 import {MapContext, MapActionsType} from '../../common/modules/map';
-import { useTranslation } from 'react-i18next';
-
-
+import {useTranslation} from 'react-i18next';
+import {useAuth} from '../../common/customHooks';
 
 const {LATITUDE_DELTA, LONGITUDE_DELTA} = COORDINATES_DELTA;
 
@@ -54,7 +53,7 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
   const [search, setSearch] = useState<string>('');
   const [selectedPosition, setSelectedPosition] = useState<LatLng>();
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   /** use Context */
   const {
@@ -274,9 +273,13 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
       withBnB && withRestaurant
         ? `${nameof<Winery>('services')} = 3`
         : withBnB
-        ? `(${nameof<Winery>('services')} = 1 OR ${nameof<Winery>('services')} = 3)`
+        ? `(${nameof<Winery>('services')} = 1 OR ${nameof<Winery>(
+            'services',
+          )} = 3)`
         : withRestaurant
-        ? `(${nameof<Winery>('services')} = 2 OR ${nameof<Winery>('services')} = 3)` 
+        ? `(${nameof<Winery>('services')} = 2 OR ${nameof<Winery>(
+            'services',
+          )} = 3)`
         : undefined;
 
     finalFilter =
