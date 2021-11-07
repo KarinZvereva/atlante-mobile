@@ -1,5 +1,6 @@
 {
   "_comment": "src/localization/it/translation.json",
+  "switchLanguage"        : "Italiano",
   "app": {
   },
   "login": {
@@ -114,7 +115,8 @@
     "confirm_title"       : "Eliminazione account",
     "confirm_message"     : "Confermi l'eliminazione dell'account?",
     "update_message"      : "Profilo aggiornato, effettua nuovamente la login.",
-    "delete_message"      : "Account eliminato"
+    "delete_message"      : "Account eliminato",
+    "language"            : "Lingua"
   },
   "account_restore": {
     "title"               : "Recupera Password",
