@@ -23,9 +23,15 @@ export function Home(props: IRouteProps) {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  // Auth
+  /** Auth */
   const isLogged = useAuth();
 
+  /** Effects */
+  useEffect(() => {
+    if (!isLogged) navigation.navigate('SignIn');
+  }, [isLogged]);
+
+  /** Callbacks */
   const openMail = useCallback(() => {
     sendEmail('atlantevignaiolinaturali@gmail.com');
   }, []);
@@ -40,10 +46,6 @@ export function Home(props: IRouteProps) {
       await Linking.openURL(browserUrl);
     }
   }, []);
-
-  useEffect(() => {
-    if (!isLogged) navigation.navigate('SignIn');
-  }, [isLogged]);
 
   return (
     <SafeAreaView style={homeStyles.page}>

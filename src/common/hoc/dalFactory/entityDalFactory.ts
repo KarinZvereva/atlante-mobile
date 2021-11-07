@@ -192,7 +192,7 @@ export const entityDalFactory = <T, TOut extends IDalBaseEntity>(
 
   const dels = async (data: deleteItem[]): Promise<boolean | ServerError> => {
     try {
-      const result = await fetcher(`${entityUrlBuilder(entityName)}/`, {
+      const result = await fetcher(`${entityUrlBuilder(entityName)}/bulk`, {
         method: 'DELETE',
         headers: {
           Accept: 'application/json',

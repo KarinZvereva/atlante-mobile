@@ -1,12 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, Text, View, SafeAreaView, ScrollView} from 'react-native';
 import {RoundImageButton} from '../../common/components/RoundImageButton';
 import {icons, images} from '../../common/constants';
 import {mapsInfoStyles} from './MapInfo.styles';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/core';
+import {useAuth} from '../../common/customHooks';
 
 export const MapInfo = React.memo(() => {
-  const { t } = useTranslation();
+  /** Navigation */
+  const navigation = useNavigation();
+
+  /** Auth */
+  const isLogged = useAuth();
+
+  /** Effects */
+  useEffect(() => {
+    if (!isLogged) navigation.navigate('SignIn');
+  }, [isLogged]);
+
+  const {t} = useTranslation();
+
   return (
     <SafeAreaView style={mapsInfoStyles.page}>
       <View style={{alignContent: 'center', alignItems: 'center'}}>

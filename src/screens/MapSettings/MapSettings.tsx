@@ -13,7 +13,9 @@ import {defaultRed, images} from '../../common/constants';
 import {MapActionsType} from '../../common/modules/map/map.constants';
 import {MapContext} from '../../common/modules/map/MapContext';
 import {mapSettingsStyles} from './MapSettings.styles';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/core';
+import {useAuth} from '../../common/customHooks';
 
 export const MapSettings = () => {
   // Context
@@ -33,6 +35,17 @@ export const MapSettings = () => {
   const [rangeAroundMe, setRangeAroundMe] = useState(searchAroundMeRadius);
   const [rangeAroundP, setRangeAroundP] = useState(searchAroundPointRadius);
 
+  /** Navigation */
+  const navigation = useNavigation();
+
+  /** Auth */
+  const isLogged = useAuth();
+
+  /** Effects */
+  useEffect(() => {
+    if (!isLogged) navigation.navigate('SignIn');
+  }, [isLogged]);
+
   // Effect
   useEffect(() => {
     if (switchType) setMapType('satellite');
@@ -46,7 +59,7 @@ export const MapSettings = () => {
     );
   }, [mapType]);
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   return (
     <SafeAreaView style={mapSettingsStyles.page}>
@@ -62,7 +75,9 @@ export const MapSettings = () => {
           </View>
           <View style={mapSettingsStyles.form_item_container_with_label_inline}>
             <Text style={mapSettingsStyles.option_text_label}>
-              {mapType === 'standard' ? t('map_settings.map_type_road') : t('map_settings.map_type_satellite')}
+              {mapType === 'standard'
+                ? t('map_settings.map_type_road')
+                : t('map_settings.map_type_satellite')}
             </Text>
             <Switch
               trackColor={{false: '#cecece', true: '#cecece'}}

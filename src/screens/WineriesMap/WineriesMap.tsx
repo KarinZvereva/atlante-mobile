@@ -71,6 +71,9 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
   /** Navigation */
   const navigation = useNavigation();
 
+  /** Auth */
+  const isLogged = useAuth();
+
   /** Callback */
   const resetWineries = () => setWineries(undefined);
   const resetSelectedPosition = () => setSelectedPosition(undefined);
@@ -233,6 +236,11 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
   useEffect(() => {
     initMap();
   }, []);
+
+  // manage logout if token is expired
+  useEffect(() => {
+    if (!isLogged) navigation.navigate('SignIn');
+  }, [isLogged]);
 
   // Triggered when the user select a position from pressing the map
   useEffect(() => {

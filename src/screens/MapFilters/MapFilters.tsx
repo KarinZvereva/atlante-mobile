@@ -17,7 +17,8 @@ import {MapActionsType} from '../../common/modules/map/map.constants';
 import {MapContext} from '../../common/modules/map/MapContext';
 import {provinceDal, regionDal} from './MapFilters.dal';
 import {mapFiltersStyles} from './MapFilters.styles';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+import {useAuth} from '../../common/customHooks';
 
 const ProvincePicker = remotePickerBuilder(provinceDal);
 const RegionPicker = remotePickerBuilder(regionDal);
@@ -41,6 +42,13 @@ export const MapFilters: FC = () => {
   // Navigation
   const navigator = useNavigation();
 
+  // Translation
+  const {t} = useTranslation();
+
+  // Auth
+  const isLogged = useAuth();
+
+  // Callbacks
   const onApplyFilters = useCallback(() => {
     actionProvider?.changeExtraFilter(MapActionsType.CHANGE_EXTRA_FILTER, {
       region: _region,
@@ -60,12 +68,14 @@ export const MapFilters: FC = () => {
   }, []);
 
   useEffect(() => {
+    if (!isLogged) navigator.navigate('SignIn');
+  }, [isLogged]);
+
+  useEffect(() => {
     if (_province && !_region) setRegionDisabled(true);
     else if (regionDisabled) setRegionDisabled(false);
   }, [_province, _region, regionDisabled]);
 
-  const { t } = useTranslation();
-  
   return (
     <SafeAreaView style={mapFiltersStyles.page}>
       <ScrollView style={mapFiltersStyles.scroll_container}>
@@ -85,7 +95,9 @@ export const MapFilters: FC = () => {
                 ? mapFiltersStyles.form_item_container_with_label_inline
                 : mapFiltersStyles.form_item_container_with_label_inline_ios
             }>
-            <Text style={mapFiltersStyles.option_text_label}>{t('map_filters.region')}</Text>
+            <Text style={mapFiltersStyles.option_text_label}>
+              {t('map_filters.region')}
+            </Text>
             <View
               style={
                 Platform.OS == 'android'
@@ -117,7 +129,9 @@ export const MapFilters: FC = () => {
                 ? mapFiltersStyles.form_item_container_with_label_inline
                 : mapFiltersStyles.form_item_container_with_label_inline_ios
             }>
-            <Text style={mapFiltersStyles.option_text_label}>{t('map_filters.province')}</Text>
+            <Text style={mapFiltersStyles.option_text_label}>
+              {t('map_filters.province')}
+            </Text>
             <View
               style={
                 Platform.OS == 'android'
@@ -144,12 +158,14 @@ export const MapFilters: FC = () => {
           )}
           <View>
             <Text style={mapFiltersStyles.option_title_text}>
-            {t('map_filters.services_title')}
+              {t('map_filters.services_title')}
             </Text>
           </View>
           <View style={mapFiltersStyles.vertical_divider} />
           <View style={mapFiltersStyles.form_item_container_with_label_inline}>
-            <Text style={mapFiltersStyles.option_text_label}>{t('map_filters.service_sleep')}</Text>
+            <Text style={mapFiltersStyles.option_text_label}>
+              {t('map_filters.service_sleep')}
+            </Text>
             <View style={mapFiltersStyles.input_view}>
               <Switch
                 style={
@@ -167,7 +183,9 @@ export const MapFilters: FC = () => {
           </View>
           <View style={mapFiltersStyles.vertical_divider} />
           <View style={mapFiltersStyles.form_item_container_with_label_inline}>
-            <Text style={mapFiltersStyles.option_text_label}>{t('map_filters.service_food')}</Text>
+            <Text style={mapFiltersStyles.option_text_label}>
+              {t('map_filters.service_food')}
+            </Text>
             <View style={mapFiltersStyles.input_view}>
               <Switch
                 style={
@@ -189,7 +207,9 @@ export const MapFilters: FC = () => {
               style={mapFiltersStyles.saveBtn}>
               <TouchableOpacity onPress={onApplyFilters}>
                 <View style={mapFiltersStyles.modifyBtnSubView}>
-                  <Text style={mapFiltersStyles.buttonText}>{t('button.apply')}</Text>
+                  <Text style={mapFiltersStyles.buttonText}>
+                    {t('button.apply')}
+                  </Text>
                 </View>
               </TouchableOpacity>
             </LinearGradient>

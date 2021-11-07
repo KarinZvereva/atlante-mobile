@@ -16,12 +16,21 @@ import {infoCountCall} from './Info.dal';
 import {remotePickerBuilder} from '../../common/hoc/pickerFactory/pickerFactory';
 import {provinceDal, regionDal} from '../MapFilters/MapFilters.dal';
 import {getVersion, getBuildNumber} from 'react-native-device-info';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/core';
+import {useAuth} from '../../common/customHooks';
 
 const ProvincePicker = remotePickerBuilder(provinceDal);
 const RegionPicker = remotePickerBuilder(regionDal);
 
+enum CountType {
+  Global = 1,
+  Region,
+  Province,
+}
+
 export function Info(props: any) {
+  // State
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -30,17 +39,9 @@ export function Info(props: any) {
   const [countProvince, setProvinceCount] = useState<number>();
   const [version, setVersion] = useState<string>();
   const [buildNumber, setBuildNumber] = useState<string>();
-
-  // State
   const [_province, setProvince] = useState<string>();
   const [_region, setRegion] = useState<string>();
   const [regionDisabled, setRegionDisabled] = useState(false);
-
-  enum CountType {
-    Global = 1,
-    Region,
-    Province,
-  }
 
   const loadCount = (countType: CountType, data: string | undefined) => {
     setError('');
@@ -51,18 +52,16 @@ export function Info(props: any) {
 
     switch (countType) {
       case CountType.Region:
-        if (data) 
-          region = data;
+        if (data) region = data;
         else {
           setRegionCount(undefined);
           return;
         }
         break;
       case CountType.Province:
-        if (data)
-          province = data;
+        if (data) province = data;
         else {
-          setProvinceCount(undefined)
+          setProvinceCount(undefined);
           return;
         }
         break;
@@ -73,7 +72,7 @@ export function Info(props: any) {
     infoCountCall
       .count({region, province})
       .then((result) => {
-        console.log(result?.value)
+        console.log(result?.value);
         if (result) {
           switch (countType) {
             case CountType.Region:
@@ -96,6 +95,17 @@ export function Info(props: any) {
       });
   };
 
+  /** Navigation */
+  const navigation = useNavigation();
+
+  /** Auth */
+  const isLogged = useAuth();
+
+  /** Effects */
+  useEffect(() => {
+    if (!isLogged) navigation.navigate('SignIn');
+  }, [isLogged]);
+
   // Effects
   useEffect(() => {
     loadCount(CountType.Global, undefined);
@@ -106,7 +116,7 @@ export function Info(props: any) {
     setBuildNumber(getBuildNumber());
   }, []);
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   return (
     <SafeAreaView style={styles.page}>
@@ -116,84 +126,44 @@ export function Info(props: any) {
           <ScrollView style={styles.scroll_container}>
             <View style={styles.centered_container}>
               <Image source={images.logo_calice} style={styles.logo} />
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_1')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_2')}
-              </Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_1')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_2')}</Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
                 {t('info.info_row_3')}
               </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_4')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_5')}
-              </Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_4')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_5')}</Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
                 {t('info.info_row_6')}
               </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_7')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_8')}
-              </Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_7')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_8')}</Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
                 {t('info.info_row_9')}
               </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_10')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_10b')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_11')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_12')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_13')}
-              </Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_10')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_10b')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_11')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_12')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_13')}</Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
                 {t('info.info_row_14')}
               </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_15')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_16')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_17')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_18')}
-              </Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_15')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_16')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_17')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_18')}</Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
                 {t('info.info_row_19')}
               </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_20')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_21')}
-              </Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_20')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_21')}</Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
                 {t('info.info_row_22')}
               </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_23')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_24')}
-              </Text>
-              <Text style={[styles.infoText]}>
-                {t('info.info_row_25')}
-              </Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_23')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_24')}</Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_25')}</Text>
               <Text style={[styles.infoText, {marginBottom: 10}]}>
                 {t('info.info_row_26')}
               </Text>
@@ -207,15 +177,42 @@ export function Info(props: any) {
               <View style={styles.vertical_divider} />
               <View>
                 <Text style={styles.option_title_text}>
-                {t('info.location_title')}
+                  {t('info.location_title')}
                 </Text>
               </View>
-              <View style={Platform.OS == 'android' ?  styles.vertical_divider : styles.vertical_divider_ios} />
-              <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
-                <Text style={ Platform.OS == 'android' ? styles.option_text_label :  {...styles.option_text_label, ...{marginRight: 14}}}>{t('info.region')}</Text>
-                <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
+              <View
+                style={
+                  Platform.OS == 'android'
+                    ? styles.vertical_divider
+                    : styles.vertical_divider_ios
+                }
+              />
+              <View
+                style={
+                  Platform.OS == 'android'
+                    ? styles.form_item_container_with_label_inline
+                    : styles.form_item_container_with_label_inline_ios
+                }>
+                <Text
+                  style={
+                    Platform.OS == 'android'
+                      ? styles.option_text_label
+                      : {...styles.option_text_label, ...{marginRight: 14}}
+                  }>
+                  {t('info.region')}
+                </Text>
+                <View
+                  style={
+                    Platform.OS == 'android'
+                      ? styles.input_view_text
+                      : styles.input_view_text_ios
+                  }>
                   <RegionPicker
-                    style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
+                    style={
+                      Platform.OS == 'android'
+                        ? styles.pickers_style
+                        : styles.pickers_style_ios
+                    }
                     itemStyle={styles.pickers_item_style}
                     selectedValue={_region}
                     onValueChange={(itemValue, _itemIndex) => {
@@ -226,13 +223,39 @@ export function Info(props: any) {
                     enabled={!regionDisabled}
                   />
                 </View>
-                <Text style={Platform.OS == 'android' ? styles.count_text_label : styles.count_text_label_ios}>{countRegion}</Text>
+                <Text
+                  style={
+                    Platform.OS == 'android'
+                      ? styles.count_text_label
+                      : styles.count_text_label_ios
+                  }>
+                  {countRegion}
+                </Text>
               </View>
-              <View style={Platform.OS == 'android' ? styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
-                <Text style={styles.option_text_label}>{t('info.province')}</Text>
-                <View style={Platform.OS == 'android' ? {...styles.input_view_text, ...styles.input_view_province_text} : styles.input_view_text_ios}>
+              <View
+                style={
+                  Platform.OS == 'android'
+                    ? styles.form_item_container_with_label_inline
+                    : styles.form_item_container_with_label_inline_ios
+                }>
+                <Text style={styles.option_text_label}>
+                  {t('info.province')}
+                </Text>
+                <View
+                  style={
+                    Platform.OS == 'android'
+                      ? {
+                          ...styles.input_view_text,
+                          ...styles.input_view_province_text,
+                        }
+                      : styles.input_view_text_ios
+                  }>
                   <ProvincePicker
-                    style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
+                    style={
+                      Platform.OS == 'android'
+                        ? styles.pickers_style
+                        : styles.pickers_style_ios
+                    }
                     itemStyle={styles.pickers_item_style}
                     selectedValue={_province}
                     onValueChange={(itemValue, _itemIndex) => {
@@ -242,7 +265,14 @@ export function Info(props: any) {
                     remoteFilter={_region ? {region: _region} : undefined}
                   />
                 </View>
-                <Text style={Platform.OS == 'android' ? styles.count_text_label : styles.count_text_label_ios}>{countProvince}</Text>
+                <Text
+                  style={
+                    Platform.OS == 'android'
+                      ? styles.count_text_label
+                      : styles.count_text_label_ios
+                  }>
+                  {countProvince}
+                </Text>
               </View>
             </View>
             <View style={{marginLeft: 10}}>
