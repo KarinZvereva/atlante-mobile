@@ -24,13 +24,6 @@ const ProvincePicker = remotePickerBuilder(provinceDal);
 const RegionPicker = remotePickerBuilder(regionDal);
 
 export const MapFilters: FC = () => {
-  // State
-  const [_province, setProvince] = useState<string>();
-  const [_region, setRegion] = useState<string>();
-  const [_withBnB, setWithBnB] = useState<boolean>();
-  const [_withRestaurant, setWithRestaurant] = useState<boolean>();
-  const [regionDisabled, setRegionDisabled] = useState(false);
-
   // Context
   const {
     data: {
@@ -38,6 +31,13 @@ export const MapFilters: FC = () => {
     },
     actionProvider,
   } = useContext(MapContext);
+
+  // State
+  const [_province, setProvince] = useState(province);
+  const [_region, setRegion] = useState(region);
+  const [_withBnB, setWithBnB] = useState(withBnB);
+  const [_withRestaurant, setWithRestaurant] = useState(withRestaurant);
+  const [regionDisabled, setRegionDisabled] = useState(false);
 
   // Navigation
   const navigator = useNavigation();
@@ -60,13 +60,6 @@ export const MapFilters: FC = () => {
   }, [actionProvider, _region, _province, _withBnB, _withRestaurant]);
 
   // Effects
-  useEffect(() => {
-    setProvince(province);
-    setRegion(region);
-    setWithBnB(withBnB);
-    setWithRestaurant(withRestaurant);
-  }, [region, province, withBnB, withRestaurant]);
-
   useEffect(() => {
     if (!isLogged) navigator.navigate('SignIn');
   }, [isLogged]);
@@ -146,9 +139,7 @@ export const MapFilters: FC = () => {
                 }
                 itemStyle={mapFiltersStyles.pickers_item_style}
                 selectedValue={_province}
-                onValueChange={(itemValue, _itemIndex) =>
-                  setProvince(itemValue as string)
-                }
+                onValueChange={(value) => setProvince(value as string)}
                 remoteFilter={{region: _region}}
               />
             </View>
