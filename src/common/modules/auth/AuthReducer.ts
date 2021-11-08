@@ -51,14 +51,20 @@ export const AuthReducer: React.Reducer<AuthState, AuthActions> = (
         refreshToken: action.refreshToken,
         userData: action.userData,
       };
-    case AuthActionsType.RESTORE_CREDENTIAL: {
+    case AuthActionsType.RESTORE_CREDENTIAL: 
       return {
         ...prevState,
         userName: action.userName,
         password: action.password,
         isLoading: false,
       }; 
-    } 
+    case AuthActionsType.USER_SETTINGS: 
+      return {
+        ...prevState,
+
+        settings: action.settings,
+        isLoading: false,
+      };
     default:
       return {...prevState};
   }

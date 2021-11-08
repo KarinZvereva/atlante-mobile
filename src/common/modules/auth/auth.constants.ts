@@ -4,6 +4,7 @@ export enum AuthActionsType {
   RESTORE_TOKEN = 'RESTORE_TOKEN',
   REFRESH_TOKEN = 'REFRESH_TOKEN',
   RESTORE_CREDENTIAL = 'RESTORE_CREDENTIAL',
+  USER_SETTINGS = 'USER_SETTINGS'
 }
 
 export enum UserAuthenticationMode {

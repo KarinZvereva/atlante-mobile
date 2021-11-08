@@ -16,6 +16,9 @@ import {markerDefaultGreen, images} from '../../common/constants';
 import {AuthContext, AuthDal} from '../../common/modules/auth';
 import {styles} from './LoginStandard.styles';
 import { useTranslation } from 'react-i18next';
+import { ProfileDal } from '../Profile/Profile.dal';
+import { getDeviceLang } from '../../localization/i18n';
+import {ProfileSettingsApiOutputData} from '../../common/interfaces';
 
 export function LoginStandard(props: any) {
   const [userName, setUserName] = useState<string>();
@@ -25,7 +28,7 @@ export function LoginStandard(props: any) {
   const [error, setError] = useState<string>('');
   const {actionsProvider} = useContext(AuthContext);
   const [isRemember, setRemember] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const {t, i18n} = useTranslation();
 
   const Login = () => {
     if (!userName || !password) {
@@ -51,7 +54,42 @@ export function LoginStandard(props: any) {
         }
 
         if (actionsProvider) {
-          actionsProvider.signIn(res);
+          actionsProvider.signIn(res);  
+
+          ProfileDal.loadSettings(res.token)
+          .then((result) => {
+            if (result && result.success) {
+              const lang = result.data?.language;
+              actionsProvider?.settings(result);
+              i18n.changeLanguage(lang);
+              setLoading(false);
+            } else if (result && !result.success) {
+              setError(t('error.profile.0006'));
+              setIsError(true);
+              setLoading(false);
+              return;
+            }
+          })
+          .catch((err) => {
+            if ( err === 404)  { // No user settings
+              //Default su lingua di distema
+              const lang = getDeviceLang();
+              const userSetting = {"data":{"language": lang}} as ProfileSettingsApiOutputData;
+              actionsProvider?.settings(userSetting);
+            } else if ( err === 422) { // No User token
+              setError(t("error.profile.0007"));
+              setIsError(true);
+              setLoading(false);
+              return;
+              setLoading(false);
+            } else {
+              console.log("Generic err")
+              setError(err);
+              setIsError(true);
+              setLoading(false);
+              return;
+            }
+          });
         }
       })
       .catch((err) => {

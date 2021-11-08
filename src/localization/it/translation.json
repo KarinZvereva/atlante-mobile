@@ -181,7 +181,10 @@
       "0001"              : "Nome, Cognome o password non inseriti",
       "0002"              : "Le password non sono identiche",
       "0003"              : "Impossibile aggiornare l'account",
-      "0004"              : "Impossibile eliminare l'account"
+      "0004"              : "Impossibile eliminare l'account",
+      "0005"              : "Impossibile salvare la lingua",
+      "0006"              : "Impossibile recuperare la lingua utente",
+      "0007"              : "No user found for this auth token"
     }
   }
 }

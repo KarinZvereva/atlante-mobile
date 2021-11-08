@@ -2,15 +2,15 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import { Platform, NativeModules, Dimensions } from 'react-native';
 
-import translationEN from './en/translation.json'
-import translationIT from './it/translation.json'
+import translationEN from './en/translation.json';
+import translationIT from './it/translation.json';
 
 export const resources = {
   en: {translation: translationEN},
   it: {translation: translationIT},
 }
 
-const getDeviceLang = () => {
+export const getDeviceLang = () => {
   const appLanguage =
     Platform.OS === 'ios'
       ? NativeModules.SettingsManager.settings.AppleLocale ||

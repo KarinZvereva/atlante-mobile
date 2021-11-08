@@ -1,8 +1,12 @@
 import {Entities, tokenKey, webApiBaseUrl} from '../../common/constants';
-import {ProfileApiInputData, ProfileApiOutputData, ProfileDeleteApiInputData, ProfileDeleteApiOutputData} from '../../common/interfaces/web-api';
+import {ProfileApiInputData, ProfileApiOutputData, ProfileDeleteApiInputData, ProfileDeleteApiOutputData, ProfileSettingsApiInputData, ProfileSettingsApiOutputData} from '../../common/interfaces/web-api';
 import {useContext, useState, useRef} from 'react';
 import {AuthContext, ITokenData, AuthTokenManager} from '../../common/modules/auth';
 
+/**
+ * 
+ * @returns 
+ */
 const updateAccountBuilder = () => <ProfileApiInputData, ProfileApiOutputData>(
   action: string, 
 ) => async (input: ProfileApiInputData, token : string): Promise<ProfileApiOutputData> => {
@@ -23,6 +27,10 @@ const updateAccountBuilder = () => <ProfileApiInputData, ProfileApiOutputData>(
   }  
 };
 
+/**
+ * 
+ * @returns 
+ */
 const deleteAccountBuilder = () => <ProfileDeleteApiInputData, ProfileDeleteApiOutputData>(
   action: string, 
 ) => async (input: ProfileDeleteApiInputData, token : string): Promise<ProfileDeleteApiOutputData> => {
@@ -44,11 +52,69 @@ const deleteAccountBuilder = () => <ProfileDeleteApiInputData, ProfileDeleteApiO
   }  
 };
 
+/**
+ * 
+ * @returns 
+ */
+const saveSettingsBuilder = () => <ProfileSettingsApiInputData, ProfileSettingsApiOutputData>(
+  action: string, 
+) => async (input: ProfileSettingsApiInputData, token : string): Promise<ProfileSettingsApiOutputData> => {
+  try {
+    const response = await fetch(`${webApiBaseUrl}/${action}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      },
+      body: JSON.stringify(input),
+    });
+    return (await response.json()) as ProfileSettingsApiOutputData;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }  
+};
+
+/**
+ * 
+ * @returns 
+ */
+const loadSettingsBuilder = () => <ProfileSettingsApiInputData, ProfileSettingsApiOutputData>(
+  action: string, 
+) => async (token : string): Promise<ProfileSettingsApiOutputData> => {
+  try {
+    const response = await fetch(`${webApiBaseUrl}/${action}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      },
+    });
+
+    if (response.status === 404 || response.status === 422) { // custom error response format handling
+      throw response.status;
+    }
+    else if (!response.ok) {
+      throw response.statusText;
+    }
+    
+    return (await response.json()) as ProfileSettingsApiOutputData;
+  } catch (err) {
+    throw err;
+  }    
+};
+
 const profileBuilder = updateAccountBuilder();
 const profileDeleteBuilder = deleteAccountBuilder();
+const profileSaveSettingsBuilder = saveSettingsBuilder();
+const profileLoadSettingsBuilder = loadSettingsBuilder();
 
 export const ProfileDal = {
   update: profileBuilder<ProfileApiInputData, ProfileApiOutputData>('account/update'),
   delete: profileDeleteBuilder<ProfileDeleteApiInputData, ProfileDeleteApiOutputData>('account/delete'),
+  saveSettings: profileSaveSettingsBuilder<ProfileSettingsApiInputData, ProfileSettingsApiOutputData>('account/settings'),
+  loadSettings: profileLoadSettingsBuilder<ProfileSettingsApiInputData, ProfileSettingsApiOutputData>('account/settings'),
 };
 

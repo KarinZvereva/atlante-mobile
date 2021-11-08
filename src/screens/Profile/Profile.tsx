@@ -1,22 +1,24 @@
 import React, {useContext, useState, useRef} from 'react';
-import {View, TextInput, Text, Image, Alert, ScrollView} from 'react-native';
+import {View, TextInput, Text, Image, Alert, ScrollView, Platform} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {icons} from '../../common/constants';
-import {AuthContext, ITokenData, AuthTokenManager} from '../../common/modules/auth';
+import {AuthContext, ITokenData, AuthTokenManager, IUserSettings} from '../../common/modules/auth';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {styles} from './Profile.styles';
 import {SafeAreaView} from 'react-native';
 import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
-import {User} from '../../common/interfaces/web-api';
+import {User, UserSettings} from '../../common/interfaces/web-api';
 import {ProfileDal} from './Profile.dal';
 import {webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import {UserAuthenticationMode} from '../../common/modules/auth/auth.constants';
 import { useTranslation } from 'react-i18next';
+import {Picker, PickerProps} from '@react-native-picker/picker';
 
 export function Profile(props: any) {
   const actionsProvider = useContext(AuthContext);
   const userInfo = AuthTokenManager.decodeToken(actionsProvider.data.userToken) as ITokenData
+  const userSettings = actionsProvider.data.settings as IUserSettings;
   const isFacebookAutenticated = userInfo != null ? userInfo.authentication == UserAuthenticationMode.FACEBOOK : false;
   const isAppleAutenticated = userInfo != null ? userInfo.authentication == UserAuthenticationMode.APPLE : false;
   const isGoogleAutenticated = userInfo != null ? userInfo.authentication == UserAuthenticationMode.GOOGLE : false;
@@ -31,7 +33,8 @@ export function Profile(props: any) {
   const [showEdit, setShowEdit] = useState<boolean>(false);
   const recaptcha = useRef<RecaptchaHandles>(null);
   const [isDelete, setDelete] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const {t, i18n} = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState(userSettings != null ? userSettings.language : 'it');
 
 
   /**
@@ -192,17 +195,65 @@ export function Profile(props: any) {
     }
   );
 
+
+  /**
+     *
+     * @param language
+     */
+  const saveSettings = (language: string) => {
+    setError('');
+    setIsError(false);
+    setLoading(true);
+
+    console.log("Lingua sel ", language);
+
+    const token = actionsProvider.data.userToken != null ? actionsProvider.data.userToken : ""; 
+    ProfileDal.saveSettings({language}, token)
+    .then((result) => {
+      if (result && result.success) {
+        console.log("Settings saved");
+        setSelectedLanguage(language)
+        i18n.changeLanguage(language);
+        setLoading(false);
+      } else if (result && !result.success) {
+        setError(t('error.profile.0005'));
+        setIsError(true);
+        setLoading(false);
+        return;
+      }
+    })
+    .catch((err) => {
+      console.log(JSON.stringify(err));
+      setError(JSON.stringify(err));
+      setIsError(true);
+      setLoading(false);
+    });
+  };
+
   return (
     <SafeAreaView style={styles.page}>
-      <Header {...props} showName="Profilo Utente" />
-
+      <Header {...props} showName={t('menu.profile')} />
       <ScrollView contentContainerStyle={{flexGrow: 1}} style={styles.scroll_container}>
-
         <View style={styles.profile_container}>
-          <Image source={icons.profilo_big} style={styles.logo} />
-          <Text style={styles.title_text}>{firstName}</Text>
-          <Text style={styles.title_text}>{lastName}</Text>
+          <Image source={icons.profilo_big} style={styles.logo}/>
+          <Text style={styles.title_text}>{firstName} {lastName}</Text>
           <Text style={styles.mail_text}>{email}</Text>
+          <View style={Platform.OS == 'android' ?  styles.vertical_divider : styles.vertical_divider_ios} />
+          <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
+            <Text style={ Platform.OS == 'android' ? styles.option_text_label :  {...styles.option_text_label, ...{marginRight: 14}}}>{t('profile.language')}</Text>
+            <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
+              <Picker
+                style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
+                selectedValue={selectedLanguage}
+                onValueChange={(itemValue, itemIndex) => {
+                    saveSettings(itemValue);
+                  }
+                }>
+                <Picker.Item label={t('switchLanguage', {lng: 'it'})} value="it" />
+                <Picker.Item label={t('switchLanguage', {lng: 'en'})} value="en" />
+              </Picker>
+            </View>
+          </View>
         </View>
         { (!showEdit && !isFacebookAutenticated && !isAppleAutenticated && !isGoogleAutenticated) &&
         <View style={styles.modify_profile_container}>

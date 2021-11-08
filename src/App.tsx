@@ -15,7 +15,7 @@ import {
   AuthCredentialManager,
   AuthDal,
 } from './common/modules/auth';
-import {LoginApiInputData, LoginApiOutputData} from './common/interfaces';
+import {LoginApiInputData, LoginApiOutputData, ProfileSettingsApiOutputData} from './common/interfaces';
 import SplashScreen from 'react-native-splash-screen';
 import {SignUp} from './screens/SignUp/SignUp';
 import {WineriesMap} from './screens/WineriesMap';
@@ -270,6 +270,13 @@ export default function App() {
             password: credential?.password,
           });
         return result;
+      },
+      settings: async (lang: ProfileSettingsApiOutputData) => {
+        authDispatch({
+          type: AuthActionsType.USER_SETTINGS,
+          settings: lang.data,
+        });
+        return true;
       },
     }),
     [],

@@ -1,4 +1,4 @@
-import {LoginApiInputData, LoginApiOutputData} from '../../interfaces';
+import {LoginApiInputData, LoginApiOutputData, ProfileSettingsApiOutputData, UserSettings} from '../../interfaces';
 import {AuthActionsType} from './auth.constants';
 
 export interface AuthActionsProvider {
@@ -6,6 +6,7 @@ export interface AuthActionsProvider {
   signOut: () => Promise<boolean>;
   refresh: (data: LoginApiOutputData) => Promise<boolean>;
   credentialIn: (LoginApiInputData: LoginApiInputData) => Promise<boolean>;
+  settings: (settings: ProfileSettingsApiOutputData) => Promise<boolean>;
 }
 
 export interface AuthContextData {
@@ -20,6 +21,7 @@ export interface AuthActions {
   userData?: ITokenData | null;
   userName?: string | null;
   password?: string | null;
+  settings?: UserSettings | null;
 }
 
 export interface AuthState {
@@ -30,6 +32,7 @@ export interface AuthState {
   userData?: ITokenData | null;
   userName?: string | null;
   password?: string | null;
+  settings?: UserSettings | null;
 }
 
 /**
@@ -99,4 +102,11 @@ export interface ITokenData {
    * Recipients that the JWT is intended for. Each principal intended to process the JWT must identify itself with a value in the audience claim. If the principal processing the claim does not identify itself with a value in the aud claim when this claim is present, then the JWT must be rejected.
    */
   aud: string;
+}
+
+export interface IUserSettings {
+  /**
+   * Username of logged user. This unique name is used to open SignalR channel.
+   */
+  language: string;
 }

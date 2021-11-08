@@ -228,7 +228,32 @@ export interface RegisterApiInputData {
   message?: string | null;
 }
 
+/**
+ * Settings Profile Api Input DTO
+ */
+ export interface ProfileSettingsApiInputData {
+  /**
+   * User Language
+   */
+  language?: string;
+}
 
+/**
+ * Settings Profile Api Output DTO
+ */
+ export interface ProfileSettingsApiOutputData {
+  /**
+   * Result success delete request
+   */
+  success?: boolean | null;
+  message?: string | null;
+  data?: UserSettings;
+}
+
+
+export interface UserSettings {
+  language: string;
+}
 
 
 

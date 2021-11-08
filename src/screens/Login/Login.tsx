@@ -9,13 +9,16 @@ import {LoginManager, Settings, AccessToken} from 'react-native-fbsdk-next';
 import appleAuth from '@invertase/react-native-apple-authentication'
 import {images} from '../../common/constants';
 import { useTranslation } from 'react-i18next'
+import { ProfileDal } from '../Profile/Profile.dal';
+import { getDeviceLang } from '../../localization/i18n';
+import {ProfileSettingsApiOutputData} from '../../common/interfaces';
 
 export function Login(props: any) {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const {data, actionsProvider} = useContext(AuthContext);
-  const { t } = useTranslation();
+  const {t, i18n} = useTranslation();
 
 
   const LoginApple = async () => {
@@ -64,6 +67,41 @@ export function Login(props: any) {
 
           if (actionsProvider) {
             actionsProvider.signIn(res);
+
+            ProfileDal.loadSettings(res.token)
+            .then((result) => {
+              if (result && result.success) {
+                const lang = result.data?.language;
+                actionsProvider?.settings(result);
+                i18n.changeLanguage(lang);
+                setLoading(false);
+              } else if (result && !result.success) {
+                setError(t('error.profile.0006'));
+                setIsError(true);
+                setLoading(false);
+                return;
+              }
+            })
+            .catch((err) => {
+              if ( err === 404)  { // No user settings
+                //Default su lingua di distema
+                const lang = getDeviceLang();
+                const userSetting = {"data":{"language": lang}} as ProfileSettingsApiOutputData;
+                actionsProvider?.settings(userSetting);
+              } else if ( err === 422) { // No User token
+                setError(t("error.profile.0007"));
+                setIsError(true);
+                setLoading(false);
+                return;
+                setLoading(false);
+              } else {
+                console.log("Generic err")
+                setError(err);
+                setIsError(true);
+                setLoading(false);
+                return;
+              }
+            });
           }
         })
         .catch((err) => {
@@ -132,6 +170,41 @@ export function Login(props: any) {
 
                 if (actionsProvider) {
                   actionsProvider.signIn(res);
+
+                  ProfileDal.loadSettings(res.token)
+                  .then((result) => {
+                    if (result && result.success) {
+                      const lang = result.data?.language;
+                      actionsProvider?.settings(result);
+                      i18n.changeLanguage(lang);
+                      setLoading(false);
+                    } else if (result && !result.success) {
+                      setError(t('error.profile.0006'));
+                      setIsError(true);
+                      setLoading(false);
+                      return;
+                    }
+                  })
+                  .catch((err) => {
+                    if ( err === 404)  { // No user settings
+                      //Default su lingua di distema
+                      const lang = getDeviceLang();
+                      const userSetting = {"data":{"language": lang}} as ProfileSettingsApiOutputData;
+                      actionsProvider?.settings(userSetting);
+                    } else if ( err === 422) { // No User token
+                      setError(t("error.profile.0007"));
+                      setIsError(true);
+                      setLoading(false);
+                      return;
+                      setLoading(false);
+                    } else {
+                      console.log("Generic err")
+                      setError(err);
+                      setIsError(true);
+                      setLoading(false);
+                      return;
+                    }
+                  });
                 }
               })
               .catch((err) => {

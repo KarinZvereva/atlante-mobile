@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
   mail_text: {
     fontSize: 18,
     fontFamily: 'Novecentosanswide-Normal',
-    marginTop: 40,
+    marginTop: 20,
     color: '#4169e1',
   },
   facebook_text: {
@@ -140,5 +140,54 @@ export const styles = StyleSheet.create({
   },
   divider: {
     marginVertical: 10,
+  },
+  vertical_divider: {
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  vertical_divider_ios: {
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  pickers_style: {
+    width: '90%',
+    marginLeft: 10,
+    color: 'white',
+  },
+  pickers_style_ios: {
+    width: 150,
+    marginLeft: 15,
+    color: 'white',
+  },
+  form_item_container_with_label_inline: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    height: 'auto',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  form_item_container_with_label_inline_ios: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    height: 'auto',
+  },
+  option_text_label: {
+    fontSize: 17,
+    fontFamily: 'Novecentosanswide-Normal',
+    textAlignVertical: 'center',
+  },
+  input_view_text: {
+    backgroundColor: markerDefaultGreen,
+    borderRadius: 30,
+    width: '45%',
+    alignItems: 'center',
+    marginLeft: 22,
+  },
+  input_view_text_ios: {
+    flex:1,
+    width: 150,
+    marginLeft: 15,
   },
 });
