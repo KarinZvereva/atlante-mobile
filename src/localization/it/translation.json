@@ -42,7 +42,10 @@
     "geo_localization_1"  : "Geolocalizzazione",
     "geo_localization_2"  : "approssimativa",
     "contact"             : "Contatta sempre in anticipo il Vignaiolo per concordare la tua visita in cantina.",
-    "directions"          : "Indicazioni"
+    "directions"          : "Indicazioni",
+    "winery"              : "Cantina",
+    "wine_maker_travel"   : "Vignaiolo Itinerante",
+    "winemaking_project"  : "Progetto enologico"
   },
   "map_info": {
     "title"               : "Info utilizzo mappa",

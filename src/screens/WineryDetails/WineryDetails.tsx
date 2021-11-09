@@ -24,24 +24,27 @@ import {useTranslation} from 'react-i18next';
 import {useAuth} from '../../common/customHooks';
 import {useNavigation} from '@react-navigation/core';
 
-const getDescr = (type?: WineryType) => {
-  const defaultDescription = 'Cantina';
-  return type
-    ? type === 1
-      ? 'Cantina'
-      : type === 2
-      ? 'Vignaiolo Itinerante'
-      : type === 3
-      ? 'Progetto enologico'
-      : type === 6
-      ? 'Cantina'
-      : defaultDescription
-    : defaultDescription;
-};
-
 export const WineryDetail = React.memo((props: IWineryDetailProps) => {
   /** Props */
   const {winery: wineryProps} = props.route.params || {};
+
+  /** Translation */
+  const {t} = useTranslation();
+
+  const getDescr = (type?: WineryType) => {
+    const defaultDescription = t('winery_details.winery');
+    return type
+      ? type === 1
+        ? t('winery_details.winery')
+        : type === 2
+        ? t('winery_details.wine_maker_travel')
+        : type === 3
+        ? t('winery_details.winemaking_project')
+        : type === 6
+        ? t('winery_details.winery')
+        : defaultDescription
+      : defaultDescription;
+  };
 
   /** State */
   const [winery, setWinery] = useState<Winery>(props.route.params?.winery);
@@ -49,8 +52,7 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [wineryDescr, setWineryDescr] = useState<string>(getDescr(winery.type));
 
-  /** Translation */
-  const {t} = useTranslation();
+  
 
   /** Navigation */
   const navigation = useNavigation();

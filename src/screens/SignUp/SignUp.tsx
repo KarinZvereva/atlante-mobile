@@ -425,7 +425,7 @@ export function SignUp(props: any) {
                   onPress={() => signUp()}
                   disabled={!actionsProvider}>
                   <View style={styles.loginBtnSubView}>
-                    <Text style={styles.loginText}>{t('button.signin')}</Text>
+                    <Text style={styles.loginText}>{t('button.signup')}</Text>
                   </View>
                 </TouchableOpacity>
               </LinearGradient>
