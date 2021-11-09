@@ -32,8 +32,8 @@
   "wineries_map": {
     "map"                 : "Wineries Map",
     "search"              : "... search",
-    "winery_not_found"    : "Nessuna cantina trovata!",
-    "gps_error"           : "Errore nel recupero della posizione con il GPS!"
+    "winery_not_found"    : "No Winery found!",
+    "gps_error"           : "Error when retrieve GPS position!"
   },
   "winery_details": {
     "title"               : "Winery card",
@@ -93,30 +93,30 @@
     "province"            : "Province"
   },
   "profile": {
-    "delete_summary_1"    : "Non è possibile modificare il profilo",
-    "delete_summary_2"    : "Le informazioi sopra riportate provengono da",
-    "confirm_password"    : "Conferma Password",
-    "confirm_title"       : "Eliminazione account",
-    "confirm_message"     : "Confermi l'eliminazione dell'account?",
-    "update_message"      : "Profilo aggiornato, effettua nuovamente la login.",
-    "delete_message"      : "Account eliminato",
+    "delete_summary_1"    : "It's not possible to change the profile",
+    "delete_summary_2"    : "The aboveinformation comes from",
+    "confirm_password"    : "Password confirm",
+    "confirm_title"       : "Account deletion",
+    "confirm_message"     : "Do you really want to remove your account?",
+    "update_message"      : "Profile updated, Sign in again.",
+    "delete_message"      : "Account deleted",
     "language"            : "Language"
   },
   "account_restore": {
     "title"               : "Restore Password",
-    "mail_message"        : "Verifica la mail per ripristinare l'account"
+    "mail_message"        : "We've just sent you an email, please check your inbox"
   },
   "signup": {
     "title"               : "Sign Up",
-    "mail_message"        : "Verifica la mail per attivare l'account",
-    "summary_confirm"     : "Riepilogo dati inseriti - Conferma",
-    "confirm_password"    : "Conferma Password",
-    "terms_1"             : "Ho letto, compreso e accettato i",
-    "terms_2"             : "termini e condizioni"
+    "mail_message"        : "We've just sent you an activaction email, please check your email and click on the link to verify.",
+    "summary_confirm"     : "Summary informations - Confirm",
+    "confirm_password"    : "Password confirm",
+    "terms_1"             : "I have read, understood and accept the",
+    "terms_2"             : "terms and conditions"
   },
   "person": {
-    "name"                : "Nome",
-    "surname"             : "Cognome"
+    "name"                : "First name",
+    "surname"             : "Last name"
   },
   "button" : {
     "confirm"             : "Confirm",
@@ -131,44 +131,43 @@
   },
   "error": {
     "captcha": {
-      "expire"            : "Non è stato possibile verificare l'identità. Captcha verified expire",
-      "error"             : "Non è stato possibile verificare l'identità. Captcha error"
+      "expire"            : "Identity not confirmed. Recaptcha verified expire",
+      "error"             : "Identity not confirmed. Recaptcha error"
     },
     "server" : {
-      "connection"        : "Connessione con il server non riuscita, riprova in seguito!",
-      "communication"     : "Errore di comunicazione con il server, riprovare tra qualche minuto!"
+      "connection"        : "Unable to connect to server, try later!",
+      "communication"     : "Server communication error, try later!"
     },
     "login": {
-      "0001"              : "Username o password non inseriti",
-      "0002"              : "Dati errati",
-      "0003"              : "Impossibile eseguire l'accesso con Apple",
+      "0001"              : "Username or Password cannot be empty",
+      "0002"              : "Invalid Username or Password",
+      "0003"              : "Unable to sign in with Apple",
       "0004"              : "User canceled Apple Sign in.",
-      "0005"              : "Login Facebook Cancelled",
-      "0006"              : "Impossibile eseguire l'accesso con Facebook"
+      "0005"              : "User cancelled Facebook Sign in",
+      "0006"              : "Unable to sign in with Facebook"
     },
     "account_restore": {
-      "0001"              : "Email non inserita",
-      "0002"              : "Email non presente",
-      "0003"              : "Email associata ad un account non attivo",
-      "0004"              : "Impossibile recuperare l'account",
-      "0005"              : "Email non presente"
+      "0001"              : "Email empty",
+      "0002"              : "Email not found",
+      "0003"              : "Account not active fo this Email",
+      "0004"              : "Impossible to restore the account"
     },
     "signup": {
-      "0001"              : "Username, password o mail non inseriti",
-      "0002"              : "Le password non sono identiche",
-      "0003"              : "Username o mail non disponibili",
-      "0004"              : "E' necessario accettare i Termini e Condizioni",
-      "0005"              : "Username già utilizzato",
-      "0006"              : "Email già utilizzata",
-      "0007"              : "Attenzione, la mail sembra non essere valida, ti preghiamo di verificare."
+      "0001"              : "Username, password or mail cannot be empty",
+      "0002"              : "Passwords do not match",
+      "0003"              : "Username or email are not available",
+      "0004"              : "To register, please accept terms and conditions",
+      "0005"              : "Username not available",
+      "0006"              : "Email not available",
+      "0007"              : "Attention, the email seem notvalid, please verify your email."
     },
     "profile": {
-      "0001"              : "Nome, Cognome o password non inseriti",
-      "0002"              : "Le password non sono identiche",
-      "0003"              : "Impossibile aggiornare l'account",
-      "0004"              : "Impossibile eliminare l'account",
-      "0005"              : "Impossibile salvare la lingua",
-      "0006"              : "Impossibile recuperare la lingua utente",
+      "0001"              : "First name, Last name or Password cannot be empty",
+      "0002"              : "Passwords do not match",
+      "0003"              : "Unable to update the Account",
+      "0004"              : "Unable to delete the Account",
+      "0005"              : "Unable to save the language",
+      "0006"              : "Unable to read the account language",
       "0007"              : "No user found for this auth token"
     }
   }

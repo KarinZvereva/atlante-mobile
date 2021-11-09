@@ -149,8 +149,7 @@
       "0001"              : "Email non inserita",
       "0002"              : "Email non presente",
       "0003"              : "Email associata ad un account non attivo",
-      "0004"              : "Impossibile recuperare l'account",
-      "0005"              : "Email non presente"
+      "0004"              : "Impossibile recuperare l'account"
     },
     "signup": {
       "0001"              : "Username, password o mail non inseriti",
