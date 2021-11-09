@@ -142,7 +142,7 @@
       "0001"              : "Username or Password cannot be empty",
       "0002"              : "Invalid Username or Password",
       "0003"              : "Unable to sign in with Apple",
-      "0004"              : "User canceled Apple Sign in.",
+      "0004"              : "User cancelled Apple Sign in.",
       "0005"              : "User cancelled Facebook Sign in",
       "0006"              : "Unable to sign in with Facebook"
     },
