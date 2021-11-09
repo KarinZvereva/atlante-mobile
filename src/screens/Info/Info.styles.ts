@@ -42,6 +42,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     fontFamily: 'Novecentosanswide-Normal',
+    marginBottom: 10,
   },
   summaryTitleText: {
     fontSize: 16,

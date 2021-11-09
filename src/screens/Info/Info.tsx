@@ -128,45 +128,12 @@ export function Info(props: any) {
               <Image source={images.logo_calice} style={styles.logo} />
               <Text style={[styles.infoText]}>{t('info.info_row_1')}</Text>
               <Text style={[styles.infoText]}>{t('info.info_row_2')}</Text>
-              <Text style={[styles.infoText, {marginBottom: 10}]}>
-                {t('info.info_row_3')}
-              </Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_3')}</Text>
               <Text style={[styles.infoText]}>{t('info.info_row_4')}</Text>
               <Text style={[styles.infoText]}>{t('info.info_row_5')}</Text>
-              <Text style={[styles.infoText, {marginBottom: 10}]}>
-                {t('info.info_row_6')}
-              </Text>
+              <Text style={[styles.infoText]}>{t('info.info_row_6')}</Text>
               <Text style={[styles.infoText]}>{t('info.info_row_7')}</Text>
               <Text style={[styles.infoText]}>{t('info.info_row_8')}</Text>
-              <Text style={[styles.infoText, {marginBottom: 10}]}>
-                {t('info.info_row_9')}
-              </Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_10')}</Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_10b')}</Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_11')}</Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_12')}</Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_13')}</Text>
-              <Text style={[styles.infoText, {marginBottom: 10}]}>
-                {t('info.info_row_14')}
-              </Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_15')}</Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_16')}</Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_17')}</Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_18')}</Text>
-              <Text style={[styles.infoText, {marginBottom: 10}]}>
-                {t('info.info_row_19')}
-              </Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_20')}</Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_21')}</Text>
-              <Text style={[styles.infoText, {marginBottom: 10}]}>
-                {t('info.info_row_22')}
-              </Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_23')}</Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_24')}</Text>
-              <Text style={[styles.infoText]}>{t('info.info_row_25')}</Text>
-              <Text style={[styles.infoText, {marginBottom: 10}]}>
-                {t('info.info_row_26')}
-              </Text>
             </View>
             <View style={styles.option_container}>
               <View>
