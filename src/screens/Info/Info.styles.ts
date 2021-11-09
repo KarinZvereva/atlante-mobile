@@ -16,6 +16,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: 5,
+    marginLeft: 5,
   },
   summary_container: {
     flex: 1,
