@@ -240,7 +240,7 @@ export function Profile(props: any) {
           <Text style={styles.mail_text}>{email}</Text>
           <View style={Platform.OS == 'android' ?  styles.vertical_divider : styles.vertical_divider_ios} />
           <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
-            <Text style={ Platform.OS == 'android' ? styles.option_text_label :  {...styles.option_text_label, ...{marginRight: 14}}}>{t('profile.language')}</Text>
+            <Text style={ Platform.OS == 'android' ? styles.option_text_label : styles.option_text_label_ios}>{t('profile.language')}</Text>
             <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
               <Picker
                 style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}

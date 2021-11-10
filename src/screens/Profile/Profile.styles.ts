@@ -88,14 +88,16 @@ export const styles = StyleSheet.create({
       height: '100%',
   },
   modify_profile_container: {
-    flex: 1,
+    flex: 0,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginBottom: 20,
+    marginTop: 20,
     //width: '100%',
     //position: 'absolute',
     //bottom: 10,
+    backgroundColor:'orange'
   },
   inputView: {
     backgroundColor: markerDefaultGreen,
@@ -146,8 +148,8 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   vertical_divider_ios: {
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   pickers_style: {
     width: '90%',
@@ -156,7 +158,7 @@ export const styles = StyleSheet.create({
   },
   pickers_style_ios: {
     width: 150,
-    marginLeft: 15,
+    //marginLeft: 15,
     color: 'white',
   },
   form_item_container_with_label_inline: {
@@ -168,15 +170,26 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
   },
   form_item_container_with_label_inline_ios: {
+    flex: 0,
     flexDirection: 'row',
     alignItems: 'center',
     alignContent: 'center',
-    height: 'auto',
+    justifyContent: 'center',
+    height: 150,
+    backgroundColor: 'yellow',
   },
   option_text_label: {
     fontSize: 17,
     fontFamily: 'Novecentosanswide-Normal',
     textAlignVertical: 'center',
+  },
+  option_text_label_ios: {
+    fontSize: 17,
+    fontFamily: 'Novecentosanswide-Normal',
+    textAlignVertical: 'center',
+    marginRight: 5, 
+    marginLeft:0, 
+    flex:0,
   },
   input_view_text: {
     backgroundColor: markerDefaultGreen,
@@ -186,8 +199,8 @@ export const styles = StyleSheet.create({
     marginLeft: 22,
   },
   input_view_text_ios: {
-    flex:1,
+    flex: 0,
     width: 150,
-    marginLeft: 15,
+    marginLeft: 5,
   },
 });
