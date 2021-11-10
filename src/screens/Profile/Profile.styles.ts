@@ -88,12 +88,11 @@ export const styles = StyleSheet.create({
       height: '100%',
   },
   modify_profile_container: {
-    flex: 0,
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginBottom: 20,
-    marginTop: 20,
     //width: '100%',
     //position: 'absolute',
     //bottom: 10,
