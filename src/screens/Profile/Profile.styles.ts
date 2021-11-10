@@ -93,10 +93,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginBottom: 20,
-    //width: '100%',
-    //position: 'absolute',
-    //bottom: 10,
-    backgroundColor:'orange'
   },
   inputView: {
     backgroundColor: markerDefaultGreen,
@@ -110,7 +106,6 @@ export const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     flex: 1,
-    //fontFamily: 'Novecentosanswide-Normal',
     width: '100%',
   },
   button_container: {
@@ -157,7 +152,6 @@ export const styles = StyleSheet.create({
   },
   pickers_style_ios: {
     width: 150,
-    //marginLeft: 15,
     color: 'white',
   },
   form_item_container_with_label_inline: {
@@ -175,7 +169,7 @@ export const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     height: 150,
-    backgroundColor: 'yellow',
+    marginTop: 20,
   },
   option_text_label: {
     fontSize: 17,
