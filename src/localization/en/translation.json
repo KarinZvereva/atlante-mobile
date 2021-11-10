@@ -94,7 +94,7 @@
   },
   "profile": {
     "delete_summary_1"    : "It's not possible to change the profile",
-    "delete_summary_2"    : "The aboveinformation comes from",
+    "delete_summary_2"    : "The above information comes from",
     "confirm_password"    : "Password confirm",
     "confirm_title"       : "Account deletion",
     "confirm_message"     : "Do you really want to remove your account?",
