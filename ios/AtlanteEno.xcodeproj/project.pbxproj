@@ -9,21 +9,22 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AtlanteEnoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AtlanteEnoTests.m */; };
 		096270E56ADC47BEA6E15051 /* Novecentosanswide-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FBE5A4532EC64532842A7472 /* Novecentosanswide-Bold.otf */; };
-		0972720F50496762071A055E /* libPods-AtlanteEno-AtlanteEnoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4838DCAAFE87B8281E220388 /* libPods-AtlanteEno-AtlanteEnoTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1677BA02BB4D79293C3D902D /* libPods-AtlanteEno-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD582EF02D9C7DA75A667D2F /* libPods-AtlanteEno-tvOSTests.a */; };
+		13DFFDC7270F31670052E258 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 13DFFDC6270F31670052E258 /* assets */; };
 		2475EE2BCE7348A4AC1BE9FC /* Novecentosanswide-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FC3A3E807024A6D8D85A76F /* Novecentosanswide-Light.otf */; };
-		27C8691EE1CFB1855AE99F6F /* libPods-AtlanteEno.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8738BB86DD041D2409E011E /* libPods-AtlanteEno.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* AtlanteEnoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AtlanteEnoTests.m */; };
 		595EC40C8A554CDEBBCC4221 /* Novecentosanswide-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C89A9AEB6744322808BEFF4 /* Novecentosanswide-Medium.otf */; };
+		63D7D0DB37D055E49140B3F1 /* libPods-AtlanteEno-AtlanteEnoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8937BC1A4629F6A9DDAB991 /* libPods-AtlanteEno-AtlanteEnoTests.a */; };
+		7C2A6E24B31AEB492AF32C58 /* libPods-AtlanteEno-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A623EAA8C16903B8626E1C6 /* libPods-AtlanteEno-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C707E302CC884737BA9711AB /* Novecentosanswide-Normal.otf in Resources */ = {isa = PBXBuildFile; fileRef = F8BC2084ED554097994216C4 /* Novecentosanswide-Normal.otf */; };
-		C8B432096078923094ABDD85 /* libPods-AtlanteEno-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCF3EDE001FA0DF927EA1F2 /* libPods-AtlanteEno-tvOS.a */; };
+		CB25CF7E9F409B87A5155B9E /* libPods-AtlanteEno-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F59F58B11FBF03EE29DE2AF /* libPods-AtlanteEno-tvOSTests.a */; };
+		D34A47A1C134AE94763941FF /* libPods-AtlanteEno.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1810A9E21545C44D9ECD6C /* libPods-AtlanteEno.a */; };
 		E15E00D353754D15B14C3E5C /* Novecentosanswide-DemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FA76175470F8489EAA7877C9 /* Novecentosanswide-DemiBold.otf */; };
 		EFABE8890FB34521A1D08A17 /* Novecentosanswide-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C8C1C83352B4669BD833B82 /* Novecentosanswide-Book.otf */; };
 /* End PBXBuildFile section */
@@ -56,29 +57,31 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AtlanteEno/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AtlanteEno/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AtlanteEno/main.m; sourceTree = "<group>"; };
+		13DFFDC6270F31670052E258 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../src/assets; sourceTree = "<group>"; };
+		13F1E1BE2719D73800924805 /* AtlanteEno.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AtlanteEno.entitlements; path = AtlanteEno/AtlanteEno.entitlements; sourceTree = "<group>"; };
 		18132B01CCFA8E7BAFE4E28A /* Pods-AtlanteEno-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AtlanteEno-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-AtlanteEno-tvOSTests/Pods-AtlanteEno-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		1A10148BF5FA4DE93EB4B7FE /* Pods-AtlanteEno-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AtlanteEno-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-AtlanteEno-tvOS/Pods-AtlanteEno-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		2BCF3EDE001FA0DF927EA1F2 /* libPods-AtlanteEno-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AtlanteEno-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* AtlanteEno-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AtlanteEno-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* AtlanteEno-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AtlanteEno-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F59F58B11FBF03EE29DE2AF /* libPods-AtlanteEno-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AtlanteEno-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4352D6658633D43F6BB6EEB3 /* Pods-AtlanteEno.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AtlanteEno.debug.xcconfig"; path = "Target Support Files/Pods-AtlanteEno/Pods-AtlanteEno.debug.xcconfig"; sourceTree = "<group>"; };
-		4838DCAAFE87B8281E220388 /* libPods-AtlanteEno-AtlanteEnoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AtlanteEno-AtlanteEnoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C89A9AEB6744322808BEFF4 /* Novecentosanswide-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Novecentosanswide-Medium.otf"; path = "../src/assets/fonts/Novecentosanswide-Medium.otf"; sourceTree = "<group>"; };
 		6C8C1C83352B4669BD833B82 /* Novecentosanswide-Book.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Novecentosanswide-Book.otf"; path = "../src/assets/fonts/Novecentosanswide-Book.otf"; sourceTree = "<group>"; };
 		728C73B7EA60667B626626AE /* Pods-AtlanteEno-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AtlanteEno-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-AtlanteEno-tvOSTests/Pods-AtlanteEno-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7527FD6C9A9198CD7BD5D881 /* Pods-AtlanteEno-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AtlanteEno-tvOS.release.xcconfig"; path = "Target Support Files/Pods-AtlanteEno-tvOS/Pods-AtlanteEno-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AtlanteEno/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9048FB4E93FA2C7A5CB8D4CC /* Pods-AtlanteEno-AtlanteEnoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AtlanteEno-AtlanteEnoTests.release.xcconfig"; path = "Target Support Files/Pods-AtlanteEno-AtlanteEnoTests/Pods-AtlanteEno-AtlanteEnoTests.release.xcconfig"; sourceTree = "<group>"; };
+		9A623EAA8C16903B8626E1C6 /* libPods-AtlanteEno-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AtlanteEno-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F1810A9E21545C44D9ECD6C /* libPods-AtlanteEno.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AtlanteEno.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FC3A3E807024A6D8D85A76F /* Novecentosanswide-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Novecentosanswide-Light.otf"; path = "../src/assets/fonts/Novecentosanswide-Light.otf"; sourceTree = "<group>"; };
+		B8937BC1A4629F6A9DDAB991 /* libPods-AtlanteEno-AtlanteEnoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AtlanteEno-AtlanteEnoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C77EAC78581CCA46761843B1 /* Pods-AtlanteEno.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AtlanteEno.release.xcconfig"; path = "Target Support Files/Pods-AtlanteEno/Pods-AtlanteEno.release.xcconfig"; sourceTree = "<group>"; };
-		E8738BB86DD041D2409E011E /* libPods-AtlanteEno.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AtlanteEno.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBDDE45C5CF356301CB79AE6 /* Pods-AtlanteEno-AtlanteEnoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AtlanteEno-AtlanteEnoTests.debug.xcconfig"; path = "Target Support Files/Pods-AtlanteEno-AtlanteEnoTests/Pods-AtlanteEno-AtlanteEnoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F8BC2084ED554097994216C4 /* Novecentosanswide-Normal.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Novecentosanswide-Normal.otf"; path = "../src/assets/fonts/Novecentosanswide-Normal.otf"; sourceTree = "<group>"; };
 		FA76175470F8489EAA7877C9 /* Novecentosanswide-DemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Novecentosanswide-DemiBold.otf"; path = "../src/assets/fonts/Novecentosanswide-DemiBold.otf"; sourceTree = "<group>"; };
 		FBE5A4532EC64532842A7472 /* Novecentosanswide-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Novecentosanswide-Bold.otf"; path = "../src/assets/fonts/Novecentosanswide-Bold.otf"; sourceTree = "<group>"; };
-		FD582EF02D9C7DA75A667D2F /* libPods-AtlanteEno-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AtlanteEno-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0972720F50496762071A055E /* libPods-AtlanteEno-AtlanteEnoTests.a in Frameworks */,
+				63D7D0DB37D055E49140B3F1 /* libPods-AtlanteEno-AtlanteEnoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27C8691EE1CFB1855AE99F6F /* libPods-AtlanteEno.a in Frameworks */,
+				D34A47A1C134AE94763941FF /* libPods-AtlanteEno.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,7 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8B432096078923094ABDD85 /* libPods-AtlanteEno-tvOS.a in Frameworks */,
+				7C2A6E24B31AEB492AF32C58 /* libPods-AtlanteEno-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1677BA02BB4D79293C3D902D /* libPods-AtlanteEno-tvOSTests.a in Frameworks */,
+				CB25CF7E9F409B87A5155B9E /* libPods-AtlanteEno-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +140,7 @@
 		13B07FAE1A68108700A75B9A /* AtlanteEno */ = {
 			isa = PBXGroup;
 			children = (
+				13F1E1BE2719D73800924805 /* AtlanteEno.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -153,10 +157,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				2BCF3EDE001FA0DF927EA1F2 /* libPods-AtlanteEno-tvOS.a */,
-				FD582EF02D9C7DA75A667D2F /* libPods-AtlanteEno-tvOSTests.a */,
-				E8738BB86DD041D2409E011E /* libPods-AtlanteEno.a */,
-				4838DCAAFE87B8281E220388 /* libPods-AtlanteEno-AtlanteEnoTests.a */,
+				9F1810A9E21545C44D9ECD6C /* libPods-AtlanteEno.a */,
+				B8937BC1A4629F6A9DDAB991 /* libPods-AtlanteEno-AtlanteEnoTests.a */,
+				9A623EAA8C16903B8626E1C6 /* libPods-AtlanteEno-tvOS.a */,
+				3F59F58B11FBF03EE29DE2AF /* libPods-AtlanteEno-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -184,6 +188,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				13DFFDC6270F31670052E258 /* assets */,
 				13B07FAE1A68108700A75B9A /* AtlanteEno */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* AtlanteEnoTests */,
@@ -234,7 +239,7 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				BBC03FFCF9057E6FA38D29C2 /* [CP] Copy Pods Resources */,
+				89C092734A2213D50E31F19B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -256,7 +261,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				D5E10EA73E12E7106C6A6EF0 /* [CP] Copy Pods Resources */,
+				0C08ED60AC513D217A92AD8E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -312,7 +317,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -369,6 +374,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13DFFDC7270F31670052E258 /* assets in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				096270E56ADC47BEA6E15051 /* Novecentosanswide-Bold.otf in Resources */,
@@ -411,6 +417,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		0C08ED60AC513D217A92AD8E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AtlanteEno/Pods-AtlanteEno-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FacebookSDKStrings.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AtlanteEno/Pods-AtlanteEno-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -492,6 +518,26 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		89C092734A2213D50E31F19B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AtlanteEno-AtlanteEnoTests/Pods-AtlanteEno-AtlanteEnoTests-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FacebookSDKStrings.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AtlanteEno-AtlanteEnoTests/Pods-AtlanteEno-AtlanteEnoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B7A14FB6FC5D61EAD3BD7BA5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -512,46 +558,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BBC03FFCF9057E6FA38D29C2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AtlanteEno-AtlanteEnoTests/Pods-AtlanteEno-AtlanteEnoTests-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FacebookSDKStrings.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AtlanteEno-AtlanteEnoTests/Pods-AtlanteEno-AtlanteEnoTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D5E10EA73E12E7106C6A6EF0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AtlanteEno/Pods-AtlanteEno-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FacebookSDKStrings.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AtlanteEno/Pods-AtlanteEno-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -696,7 +702,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_ENTITLEMENTS = AtlanteEno/AtlanteEno.entitlements;
+				CURRENT_PROJECT_VERSION = 9;
+				DEVELOPMENT_TEAM = JQNQ4ZRBAT;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -709,6 +717,7 @@
 				);
 				INFOPLIST_FILE = AtlanteEno/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -729,7 +738,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_ENTITLEMENTS = AtlanteEno/AtlanteEno.entitlements;
+				CURRENT_PROJECT_VERSION = 9;
+				DEVELOPMENT_TEAM = JQNQ4ZRBAT;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -741,6 +752,7 @@
 				);
 				INFOPLIST_FILE = AtlanteEno/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -913,7 +925,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(_NAME)\"",
@@ -968,7 +980,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
