@@ -52,8 +52,6 @@ export const WineryDetail = React.memo((props: IWineryDetailProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [wineryDescr, setWineryDescr] = useState<string>(getDescr(winery.type));
 
-  
-
   /** Navigation */
   const navigation = useNavigation();
 
