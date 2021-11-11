@@ -7,12 +7,18 @@ import {
   AuthTokenManager,
 } from '../modules/auth';
 
-const isDefined = (s?: string | null) =>
+const isNotEmpty = (s?: string | null) =>
   s !== undefined && s !== null && s.length > 0;
 
 const {isExpiredToken, getToken, getRefreshToken} = AuthTokenManager;
 
-// Custom hook are functions that starts with the keyword "use"
+/**
+ * useAuth custom hook
+ * Check with a periodic interval that the user JWT Token
+ * is valid and if not will try to refresh or login again
+ * automatically (and will update the store and the contex)
+ * @returns true if token is valid, false otherwise
+ */
 export function useAuth() {
   /** Context */
   const {
@@ -21,7 +27,7 @@ export function useAuth() {
   } = useContext(AuthContext);
 
   /** States */
-  const [isLogged, setIsLogged] = useState<boolean>(isDefined(userToken));
+  const [isLogged, setIsLogged] = useState<boolean>(isNotEmpty(userToken));
   const [newToken, setNewToken] = useState<LoginApiOutputData | null>();
 
   /** Callbacks */
@@ -69,10 +75,7 @@ export function useAuth() {
 
   /** Effects */
   useEffect(() => {
-    // Define interval to run
     const interval = setInterval(tokenCheckCallback, 60000);
-
-    // Clean up function
     return () => {
       clearInterval(interval);
     };
