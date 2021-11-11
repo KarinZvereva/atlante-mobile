@@ -1,6 +1,11 @@
 import {useCallback, useContext, useEffect, useState} from 'react';
 import {LoginApiOutputData} from '../interfaces';
-import {AuthContext, AuthDal, AuthTokenManager} from '../modules/auth';
+import {
+  AuthContext,
+  AuthCredentialManager,
+  AuthDal,
+  AuthTokenManager,
+} from '../modules/auth';
 
 const isDefined = (s?: string | null) =>
   s !== undefined && s !== null && s.length > 0;
@@ -46,8 +51,13 @@ export function useAuth() {
             }
 
             // 2. not refreshed, try to login again if possible
-            if (userName && password) {
-              result = await AuthDal.login({userName, password});
+            const credential =
+              userName && password
+                ? {userName, password}
+                : await AuthCredentialManager.getCredential();
+
+            if (credential) {
+              result = await AuthDal.login(credential);
               if (result && result.token && result.refreshToken) {
                 setNewToken(result);
                 return;
