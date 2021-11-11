@@ -10,11 +10,13 @@ import {
 const isDefined = (s?: string | null) =>
   s !== undefined && s !== null && s.length > 0;
 
+const {isExpiredToken, getToken, getRefreshToken} = AuthTokenManager;
+
 // Custom hook are functions that starts with the keyword "use"
 export function useAuth() {
   /** Context */
   const {
-    data: {userToken, userName, password},
+    data: {userToken},
     actionsProvider,
   } = useContext(AuthContext);
 
@@ -34,48 +36,41 @@ export function useAuth() {
     [actionsProvider],
   );
 
-  /** Effects */
-  useEffect(() => {
-    const checkCallback = async () => {
-      if (AuthTokenManager.isExpiredToken(userToken)) {
-        const token = await AuthTokenManager.getToken();
-        if (AuthTokenManager.isExpiredToken(token)) {
-          try {
-            const refreshToken = await AuthTokenManager.getRefreshToken();
-            let result = await AuthDal.refresh({token, refreshToken});
+  const tokenCheckCallback = useCallback(async () => {
+    const token = await getToken();
+    if (isExpiredToken(token)) {
+      try {
+        // 1. try to refreshed
+        const refreshToken = await getRefreshToken();
+        let result = await AuthDal.refresh({token, refreshToken});
+        if (result && result.token && result.refreshToken) {
+          setNewToken(result);
+          return;
+        }
 
-            // 1. refreshed
-            if (result && result.token && result.refreshToken) {
-              setNewToken(result);
-              return;
-            }
-
-            // 2. not refreshed, try to login again if possible
-            const credential =
-              userName && password
-                ? {userName, password}
-                : await AuthCredentialManager.getCredential();
-
-            if (credential) {
-              result = await AuthDal.login(credential);
-              if (result && result.token && result.refreshToken) {
-                setNewToken(result);
-                return;
-              }
-            }
-
-            // 3. not possible, return undefined
-            setNewToken(null);
-          } catch (e) {
-            console.error(JSON.stringify(e));
-            setNewToken(null);
+        // 2. not refreshed, try to login again
+        const credential = await AuthCredentialManager.getCredential();
+        if (credential) {
+          result = await AuthDal.login(credential);
+          if (result && result.token && result.refreshToken) {
+            setNewToken(result);
+            return;
           }
         }
-      }
-    };
 
-    // Define interval to run every 20 minutes
-    const interval = setInterval(checkCallback, 60000);
+        // 3. not possible, unset token for authentication
+        setNewToken(null);
+      } catch (e) {
+        console.error(JSON.stringify(e));
+        setNewToken(null);
+      }
+    }
+  }, []);
+
+  /** Effects */
+  useEffect(() => {
+    // Define interval to run
+    const interval = setInterval(tokenCheckCallback, 60000);
 
     // Clean up function
     return () => {
