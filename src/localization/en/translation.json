@@ -100,7 +100,8 @@
     "confirm_message"     : "Do you really want to remove your account?",
     "update_message"      : "Profile updated, Sign in again.",
     "delete_message"      : "Account deleted",
-    "language"            : "Language"
+    "language"            : "Language",
+    "language_message"    : "Language updated"
   },
   "account_restore": {
     "title"               : "Restore Password",

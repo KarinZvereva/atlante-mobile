@@ -40,8 +40,10 @@ export function LoginStandard(props: any) {
     setError('');
     setIsError(false);
     setLoading(true);
+    console.log("AuthDal.login")
     AuthDal.login({userName, password})
       .then((res) => {
+        console.log("AuthDal.login then")
         if (!res.token || !res.refreshToken) {
           setError(t('error.login.0002'));
           setIsError(true);
@@ -49,26 +51,24 @@ export function LoginStandard(props: any) {
           return;
         }
 
-        if (isRemember) {
+        if (isRemember) 
           actionsProvider?.credentialIn({userName, password});
-        }
 
-        if (actionsProvider) {
-          actionsProvider.signIn(res);  
+
+        if (actionsProvider) {  
 
           ProfileDal.loadSettings(res.token)
           .then((result) => {
             if (result && result.success) {
-              const lang = result.data?.language;
               actionsProvider?.settings(result);
-              i18n.changeLanguage(lang);
-              setLoading(false);
+              i18n.changeLanguage(result.data?.language);
+              actionsProvider.signIn(res);
             } else if (result && !result.success) {
               setError(t('error.profile.0006'));
               setIsError(true);
               setLoading(false);
               return;
-            }
+            }  
           })
           .catch((err) => {
             if ( err === 404)  { // No user settings
@@ -76,20 +76,22 @@ export function LoginStandard(props: any) {
               const lang = getDeviceLang();
               const userSetting = {"data":{"language": lang}} as ProfileSettingsApiOutputData;
               actionsProvider?.settings(userSetting);
+              i18n.changeLanguage(lang);
+              actionsProvider.signIn(res);
+              setLoading(false);
             } else if ( err === 422) { // No User token
               setError(t("error.profile.0007"));
               setIsError(true);
               setLoading(false);
               return;
-              setLoading(false);
             } else {
-              console.log("Generic err")
               setError(err);
               setIsError(true);
               setLoading(false);
               return;
             }
           });
+          
         }
       })
       .catch((err) => {

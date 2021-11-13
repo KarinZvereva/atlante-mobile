@@ -100,7 +100,8 @@
     "confirm_message"     : "Confermi l'eliminazione dell'account?",
     "update_message"      : "Profilo aggiornato, effettua nuovamente la login.",
     "delete_message"      : "Account eliminato",
-    "language"            : "Lingua"
+    "language"            : "Lingua",
+    "language_message"    : "Lingua modificata"
   },
   "account_restore": {
     "title"               : "Recupera Password",

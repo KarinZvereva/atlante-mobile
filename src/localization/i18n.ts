@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import {Platform, NativeModules} from 'react-native';
+import { ProfileSettingsApiOutputData } from '../common/interfaces';
 
 import translationEN from './en/translation.json';
 import translationIT from './it/translation.json';
@@ -20,6 +21,11 @@ export const getDeviceLang = () => {
   return appLanguage.search(/-|_/g) !== -1
     ? appLanguage.slice(0, 2)
     : appLanguage;
+};
+
+export const setDefaultLang = () => {
+  const lang = getDeviceLang();
+  i18n.changeLanguage(lang);
 };
 
 i18n.use(initReactI18next).init({

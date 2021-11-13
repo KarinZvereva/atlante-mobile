@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import {StyleSheet, View, ActivityIndicator} from 'react-native';
 import {markerDefaultGreen} from '../../common/constants';
 import {AuthContext} from '../../common/modules/auth';
+import { setDefaultLang } from '../../localization/i18n';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,6 +22,7 @@ export function LogOut() {
   const {actionsProvider} = useContext(AuthContext);
 
   useEffect(() => {
+    setDefaultLang();
     if (actionsProvider) actionsProvider.signOut();
   }, [actionsProvider]);
 
