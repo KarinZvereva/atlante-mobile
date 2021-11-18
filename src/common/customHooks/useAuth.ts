@@ -49,8 +49,8 @@ export function useAuth() {
         // 1. try to refreshed
         const refreshToken = await getRefreshToken();
         let result = await AuthDal.refresh({token, refreshToken});
-        if (result && result.token && result.refreshToken) {
-          setNewToken(result);
+        if (result && (result as LoginApiOutputData).token) {
+          setNewToken(result as LoginApiOutputData);
           return;
         }
 
@@ -58,8 +58,8 @@ export function useAuth() {
         const credential = await AuthCredentialManager.getCredential();
         if (credential) {
           result = await AuthDal.login(credential);
-          if (result && result.token && result.refreshToken) {
-            setNewToken(result);
+          if (result && (result as LoginApiOutputData).token) {
+            setNewToken(result as LoginApiOutputData);
             return;
           }
         }

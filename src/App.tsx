@@ -15,7 +15,11 @@ import {
   AuthCredentialManager,
   AuthDal,
 } from './common/modules/auth';
-import {LoginApiInputData, LoginApiOutputData, ProfileSettingsApiOutputData} from './common/interfaces';
+import {
+  LoginApiInputData,
+  LoginApiOutputData,
+  ProfileSettingsApiOutputData,
+} from './common/interfaces';
 import SplashScreen from 'react-native-splash-screen';
 import {SignUp} from './screens/SignUp/SignUp';
 import {WineriesMap} from './screens/WineriesMap';
@@ -38,7 +42,8 @@ import {
 } from './common/modules/map/map.interface';
 import {MapFilters} from './screens/MapFilters';
 import './localization/i18n';
-import { useTranslation } from 'react-i18next'
+import {useTranslation} from 'react-i18next';
+import {IServerError} from './common/modules/builders/entityPostBuilder';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -49,7 +54,7 @@ const drawerStyles = StyleSheet.create({
 });
 
 const PrivateNavigation = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen
@@ -128,7 +133,9 @@ const PrivateNavigation = () => {
             />
           ),
           drawerLabel: () => (
-            <Text style={drawerStyles.drawer_label_text}>{t('menu.project')}</Text>
+            <Text style={drawerStyles.drawer_label_text}>
+              {t('menu.project')}
+            </Text>
           ),
         }}
       />
@@ -144,7 +151,9 @@ const PrivateNavigation = () => {
             />
           ),
           drawerLabel: () => (
-            <Text style={drawerStyles.drawer_label_text}>{t('menu.profile')}</Text>
+            <Text style={drawerStyles.drawer_label_text}>
+              {t('menu.profile')}
+            </Text>
           ),
         }}
       />
@@ -160,7 +169,9 @@ const PrivateNavigation = () => {
             />
           ),
           drawerLabel: () => (
-            <Text style={drawerStyles.drawer_label_text}>{t('menu.logout')}</Text>
+            <Text style={drawerStyles.drawer_label_text}>
+              {t('menu.logout')}
+            </Text>
           ),
         }}
       />
@@ -201,12 +212,34 @@ export default function App() {
         AuthTokenManager.getLoginDataObj().then((userToken) => {
           if (userToken) {
             if (AuthTokenManager.isExpiredToken(userToken?.token)) {
-              AuthDal.refresh(userToken).then((refreshResult) => {
-                const {token, refreshToken} = refreshResult;
-                if (token && refreshToken) {
-                  authActionProvider.refresh(refreshResult);
-                }
-              });
+              AuthDal.refresh(userToken)
+                .then((refreshResult) => {
+                  const {token, refreshToken} =
+                    refreshResult as LoginApiOutputData;
+                  if (token && refreshToken) {
+                    authActionProvider.refresh({token, refreshToken});
+                    return;
+                  }
+
+                  const {status} = refreshResult as IServerError;
+                  if (status >= 400) {
+                    AuthCredentialManager.getCredential().then((credential) => {
+                      if (credential)
+                        AuthDal.login(credential).then((r) => {
+                          const {token: tok, refreshToken: refTok} =
+                            r as LoginApiOutputData;
+                          if (tok && refTok)
+                            authActionProvider.signIn({
+                              token: tok,
+                              refreshToken: refTok,
+                            });
+                        });
+                    });
+                  }
+                })
+                .catch((e) => {
+                  console.error(JSON.stringify(e));
+                });
             }
           }
         });
@@ -300,7 +333,7 @@ export default function App() {
     [],
   );
 
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   return (
     <AuthContext.Provider

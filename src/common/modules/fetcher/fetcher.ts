@@ -1,3 +1,4 @@
+import {LoginApiOutputData} from '../../interfaces';
 import {AuthDal, AuthTokenManager} from '../auth';
 
 const updateOptions = async (options: RequestInit) => {
@@ -6,9 +7,11 @@ const updateOptions = async (options: RequestInit) => {
     try {
       const refreshToken = await AuthTokenManager.getRefreshToken();
       const refreshResult = await AuthDal.refresh({token, refreshToken});
-      if (refreshResult && refreshResult.token && refreshResult.refreshToken) {
-        await AuthTokenManager.updateTokenData(refreshResult);
-        token = refreshResult.token;
+      if (refreshResult && (refreshResult as LoginApiOutputData).token) {
+        await AuthTokenManager.updateTokenData(
+          refreshResult as LoginApiOutputData,
+        );
+        token = (refreshResult as LoginApiOutputData).token;
       }
     } catch (e) {
       console.error(JSON.stringify(e));
