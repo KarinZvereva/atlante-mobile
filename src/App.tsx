@@ -19,6 +19,7 @@ import {
   LoginApiInputData,
   LoginApiOutputData,
   ProfileSettingsApiOutputData,
+  UserSettings,
 } from './common/interfaces';
 import SplashScreen from 'react-native-splash-screen';
 import {SignUp} from './screens/SignUp/SignUp';
@@ -42,8 +43,9 @@ import {
 } from './common/modules/map/map.interface';
 import {MapFilters} from './screens/MapFilters';
 import './localization/i18n';
-import {useTranslation} from 'react-i18next';
 import {IServerError} from './common/modules/builders/entityPostBuilder';
+import {useTranslation} from 'react-i18next';
+import {ProfileManager} from './common/modules/profile';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -183,19 +185,30 @@ export default function App() {
   const [authState, authDispatch] = useReducer(AuthReducer, InitialAuthState);
   const [mapState, mapDispatch] = useReducer(MapReducer, InitialMapState);
   const appState = useRef(AppState.currentState);
+  const {i18n} = useTranslation();
 
   useEffect(() => {
     const bootstrapAsync = async () => {
       const userToken = await AuthTokenManager.getLoginDataObj();
       const credential = await AuthCredentialManager.getCredential();
 
-      if (!AuthTokenManager.isExpiredToken(userToken?.token))
+      if (!AuthTokenManager.isExpiredToken(userToken?.token)) {
+        const language = await ProfileManager.loadUserSettings(
+          userToken?.token,
+        );
+
+        console.log('Lanhuage: ', language);
+        i18n.changeLanguage(language);
         authDispatch({
           type: AuthActionsType.RESTORE_TOKEN,
           token: userToken?.token,
           refreshToken: userToken?.refreshToken,
         });
-      else if (credential != null)
+        authDispatch({
+          type: AuthActionsType.USER_SETTINGS,
+          settings: {language} as UserSettings,
+        });
+      } else if (credential != null)
         authDispatch({
           type: AuthActionsType.RESTORE_CREDENTIAL,
           userName: credential?.userName,

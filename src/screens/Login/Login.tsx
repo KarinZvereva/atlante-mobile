@@ -20,13 +20,11 @@ export function Login(props: any) {
   const {data, actionsProvider} = useContext(AuthContext);
   const {t, i18n} = useTranslation();
 
-
   const LoginApple = async () => {
     /**
      * You'd technically persist this somewhere for later use.
      */
     let user = null;
-    console.log('Beginning Apple Authentication');
     setError('');
     setIsError(false);
     setLoading(true);
@@ -37,8 +35,6 @@ export function Login(props: any) {
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
       });
-
-      console.log('appleAuthRequestResponse', appleAuthRequestResponse);
 
       const {
         user: newUser,
@@ -51,8 +47,6 @@ export function Login(props: any) {
       user = newUser;
 
       if (identityToken) {
-        // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
-        console.log('identityToken', identityToken);
         const appleToken = identityToken;
 
         AuthDal.applelogin({appleToken})
@@ -66,7 +60,6 @@ export function Login(props: any) {
           }
 
           if (actionsProvider) {
-            actionsProvider.signIn(res);
 
             ProfileDal.loadSettings(res.token)
             .then((result) => {
@@ -74,7 +67,7 @@ export function Login(props: any) {
                 const lang = result.data?.language;
                 actionsProvider?.settings(result);
                 i18n.changeLanguage(lang);
-                setLoading(false);
+                actionsProvider.signIn(res);
               } else if (result && !result.success) {
                 setError(t('error.profile.0006'));
                 setIsError(true);
@@ -88,12 +81,13 @@ export function Login(props: any) {
                 const lang = getDeviceLang();
                 const userSetting = {"data":{"language": lang}} as ProfileSettingsApiOutputData;
                 actionsProvider?.settings(userSetting);
+                i18n.changeLanguage(lang);
+                actionsProvider.signIn(res);
               } else if ( err === 422) { // No User token
                 setError(t("error.profile.0007"));
                 setIsError(true);
                 setLoading(false);
                 return;
-                setLoading(false);
               } else {
                 console.log("Generic err")
                 setError(err);
@@ -102,6 +96,7 @@ export function Login(props: any) {
                 return;
               }
             });
+
           }
         })
         .catch((err) => {
@@ -169,7 +164,6 @@ export function Login(props: any) {
                 }
 
                 if (actionsProvider) {
-                  actionsProvider.signIn(res);
 
                   ProfileDal.loadSettings(res.token)
                   .then((result) => {
@@ -177,7 +171,7 @@ export function Login(props: any) {
                       const lang = result.data?.language;
                       actionsProvider?.settings(result);
                       i18n.changeLanguage(lang);
-                      setLoading(false);
+                      actionsProvider.signIn(res);
                     } else if (result && !result.success) {
                       setError(t('error.profile.0006'));
                       setIsError(true);
@@ -191,6 +185,8 @@ export function Login(props: any) {
                       const lang = getDeviceLang();
                       const userSetting = {"data":{"language": lang}} as ProfileSettingsApiOutputData;
                       actionsProvider?.settings(userSetting);
+                      i18n.changeLanguage(lang);
+                      actionsProvider.signIn(res);
                     } else if ( err === 422) { // No User token
                       setError(t("error.profile.0007"));
                       setIsError(true);
@@ -205,6 +201,7 @@ export function Login(props: any) {
                       return;
                     }
                   });
+
                 }
               })
               .catch((err) => {
@@ -240,7 +237,44 @@ export function Login(props: any) {
             setLoading(false);
             return;
           }
-          if (actionsProvider) actionsProvider.signIn(res);
+          if (actionsProvider) {  //actionsProvider.signIn(res);
+
+            ProfileDal.loadSettings(res.token)
+            .then((result) => {
+              if (result && result.success) {
+                actionsProvider?.settings(result);
+                i18n.changeLanguage(result.data?.language);
+                actionsProvider.signIn(res);
+              } else if (result && !result.success) {
+                setError(t('error.profile.0006'));
+                setIsError(true);
+                setLoading(false);
+                return;
+              }  
+            })
+            .catch((err) => {
+              if ( err === 404)  { // No user settings
+                //Default su lingua di distema
+                const lang = getDeviceLang();
+                const userSetting = {"data":{"language": lang}} as ProfileSettingsApiOutputData;
+                actionsProvider?.settings(userSetting);
+                i18n.changeLanguage(lang);
+                actionsProvider.signIn(res);
+                setLoading(false);
+              } else if ( err === 422) { // No User token
+                setError(t("error.profile.0007"));
+                setIsError(true);
+                setLoading(false);
+                return;
+              } else {
+                setError(err);
+                setIsError(true);
+                setLoading(false);
+                return;
+              }
+            });
+
+          }
         })
         .catch((err) => {
           console.error(JSON.stringify(err));

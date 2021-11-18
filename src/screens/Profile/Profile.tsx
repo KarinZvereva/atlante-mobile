@@ -1,5 +1,5 @@
 import React, {useContext, useState, useRef} from 'react';
-import {View, TextInput, Text, Image, Alert, ScrollView, Platform} from 'react-native';
+import {View, TextInput, Text, Image, Alert, ScrollView, Platform, ActivityIndicator} from 'react-native';
 import {Header} from '../../common/components/Header/Header';
 import {icons} from '../../common/constants';
 import {AuthContext, ITokenData, AuthTokenManager, IUserSettings} from '../../common/modules/auth';
@@ -14,6 +14,7 @@ import {webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import {UserAuthenticationMode} from '../../common/modules/auth/auth.constants';
 import { useTranslation } from 'react-i18next';
 import {Picker, PickerProps} from '@react-native-picker/picker';
+import {markerDefaultGreen, images} from '../../common/constants';
 
 export function Profile(props: any) {
   const actionsProvider = useContext(AuthContext);
@@ -35,7 +36,7 @@ export function Profile(props: any) {
   const [isDelete, setDelete] = useState<boolean>(false);
   const {t, i18n} = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState(userSettings != null ? userSettings.language : 'it');
-
+  const [isLanguageDisabled, setLanguageDisabled] = useState<boolean>(false);
 
   /**
    * 
@@ -54,6 +55,7 @@ export function Profile(props: any) {
     setError('');
     setIsError(false);
     setLoading(true);
+    setLanguageDisabled(false);
 
     recaptcha.current?.open();
   };
@@ -73,10 +75,13 @@ export function Profile(props: any) {
     setIsError(false);
     setLoading(true);
 
+    console.log("captcha ok")
+
     const token = actionsProvider.data.userToken != null ? actionsProvider.data.userToken : ""; 
     ProfileDal.update({userData, captcha}, token)
     .then((result) => {
       if (result && result.success) {
+        console.log("update ok")
         Alert.alert(t('profile.update_message'));
         setShowEdit(false)
         setLoading(false);
@@ -214,6 +219,7 @@ export function Profile(props: any) {
         console.log("Settings saved");
         setSelectedLanguage(language)
         i18n.changeLanguage(language);
+        Alert.alert(t('profile.language_message'));
         setLoading(false);
       } else if (result && !result.success) {
         setError(t('error.profile.0005'));
@@ -233,163 +239,182 @@ export function Profile(props: any) {
   return (
     <SafeAreaView style={styles.page}>
       <Header {...props} showName={t('menu.profile')} />
-      <ScrollView contentContainerStyle={{flexGrow: 1}} style={styles.scroll_container}>
-        <View style={styles.profile_container}>
-          <Image source={icons.profilo_big} style={styles.logo}/>
-          <Text style={styles.title_text}>{firstName} {lastName}</Text>
-          <Text style={styles.mail_text}>{email}</Text>
-          <View style={Platform.OS == 'android' ?  styles.vertical_divider : styles.vertical_divider_ios} />
-          <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
-            <Text style={ Platform.OS == 'android' ? styles.option_text_label : styles.option_text_label_ios}>{t('profile.language')}</Text>
-            <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
-              <Picker
-                style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
-                selectedValue={selectedLanguage}
-                onValueChange={(itemValue, itemIndex) => {
-                    saveSettings(itemValue);
-                  }
-                }>
-                <Picker.Item label={t('switchLanguage', {lng: 'it'})} value="it" />
-                <Picker.Item label={t('switchLanguage', {lng: 'en'})} value="en" />
-              </Picker>
+      {!isLoading && (
+        <ScrollView contentContainerStyle={{flexGrow: 1}} style={styles.scroll_container}>
+          <View style={styles.profile_container}>
+            <Image source={icons.profilo_big} style={styles.logo}/>
+            <Text style={styles.title_text}>{firstName} {lastName}</Text>
+            <Text style={styles.mail_text}>{email}</Text>
+            <View style={Platform.OS == 'android' ?  styles.vertical_divider : styles.vertical_divider_ios} />
+            <View style={Platform.OS == 'android' ?  styles.form_item_container_with_label_inline : styles.form_item_container_with_label_inline_ios}>
+              <Text style={ Platform.OS == 'android' ? styles.option_text_label : styles.option_text_label_ios}>{t('profile.language')}</Text>
+              <View style={Platform.OS == 'android' ? styles.input_view_text : styles.input_view_text_ios}>
+                <Picker
+                  style={Platform.OS == 'android' ?  styles.pickers_style : styles.pickers_style_ios}
+                  selectedValue={selectedLanguage}
+                  onValueChange={(itemValue, itemIndex) => {
+                      saveSettings(itemValue);
+                    }}
+                  enabled={!isLanguageDisabled}>
+                  <Picker.Item label={t('switchLanguage', {lng: 'it'})} value="it" />
+                  <Picker.Item label={t('switchLanguage', {lng: 'en'})} value="en" />
+                </Picker>
+              </View>
             </View>
           </View>
-        </View>
-        { (!showEdit && !isFacebookAutenticated && !isAppleAutenticated && !isGoogleAutenticated) &&
-        <View style={styles.modify_profile_container}>
-          <View style={styles.button_container}>
-            <LinearGradient
-              colors={['#ce8a86', '#bd6665', '#a92a3f']}
-              style={styles.modifyBtn}>
-              <TouchableOpacity
-                onPress={() => setShowEdit(true)}
-                disabled={!actionsProvider}>
-                <View style={styles.modifyBtnSubView}>
-                  <Text style={styles.buttonText}>{t('button.modify')}</Text>
-                </View>
-              </TouchableOpacity>
-            </LinearGradient>
-            <LinearGradient
-              colors={['#423E3F', '#605D5E', '#7F7C7D']}
-              style={styles.deleteBtn}>
-              <TouchableOpacity
-                onPress={() => showAlert()}
-                disabled={!actionsProvider}>
-                <View style={styles.modifyBtnSubView}>
-                  <Text style={styles.buttonText}>{t('button.delete')}</Text>
-                </View>
-              </TouchableOpacity>
-            </LinearGradient>
+          { (!showEdit && !isFacebookAutenticated && !isAppleAutenticated && !isGoogleAutenticated) &&
+          <View style={styles.modify_profile_container}>
+            <View style={styles.button_container}>
+              <LinearGradient
+                colors={['#ce8a86', '#bd6665', '#a92a3f']}
+                style={styles.modifyBtn}>
+                <TouchableOpacity
+                  onPress={() => {
+                      setLanguageDisabled(true);
+                      setShowEdit(true);
+                    }}
+                  disabled={!actionsProvider}>
+                  <View style={styles.modifyBtnSubView}>
+                    <Text style={styles.buttonText}>{t('button.modify')}</Text>
+                  </View>
+                </TouchableOpacity>
+              </LinearGradient>
+              <LinearGradient
+                colors={['#423E3F', '#605D5E', '#7F7C7D']}
+                style={styles.deleteBtn}>
+                <TouchableOpacity
+                  onPress={() => showAlert()}
+                  disabled={!actionsProvider}>
+                  <View style={styles.modifyBtnSubView}>
+                    <Text style={styles.buttonText}>{t('button.delete')}</Text>
+                  </View>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
           </View>
-        </View>
-        }
-        {(isFacebookAutenticated || isAppleAutenticated || isGoogleAutenticated) &&
-        <View style={styles.modify_profile_container}>
-          <View style={styles.button_container}>
-            <LinearGradient
-              colors={['#423E3F', '#605D5E', '#7F7C7D']}
-              style={styles.deleteFbBtn}>
-              <TouchableOpacity
-                onPress={() => showAlert()}
-                disabled={!actionsProvider}>
-                <View style={styles.modifyBtnSubView}>
-                  <Text style={styles.buttonText}>{t('button.delete')}</Text>
-                </View>
-              </TouchableOpacity>
-            </LinearGradient>
+          }
+          {(isFacebookAutenticated || isAppleAutenticated || isGoogleAutenticated) &&
+          <View style={styles.modify_profile_container}>
+            <View style={styles.button_container}>
+              <LinearGradient
+                colors={['#423E3F', '#605D5E', '#7F7C7D']}
+                style={styles.deleteFbBtn}>
+                <TouchableOpacity
+                  onPress={() => showAlert()}
+                  disabled={!actionsProvider}>
+                  <View style={styles.modifyBtnSubView}>
+                    <Text style={styles.buttonText}>{t('button.delete')}</Text>
+                  </View>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
+            <View style={styles.divider}></View>
+            <Text style={styles.facebook_text}>{t('profile.delete_summary_1')}</Text>
+            <View style={styles.divider}></View>
+            <Text style={styles.facebook_text}>{t('profile.delete_summary_2')} {isFacebookAutenticated ? 'Facebook' : isAppleAutenticated ? 'Apple' : 'Google'}</Text>
           </View>
-          <View style={styles.divider}></View>
-          <Text style={styles.facebook_text}>{t('profile.delete_summary_1')}</Text>
-          <View style={styles.divider}></View>
-          <Text style={styles.facebook_text}>{t('profile.delete_summary_2')} {isFacebookAutenticated ? 'Facebook' : isAppleAutenticated ? 'Apple' : 'Google'}</Text>
+          }   
+          { showEdit && 
+            <View style={styles.modify_profile_container}>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.TextInput}
+                  placeholder={t('person.name')}
+                  placeholderTextColor="#ffffff"
+                  onChangeText={(value) => setFirstname(value)}
+                  value= {firstName}
+                />
+              </View>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.TextInput}
+                  placeholder={t('person.surname')}
+                  placeholderTextColor="#ffffff"
+                  onChangeText={(value) => setLastname(value)}
+                  value= {lastName}
+                />
+              </View>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.TextInput}
+                  placeholder="Password"
+                  placeholderTextColor="#ffffff"
+                  secureTextEntry={true}
+                  onChangeText={(value) => setPassword(value)}
+                />
+              </View>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.TextInput}
+                  placeholder={t('profile.confirm_password')}
+                  placeholderTextColor="#ffffff"
+                  secureTextEntry={true}
+                  onChangeText={(value) => setPasswordConfirm(value)}
+                />
+              </View>        
+              <View style={styles.button_container}>
+                <LinearGradient
+                  colors={['#ce8a86', '#bd6665', '#a92a3f']}
+                  style={styles.saveBtn}>
+                  <TouchableOpacity
+                    onPress={() => Modify()}
+                    disabled={!actionsProvider}>
+                    <View style={styles.modifyBtnSubView}>
+                      <Text style={styles.buttonText}>{t('button.update')}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </LinearGradient>
+                <LinearGradient
+                  colors={['#423E3F', '#605D5E', '#7F7C7D']}
+                  style={styles.undoBtn}>
+                  <TouchableOpacity
+                    onPress={() => {
+                        setShowEdit(false);
+                        setError("");
+                        setIsError(false);
+                        setLanguageDisabled(false);
+                      }}
+                    disabled={!actionsProvider}>
+                    <View style={styles.modifyBtnSubView}>
+                      <Text style={styles.buttonText}>{t('button.undo')}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </LinearGradient>
+              </View>            
+            </View>
+          }
+           
+          
+        </ScrollView>
+      )}
+      {isLoading && (
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            alignContent: 'center',
+            alignSelf: 'center',
+          }}>
+          <ActivityIndicator size="large" color={markerDefaultGreen} />
         </View>
-        }   
-        { showEdit && 
-        <View style={styles.modify_profile_container}>
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder={t('person.name')}
-              placeholderTextColor="#ffffff"
-              onChangeText={(value) => setFirstname(value)}
-              value= {firstName}
+      )}
+      {isError && (
+        <View style={{alignSelf: 'center'}}>
+          <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
+        </View>
+      )}
+      <View>
+            <Recaptcha
+              ref={recaptcha}
+              siteKey={captchaSiteKey}
+              baseUrl={webCaptchaUrl}
+              onVerify={isDelete ? onVerifyDelete : onVerifyUpdate}
+              onExpire={onExpire}
+              onError={onError}
+              size="invisible"
+              style={styles.recaptcha_container}
             />
           </View>
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder={t('person.surname')}
-              placeholderTextColor="#ffffff"
-              onChangeText={(value) => setLastname(value)}
-              value= {lastName}
-            />
-          </View>
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Password"
-              placeholderTextColor="#ffffff"
-              secureTextEntry={true}
-              onChangeText={(value) => setPassword(value)}
-            />
-          </View>
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder={t('profile.confirm_password')}
-              placeholderTextColor="#ffffff"
-              secureTextEntry={true}
-              onChangeText={(value) => setPasswordConfirm(value)}
-            />
-          </View>        
-          <View style={styles.button_container}>
-            <LinearGradient
-              colors={['#ce8a86', '#bd6665', '#a92a3f']}
-              style={styles.saveBtn}>
-              <TouchableOpacity
-                onPress={() => Modify()}
-                disabled={!actionsProvider}>
-                <View style={styles.modifyBtnSubView}>
-                  <Text style={styles.buttonText}>{t('button.update')}</Text>
-                </View>
-              </TouchableOpacity>
-            </LinearGradient>
-            <LinearGradient
-              colors={['#423E3F', '#605D5E', '#7F7C7D']}
-              style={styles.undoBtn}>
-              <TouchableOpacity
-                onPress={() => {
-                    setShowEdit(false);
-                    setError("");
-                    setIsError(false);
-                  }}
-                disabled={!actionsProvider}>
-                <View style={styles.modifyBtnSubView}>
-                  <Text style={styles.buttonText}>{t('button.undo')}</Text>
-                </View>
-              </TouchableOpacity>
-            </LinearGradient>
-          </View>            
-        </View>
-        }
-        {isError && (
-          <View style={{alignItems:'center'}}>
-            <Text style={{paddingTop: 5, color: 'red'}}>{error}</Text>
-          </View>
-        )}  
-        <View>
-          <Recaptcha
-            ref={recaptcha}
-            siteKey={captchaSiteKey}
-            baseUrl={webCaptchaUrl}
-            onVerify={isDelete ? onVerifyDelete : onVerifyUpdate}
-            onExpire={onExpire}
-            onError={onError}
-            size="invisible"
-            style={styles.recaptcha_container}
-          />
-        </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }

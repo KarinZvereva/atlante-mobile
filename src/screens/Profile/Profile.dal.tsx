@@ -99,7 +99,7 @@ const loadSettingsBuilder = () => <ProfileSettingsApiInputData, ProfileSettingsA
     else if (!response.ok) {
       throw response.statusText;
     }
-    
+    //console.log("return json settings")
     return (await response.json()) as ProfileSettingsApiOutputData;
   } catch (err) {
     throw err;
