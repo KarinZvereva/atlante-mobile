@@ -1,4 +1,11 @@
-import React, {FC, useContext} from 'react';
+import React, {
+  FC,
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react';
 import {
   View,
   Image,
@@ -10,18 +17,15 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
 } from 'react-native';
-import MapView, {LatLng, Region} from 'react-native-maps';
+import MapView, {LatLng, Region, Marker, Callout} from 'react-native-maps';
 import {Header} from '../../common/components/Header/Header';
 import Geolocation from '@react-native-community/geolocation';
 import {COORDINATES_DELTA} from '../../common/constants/coordinates';
-import {Marker, Callout} from 'react-native-maps';
-import {useState, useRef, useEffect} from 'react';
 import {IRouteProps, Winery, WineryType} from '../../common/interfaces';
 import {wineryDataDal} from './WineriesMap.dal';
 import {nameof} from '../../utils';
 import {icons, markerDefaultGreen} from '../../common/constants';
 import {WineryPopup} from './WineryPopup';
-import {useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {wineriesMapStyles} from './WineriesMap.styles';
 import {MapsCallout} from './MapsCallout';
@@ -47,15 +51,16 @@ const wineryFilterBase: string = `(${nameof<Winery>(
 const isAndroid = Platform.OS === 'android';
 
 export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
-  /** use State */
+  /** States */
   const [loading, setLoading] = useState<boolean>(false);
   const [wineries, setWineries] = useState<Winery[]>();
   const [search, setSearch] = useState<string>('');
   const [selectedPosition, setSelectedPosition] = useState<LatLng>();
 
+  /** I18n */
   const {t} = useTranslation();
 
-  /** use Context */
+  /** Context */
   const {
     data: {
       configuration: {mapsType, searchAroundMeRadius, searchAroundPointRadius},
@@ -75,7 +80,9 @@ export const WineriesMap: FC<IRouteProps> = (props: IRouteProps) => {
 
   /** Callback */
   const resetWineries = () => setWineries(undefined);
+
   const resetSelectedPosition = () => setSelectedPosition(undefined);
+
   const resetExtraFilter = useCallback(
     () =>
       actionProvider?.changeExtraFilter(MapActionsType.RESET_EXTRA_FILTER, {}),

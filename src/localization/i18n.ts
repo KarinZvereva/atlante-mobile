@@ -1,7 +1,6 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import {Platform, NativeModules} from 'react-native';
-import { ProfileSettingsApiOutputData } from '../common/interfaces';
 
 import translationEN from './en/translation.json';
 import translationIT from './it/translation.json';

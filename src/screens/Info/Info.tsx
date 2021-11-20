@@ -72,7 +72,6 @@ export function Info(props: any) {
     infoCountCall
       .count({region, province})
       .then((result) => {
-        console.log(result?.value);
         if (result) {
           switch (countType) {
             case CountType.Region:

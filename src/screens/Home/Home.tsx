@@ -17,11 +17,14 @@ import {IRouteProps} from '../../common/interfaces';
 import {sendEmail} from '../../common/modules/email/sendEmail';
 import {openLink} from '../../common/modules/linking';
 import {homeStyles} from './Home.styles';
-import { useTranslation } from 'react-i18next'
+import {useTranslation} from 'react-i18next';
 
 export function Home(props: IRouteProps) {
+  /** Navigation */
   const navigation = useNavigation();
-  const { t } = useTranslation();
+
+  /** I18n */
+  const {t} = useTranslation();
 
   /** Auth */
   const isLogged = useAuth();
@@ -71,12 +74,8 @@ export function Home(props: IRouteProps) {
               navigation.navigate('Wineries Map');
             }}
           />
-          <Text style={homeStyles.goToWineriesText}>
-          {t('home.map')}
-          </Text>
-          <Text style={homeStyles.keepInTouchText}>
-          {t('home.contact')}
-          </Text>
+          <Text style={homeStyles.goToWineriesText}>{t('home.map')}</Text>
+          <Text style={homeStyles.keepInTouchText}>{t('home.contact')}</Text>
           <View style={homeStyles.socialIcons}>
             <RoundImageButton
               borderRadius={20}

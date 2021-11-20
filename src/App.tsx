@@ -197,7 +197,6 @@ export default function App() {
           userToken?.token,
         );
 
-        console.log('Lanhuage: ', language);
         i18n.changeLanguage(language);
         authDispatch({
           type: AuthActionsType.RESTORE_TOKEN,
@@ -208,13 +207,15 @@ export default function App() {
           type: AuthActionsType.USER_SETTINGS,
           settings: {language} as UserSettings,
         });
-      } else if (credential != null)
+      } else if (credential != null) {
         authDispatch({
           type: AuthActionsType.RESTORE_CREDENTIAL,
           userName: credential?.userName,
           password: credential?.password,
         });
-      else authDispatch({type: AuthActionsType.SIGN_OUT});
+      } else {
+        authDispatch({type: AuthActionsType.SIGN_OUT});
+      }
     };
 
     const subscription = (nextAppState: AppStateStatus) => {
