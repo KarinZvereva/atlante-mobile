@@ -65,7 +65,7 @@
     "map_type_title"      : "Select Road or Satellite Map",
     "map_type_road"       : "Road",
     "map_type_satellite"  : "Satellite",
-    "map_radius_gps"      : "Range around my position",
+    "map_radius_gps"      : "Range around your position",
     "map_radius_point"    : "Range around a map’s point"
   },
   "map_filters": {

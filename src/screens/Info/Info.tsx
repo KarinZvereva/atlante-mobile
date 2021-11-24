@@ -247,7 +247,7 @@ export function Info(props: any) {
               </View>
               <View style={styles.option_container}>
                 <Text style={styles.option_text_label}>
-                  versione: {version || 0.0}
+                  version: {version || 0.0}
                 </Text>
               </View>
               <View style={styles.option_container}>

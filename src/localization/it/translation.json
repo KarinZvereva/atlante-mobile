@@ -1,6 +1,6 @@
 {
   "_comment": "src/localization/it/translation.json",
-  "switchLanguage"        : "Italian",
+  "switchLanguage"        : "Italiano",
   "app": {
   },
   "login": {
@@ -17,7 +17,7 @@
     "login"               : "Accedi"
   },
   "home": {
-    "title_1"             : "Banvenuto",
+    "title_1"             : "Benvenuto",
     "title_2"             : "Bevitore Errante",
     "map"                 : "Visita la mappa delle cantine",
     "contact"             : "Resta in contatto con noi"
@@ -62,10 +62,10 @@
   },
   "map_settings": {
     "title"               : "Impostazioni mappa",
-    "map_type_title"      : "Selezione tipologia mappa stradale o satellitare",
+    "map_type_title"      : "Seleziona tipologia mappa stradale o satellitare",
     "map_type_road"       : "Stradale",
     "map_type_satellite"  : "Satellitare",
-    "map_radius_gps"      : "Raggio di visualizzazione intorno alla mia posizione",
+    "map_radius_gps"      : "Raggio di visualizzazione intorno alla tua posizione",
     "map_radius_point"    : "Raggio di visualizzazione intorno al punto della mappa"
   },
   "map_filters": {
