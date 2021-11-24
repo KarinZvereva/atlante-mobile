@@ -1,0 +1,175 @@
+{
+  "_comment": "src/localization/en/translation.json",
+  "switchLanguage"        : "English",
+  "app": {
+  },
+  "login": {
+    "standard"            : "Sign in",
+    "facebook"            : "Sign in with Facebook",
+    "apple"               : "Sign in with Apple",
+    "or"                  : "- or -"
+  },
+  "login_standard": {
+    "title"               : "NaTourWine Sign in",
+    "remember"            : "Remember me",
+    "password_lost"       : "Forgot password?",
+    "signup"              : "Don't have an account? Sign up!",
+    "login"               : "Sign in"
+  },
+  "home": {
+    "title_1"             : "Welcome",
+    "title_2"             : "Wine Tripper",
+    "map"                 : "Go to Winery map",
+    "contact"             : "Stay in touch"
+  },
+  "menu": {
+    "home"                : "Home",
+    "map"                 : "Wineries Map",
+    "project"             : "Project",
+    "profile"             : "User profile",
+    "logout"              : "Logout"
+  },
+  "wineries_map": {
+    "map"                 : "Wineries Map",
+    "search"              : "... search",
+    "winery_not_found"    : "No Winery found!",
+    "gps_error"           : "Error when retrieve GPS position!"
+  },
+  "winery_details": {
+    "title"               : "Winery card",
+    "call"                : "Call",
+    "write"               : "Write",
+    "geo_localization_1"  : "Approximate",
+    "geo_localization_2"  : "Geolocalizzation",
+    "contact"             : "Please contact the Winemaker in advance to arrange your visit.",
+    "directions"          : "Directions",
+    "winery"              : "Winery",
+    "wine_maker_travel"   : "Travelling Winemaker",
+    "winemaking_project"  : "Winemaking project"
+  },
+  "map_info": {
+    "title"               : "Map use",
+    "winery_detail"       : "Tap on the pop-up to see the winery card",
+    "wineries_near_touch" : "Press on a map’s point for a few seconds to display the closest wineries",
+    "map_gps_center"      : "Centre the map on your GPS location",
+    "wineries_near_gps"   : "Show the wineries closer to your GPS location",
+    "wineries_search"     : "Search and show the wineries by name o winemaker’s name, if any",
+    "map_reset"           : "Reset/Reload the map",
+    "map_clean"           : "Hide all the wineries from the map",
+    "info_row_1"          : "When opening - your GPS must be on- only the wineries within a range of 120 km from your location will be displayed.",
+    "info_row_2"          : "To display the full map press the Reload button.",
+    "info_row_3"          : "To use some features the GPS must be activated."
+  },
+  "map_settings": {
+    "title"               : "Map settings",
+    "map_type_title"      : "Select Road or Satellite Map",
+    "map_type_road"       : "Road",
+    "map_type_satellite"  : "Satellite",
+    "map_radius_gps"      : "Range around your position",
+    "map_radius_point"    : "Range around a map’s point"
+  },
+  "map_filters": {
+    "title"               : "Map additional filters",
+    "location_title"      : "Display the wineries in the following region and/or province:",
+    "region"              : "Region",
+    "province"            : "Province",
+    "services_title"      : "Display the wineries that offer the following service:",
+    "service_sleep"       : "Sleep",
+    "service_food"        : "Eat"
+  },
+  "info": {
+    "header"              : "NaTourWine project",
+    "info_row_1"          : "This app content is the result of the work of natural wine lovers.",
+    "info_row_2"          : "The wineries list has been made with the help of “BE.VI.AMO NATURALE” Facebook group.",
+    "info_row_3"          : "We used an inclusive selection method, trying to take into account the various manifestos of the existing associations.",
+    "info_row_4"          : "For vineyards: no pesticides, no synthetic products and only manual harvest.",
+    "info_row_5"          : "For winemaking: no selected yeasts, no finining, no sterile filtration, no adjuvants and additives. No physical or thermal treatments, no high level of sulphites.",
+    "info_row_6"          : "We can’t pretend all the data are 100% correct or up to date, therefore anyone with useful information will be welcome to  contact us to improve this selection.",
+    "info_row_7"          : "Considering this and due to the great vitality of the sector, this app will always be evolving.",
+    "info_row_8"          : "If you too, Wine Tripper, would like to support, share your knowledge with NaTourWine’s staff.",
+    "wineries_total"      : "Total Winery:",
+    "location_title"      : "Number of wineries for region and province:",
+    "region"              : "Region",
+    "province"            : "Province"
+  },
+  "profile": {
+    "delete_summary_1"    : "It's not possible to change the profile",
+    "delete_summary_2"    : "The above information comes from",
+    "confirm_password"    : "Password confirm",
+    "confirm_title"       : "Account deletion",
+    "confirm_message"     : "Do you really want to remove your account?",
+    "update_message"      : "Profile updated, Sign in again.",
+    "delete_message"      : "Account deleted",
+    "language"            : "Language",
+    "language_message"    : "Language updated"
+  },
+  "account_restore": {
+    "title"               : "Restore Password",
+    "mail_message"        : "We've just sent you an email, please check your inbox"
+  },
+  "signup": {
+    "title"               : "Sign Up",
+    "mail_message"        : "We've just sent you an activaction email, please check your email and click on the link to verify.",
+    "summary_confirm"     : "Summary informations - Confirm",
+    "confirm_password"    : "Password confirm",
+    "terms_1"             : "I have read, understood and accept the",
+    "terms_2"             : "terms and conditions"
+  },
+  "person": {
+    "name"                : "First name",
+    "surname"             : "Last name"
+  },
+  "button" : {
+    "confirm"             : "Confirm",
+    "update"              : "Update",
+    "undo"                : "Undo",
+    "restore"             : "Restore",
+    "modify"              : "Change",
+    "delete"              : "Delete",
+    "apply"               : "Apply",
+    "signin"              : "Sign in",
+    "signup"              : "Sign up"
+  },
+  "error": {
+    "captcha": {
+      "expire"            : "Identity not confirmed. Recaptcha verified expire",
+      "error"             : "Identity not confirmed. Recaptcha error"
+    },
+    "server" : {
+      "connection"        : "Unable to connect to server, try later!",
+      "communication"     : "Server communication error, try later!"
+    },
+    "login": {
+      "0001"              : "Username or Password cannot be empty",
+      "0002"              : "Invalid Username or Password",
+      "0003"              : "Unable to sign in with Apple",
+      "0004"              : "User cancelled Apple Sign in.",
+      "0005"              : "User cancelled Facebook Sign in",
+      "0006"              : "Unable to sign in with Facebook"
+    },
+    "account_restore": {
+      "0001"              : "Email empty",
+      "0002"              : "Email not found",
+      "0003"              : "Account not active fo this Email",
+      "0004"              : "Impossible to restore the account"
+    },
+    "signup": {
+      "0001"              : "Username, password or mail cannot be empty",
+      "0002"              : "Passwords do not match",
+      "0003"              : "Username or email are not available",
+      "0004"              : "To register, please accept terms and conditions",
+      "0005"              : "Username not available",
+      "0006"              : "Email not available",
+      "0007"              : "Attention, the email seem notvalid, please verify your email."
+    },
+    "profile": {
+      "0001"              : "First name, Last name or Password cannot be empty",
+      "0002"              : "Passwords do not match",
+      "0003"              : "Unable to update the Account",
+      "0004"              : "Unable to delete the Account",
+      "0005"              : "Unable to save the language",
+      "0006"              : "Unable to read the account language",
+      "0007"              : "No user found for this auth token"
+    }
+  }
+}
