@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export function AccountRestore(props: any) {
+export function UsernameRestore(props: any) {
   const [email, setEMail] = useState<string>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);

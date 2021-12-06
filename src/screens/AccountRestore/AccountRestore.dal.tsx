@@ -25,5 +25,6 @@ const restoreBuilder = restoreAccountBuilder();
 
 export const RestoreDal = {
   restore: restoreBuilder<RestoreApiInputData, RestoreApiOutputData>('account/restore'),
+  restoreUsername: restoreBuilder<RestoreApiInputData, RestoreApiOutputData>('account/restoreusername'),
 };
 

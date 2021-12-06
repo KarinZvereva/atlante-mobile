@@ -26,6 +26,7 @@ import {SignUp} from './screens/SignUp/SignUp';
 import {WineriesMap} from './screens/WineriesMap';
 import {LogOut} from './screens/LogOut/LogOut';
 import {AccountRestore} from './screens/AccountRestore';
+import {UsernameRestore} from './screens/AccountRestore';
 //import {Restaurant} from './screens/Restaurant';
 import {Info} from './screens/Info';
 import {WineryDetail} from './screens/WineryDetails/WineryDetails';
@@ -386,6 +387,14 @@ export default function App() {
                     component={AccountRestore}
                     options={{
                       title: t('account_restore.title'),
+                      headerTitleStyle: {...drawerStyles.header_text},
+                    }}
+                  />
+                  <Stack.Screen
+                    name="UsernameRestore"
+                    component={UsernameRestore}
+                    options={{
+                      title: t('username_restore.title'),
                       headerTitleStyle: {...drawerStyles.header_text},
                     }}
                   />
