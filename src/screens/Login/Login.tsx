@@ -1,5 +1,5 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Text, View, ActivityIndicator, Image, SafeAreaView, ScrollView, Platform} from 'react-native';
+import React, {useCallback, useContext, useState} from 'react';
+import {Text, View, ActivityIndicator, Image, SafeAreaView, Platform} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {markerDefaultGreen} from '../../common/constants';
@@ -8,10 +8,11 @@ import {styles} from './Login.styles';
 import {LoginManager, Settings, AccessToken} from 'react-native-fbsdk-next';
 import appleAuth from '@invertase/react-native-apple-authentication'
 import {images} from '../../common/constants';
-import { useTranslation } from 'react-i18next'
-import { ProfileDal } from '../Profile/Profile.dal';
-import { getDeviceLang } from '../../localization/i18n';
+import {useTranslation} from 'react-i18next'
+import {ProfileDal} from '../Profile/Profile.dal';
+import {getDeviceLang} from '../../localization/i18n';
 import {ProfileSettingsApiOutputData} from '../../common/interfaces';
+import {GoogleSignin,  statusCodes} from '@react-native-google-signin/google-signin';
 
 export function Login(props: any) {
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -20,47 +21,53 @@ export function Login(props: any) {
   const {data, actionsProvider} = useContext(AuthContext);
   const {t, i18n} = useTranslation();
 
-  const LoginApple = async () => {
-    /**
-     * You'd technically persist this somewhere for later use.
-     */
-    let user = null;
+
+  const LoginGoogle = async () => {
+
+    console.log("Google sign in start...")
+    console.log("Google sign in configure...")
+    GoogleSignin.configure();
+
     setError('');
     setIsError(false);
     setLoading(true);
 
-    // start a login request
     try {
-      const appleAuthRequestResponse = await appleAuth.performRequest({
-        requestedOperation: appleAuth.Operation.LOGIN,
-        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-      });
+      console.log("Google check play services...")
+      await GoogleSignin.hasPlayServices();
+      console.log("Google sign in...")
+      const userInfo = await GoogleSignin.signIn();
+      /**
+      {
+        idToken: string,
+        serverAuthCode: string,
+        scopes: Array<string>, // on iOS this is empty array if no additional scopes are defined
+        user: {
+          email: string,
+          id: string,
+          givenName: string,
+          familyName: string,
+          photo: string, // url
+          name: string // full name
+        }
+      }
+       */
 
-      const {
-        user: newUser,
-        email,
-        nonce,
-        identityToken,
-        realUserStatus /* etc */,
-      } = appleAuthRequestResponse;
+      console.log("Google User", userInfo)
 
-      user = newUser;
-
-      if (identityToken) {
-        const appleToken = identityToken;
-
-        AuthDal.applelogin({appleToken})
-        .then((res) => {
+      if ( userInfo.idToken ) {
+        const googleToken = userInfo.idToken;
+        AuthDal.googlelogin({googleToken})
+        .then((res: any) => {
           console.log("Result : ", res)
           if (!res.token || !res.refreshToken) {
-            setError(t('error.login.0003'));
+            setError(t('error.login.0007'));
             setIsError(true);
             setLoading(false);
             return;
           }
 
           if (actionsProvider) {
-
             ProfileDal.loadSettings(res.token)
             .then((result) => {
               if (result && result.success) {
@@ -96,7 +103,124 @@ export function Login(props: any) {
                 return;
               }
             });
+          }
+        })
+        .catch((err: any) => {
+          console.log(JSON.stringify(err));
+          setError(JSON.stringify(err));
+          setIsError(true);
+          setLoading(false);
+        });
 
+        //console.log(`Google Authentication Completed, ${user}, ${email}`);
+      } else {
+        // no token - failed sign-in?
+        setError(t('error.login.0007'));
+        setIsError(true);
+        setLoading(false);
+      }        
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+        setError(t('error.login.0004'));
+        setIsError(true);
+        setLoading(false);
+        return;
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+        setError(t('error.login.0009'));
+        setIsError(true);
+        setLoading(false);
+        return;
+      } else {
+        // some other error happened
+        console.error(error);
+        setError(error);
+        setIsError(true);
+        setLoading(false);
+        return;
+      }
+    }
+  }
+
+
+  const LoginApple = async () => {
+    /**
+     * You'd technically persist this somewhere for later use.
+     */
+    let user = null;
+    setError('');
+    setIsError(false);
+    setLoading(true);
+
+    // start a login request
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      const {
+        user: newUser,
+        email,
+        nonce,
+        identityToken,
+        realUserStatus /* etc */,
+      } = appleAuthRequestResponse;
+
+      user = newUser;
+
+      if (identityToken) {
+        const appleToken = identityToken;
+
+        AuthDal.applelogin({appleToken})
+        .then((res: any) => {
+          console.log("Result : ", res)
+          if (!res.token || !res.refreshToken) {
+            setError(t('error.login.0003'));
+            setIsError(true);
+            setLoading(false);
+            return;
+          }
+
+          if (actionsProvider) {
+            ProfileDal.loadSettings(res.token)
+            .then((result) => {
+              if (result && result.success) {
+                const lang = result.data?.language;
+                actionsProvider?.settings(result);
+                i18n.changeLanguage(lang);
+                actionsProvider.signIn(res);
+              } else if (result && !result.success) {
+                setError(t('error.profile.0006'));
+                setIsError(true);
+                setLoading(false);
+                return;
+              }
+            })
+            .catch((err) => {
+              if ( err === 404)  { // No user settings
+                //Default su lingua di distema
+                const lang = getDeviceLang();
+                const userSetting = {"data":{"language": lang}} as ProfileSettingsApiOutputData;
+                actionsProvider?.settings(userSetting);
+                i18n.changeLanguage(lang);
+                actionsProvider.signIn(res);
+              } else if ( err === 422) { // No User token
+                setError(t("error.profile.0007"));
+                setIsError(true);
+                setLoading(false);
+                return;
+              } else {
+                console.log("Generic err")
+                setError(err);
+                setIsError(true);
+                setLoading(false);
+                return;
+              }
+            });
           }
         })
         .catch((err) => {
@@ -155,7 +279,7 @@ export function Login(props: any) {
               data?.accessToken != null ? data?.accessToken : '';
 
             AuthDal.facebooklogin({facebookToken})
-              .then((res) => {
+              .then((res: any) => {
                 if (!res.token || !res.refreshToken) {
                   setError(t('error.login.0006'));
                   setIsError(true);
@@ -164,7 +288,6 @@ export function Login(props: any) {
                 }
 
                 if (actionsProvider) {
-
                   ProfileDal.loadSettings(res.token)
                   .then((result) => {
                     if (result && result.success) {
@@ -201,7 +324,6 @@ export function Login(props: any) {
                       return;
                     }
                   });
-
                 }
               })
               .catch((err) => {
@@ -230,7 +352,7 @@ export function Login(props: any) {
 
     if (userName && password) {
       AuthDal.login({userName, password})
-        .then((res) => {
+        .then((res: any) => {
           if (!res.token || !res.refreshToken) {
             setError('Dati errati');
             setIsError(true);
@@ -307,6 +429,27 @@ export function Login(props: any) {
               </TouchableOpacity>
             </LinearGradient>
             <Text style={styles.separatorText}>{t('login.or')}</Text>
+            {Platform.OS == 'android' && (
+              <>
+                <View style={styles.separatorButton}/>            
+                <LinearGradient
+                  colors={['#4285F4', '#4285F4', '#4285F4']}
+                  style={styles.loginGoogleBtn}>
+                  <TouchableOpacity
+                    onPress={() => LoginGoogle()}
+                    disabled={!actionsProvider}>
+                    <View style={styles.loginBtnSubView}>
+                      <Image
+                        source={images.google_logo}
+                        style={styles.google_logo}
+                      />
+                      <Text style={styles.loginGoogleText}>{t('login.google')}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </LinearGradient>
+              </>
+            )}
+            <View style={styles.separatorButton}/>
             <LinearGradient
               colors={['#1778F2', '#1778F2', '#1778F2']}
               style={styles.loginFbBtn}>
@@ -322,23 +465,26 @@ export function Login(props: any) {
                 </View>
               </TouchableOpacity>
             </LinearGradient>
-            {Platform.OS == 'ios' && 
-            <LinearGradient
-              colors={['#000000', '#000000', '#000000']}
-              style={styles.appleButton}>
-              <TouchableOpacity
-                onPress={() => LoginApple()}
-                disabled={!actionsProvider}>
-                <View style={styles.loginBtnSubView}>
-                  <Image
-                    source={images.apple_logo}
-                    style={styles.apple_logo}
-                  />
-                  <Text style={styles.loginAppleText}>{t('login.apple')}</Text>
-                </View>
-              </TouchableOpacity>
-            </LinearGradient>
-            }
+            {Platform.OS == 'ios' && (
+              <>
+                <View style={styles.separatorButton}/>
+                <LinearGradient
+                  colors={['#000000', '#000000', '#000000']}
+                  style={styles.appleButton}>
+                  <TouchableOpacity
+                    onPress={() => LoginApple()}
+                    disabled={!actionsProvider}>
+                    <View style={styles.loginBtnSubView}>
+                      <Image
+                        source={images.apple_logo}
+                        style={styles.apple_logo}
+                      />
+                      <Text style={styles.loginAppleText}>{t('login.apple')}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </LinearGradient>
+              </>
+            )}
           </>
         )}
         {isLoading && (

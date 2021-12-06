@@ -10,6 +10,7 @@ import {
   RefreshApiInputData,
   FacebookLoginInputData,
   AppleLoginInputData,
+  GoogleLoginInputData,
 } from '../../interfaces/web-api';
 
 const authFetchBuilder = entityPostBuilder(Entities.Auth);
@@ -29,5 +30,8 @@ export const AuthDal = {
   ),
   applelogin: authFetchBuilder<AppleLoginInputData, LoginApiOutputData>(
     'login/apple',
+  ),
+  googlelogin: authFetchBuilder<GoogleLoginInputData, LoginApiOutputData>(
+    'login/google',
   ),
 };

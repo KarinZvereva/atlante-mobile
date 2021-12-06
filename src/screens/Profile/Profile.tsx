@@ -8,13 +8,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import {styles} from './Profile.styles';
 import {SafeAreaView} from 'react-native';
 import Recaptcha, {RecaptchaHandles} from 'react-native-recaptcha-that-works';
-import {User, UserSettings} from '../../common/interfaces/web-api';
+import {User} from '../../common/interfaces/web-api';
 import {ProfileDal} from './Profile.dal';
 import {webCaptchaUrl, captchaSiteKey} from '../../common/constants';
 import {UserAuthenticationMode} from '../../common/modules/auth/auth.constants';
 import { useTranslation } from 'react-i18next';
-import {Picker, PickerProps} from '@react-native-picker/picker';
-import {markerDefaultGreen, images} from '../../common/constants';
+import {Picker} from '@react-native-picker/picker';
+import {markerDefaultGreen} from '../../common/constants';
 
 export function Profile(props: any) {
   const actionsProvider = useContext(AuthContext);

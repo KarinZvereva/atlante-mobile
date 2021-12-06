@@ -42,7 +42,7 @@ export function LoginStandard(props: any) {
     setLoading(true);
     console.log("AuthDal.login")
     AuthDal.login({userName, password})
-      .then((res) => {
+      .then((res: any) => {
         console.log("AuthDal.login then")
         if (!res.token || !res.refreshToken) {
           setError(t('error.login.0002'));
@@ -146,6 +146,12 @@ export function LoginStandard(props: any) {
               <TouchableOpacity
                 onPress={() => props.navigation.navigate('AccountRestore')}>
                 <Text style={styles.linkText}>{t('login_standard.password_lost')}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.forgot_button}>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('UsernameRestore')}>
+                <Text style={styles.linkText}>{t('login_standard.username_lost')}</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.forgot_button}>
