@@ -7,19 +7,21 @@
     "standard"            : "Accedi",
     "facebook"            : "Accedi con Facebook",
     "apple"               : "Accedi con Apple",
+    "google"              : "Accedi con Google",
     "or"                  : "- oppure -"
   },
   "login_standard": {
     "title"               : "Login NaTourWine",
     "remember"            : "Ricordami",
     "password_lost"       : "Password dimenticata?",
+    "username_lost"       : "Username dimenticato?",
     "signup"              : "Non hai un account? Registrati!",
     "login"               : "Accedi"
   },
   "home": {
     "title_1"             : "Benvenuto",
     "title_2"             : "Bevitore Errante",
-    "map"                 : "Visita la mappa delle cantine",
+    "map"                 : "Visita le mappe tematiche",
     "contact"             : "Resta in contatto con noi"
   },
   "menu": {
@@ -107,6 +109,10 @@
     "title"               : "Recupera Password",
     "mail_message"        : "Verifica la mail per ripristinare l'account"
   },
+  "username_restore": {
+    "title"               : "Recupera Username",
+    "mail_message"        : "Verifica la mail per ripristinare l'account"
+  },
   "signup": {
     "title"               : "Registrati",
     "mail_message"        : "Verifica la mail per attivare l'account",
@@ -144,7 +150,10 @@
       "0003"              : "Impossibile eseguire l'accesso con Apple",
       "0004"              : "User canceled Apple Sign in.",
       "0005"              : "Login Facebook Cancelled",
-      "0006"              : "Impossibile eseguire l'accesso con Facebook"
+      "0006"              : "Impossibile eseguire l'accesso con Facebook",
+      "0007"              : "Impossibile eseguire l'accesso con Google",
+      "0008"              : "User canceled Google Sign in.",
+      "0009"              : "Google play services not available."
     },
     "account_restore": {
       "0001"              : "Email non inserita",

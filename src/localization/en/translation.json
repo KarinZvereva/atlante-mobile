@@ -7,19 +7,21 @@
     "standard"            : "Sign in",
     "facebook"            : "Sign in with Facebook",
     "apple"               : "Sign in with Apple",
+    "google"              : "Sign in with Google",
     "or"                  : "- or -"
   },
   "login_standard": {
     "title"               : "NaTourWine Sign in",
     "remember"            : "Remember me",
     "password_lost"       : "Forgot password?",
+    "username_lost"       : "Forgot username?",
     "signup"              : "Don't have an account? Sign up!",
     "login"               : "Sign in"
   },
   "home": {
     "title_1"             : "Welcome",
     "title_2"             : "Wine Tripper",
-    "map"                 : "Go to Winery map",
+    "map"                 : "Go to the thematic map",
     "contact"             : "Stay in touch"
   },
   "menu": {
@@ -107,6 +109,10 @@
     "title"               : "Restore Password",
     "mail_message"        : "We've just sent you an email, please check your inbox"
   },
+  "username_restore": {
+    "title"               : "Restore Username",
+    "mail_message"        : "We've just sent you an email, please check your inbox"
+  },
   "signup": {
     "title"               : "Sign Up",
     "mail_message"        : "We've just sent you an activaction email, please check your email and click on the link to verify.",
@@ -145,7 +151,10 @@
       "0003"              : "Unable to sign in with Apple",
       "0004"              : "User cancelled Apple Sign in.",
       "0005"              : "User cancelled Facebook Sign in",
-      "0006"              : "Unable to sign in with Facebook"
+      "0006"              : "Unable to sign in with Facebook",
+      "0007"              : "Unable to sign in with Google",
+      "0008"              : "User canceled Google Sign in.",
+      "0009"              : "Google play services not available."
     },
     "account_restore": {
       "0001"              : "Email empty",

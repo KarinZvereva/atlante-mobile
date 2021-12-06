@@ -30,6 +30,15 @@ export const icons = {
   filtri_piccolo: require('../../assets/icon/filtri_piccolo.png'),
   profilo: require('../../assets/icon/profilo.png'),
   profilo_big: require('../../assets/icon/profilo_big.png'),
+  cantine_home: require('../../assets/icon/cantine.png'),
+  fiere_home: require('../../assets/icon/fiere.png'),
+  ristori_home: require('../../assets/icon/ristori4.png'),
+  enoteche_marker: require('../../assets/icon/enoteche_marker.png'),
+  enoteche_marker_big: require('../../assets/icon/enoteche_marker_big.png'),
+  locali_marker: require('../../assets/icon/locali_marker.png'),
+  locali_marker_big: require('../../assets/icon/locali_marker_big.png'),
+  fiere_marker: require('../../assets/icon/fiere_marker.png'),
+  fiere_marker_big: require('../../assets/icon/fiere_marker_big.png'),
 };
 
 export const images = {
@@ -37,4 +46,5 @@ export const images = {
   login_logo: require('../../assets/img/login_logo.png'),
   apple_logo: require('../../assets/img/apple_logo_square_1x.png'),
   facebook_logo: require('../../assets/img/f_logo_RGB-Blue_58.png'),
+  google_logo: require('../../assets/img/btn_google_light_normal_hdpi.9.png'),
 };

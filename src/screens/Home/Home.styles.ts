@@ -16,6 +16,13 @@ export const homeStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  maps_container: {
+    flex: 0,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   logo: {
     height: 210,
     width: 210,
@@ -56,4 +63,8 @@ export const homeStyles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
   },
+  map_images: {
+    marginLeft: 15,
+    marginRight: 15,
+  }
 });

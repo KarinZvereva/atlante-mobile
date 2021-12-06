@@ -67,13 +67,32 @@ export function Home(props: IRouteProps) {
           <Text style={[homeStyles.title, {marginBottom: 60}]}>
             {t('home.title_2')}
           </Text>
-          <RoundImageButton
-            borderRadius={40}
-            image={icons.wineries_map_big}
-            onPress={() => {
-              navigation.navigate('Wineries Map');
-            }}
-          />
+          <View style={homeStyles.maps_container}>
+            <RoundImageButton
+              style={homeStyles.map_images}
+              borderRadius={40}
+              image={icons.ristori_home}
+              onPress={() => {
+                navigation.navigate('Wineries Map');
+              }}
+            />
+            <RoundImageButton
+              style={homeStyles.map_images}
+              borderRadius={40}
+              image={icons.cantine_home}
+              onPress={() => {
+                navigation.navigate('Wineries Map');
+              }}
+            />
+            <RoundImageButton
+              style={homeStyles.map_images}
+              borderRadius={40}
+              image={icons.fiere_home}
+              onPress={() => {
+                navigation.navigate('Wineries Map');
+              }}
+            />
+          </View>
           <Text style={homeStyles.goToWineriesText}>{t('home.map')}</Text>
           <Text style={homeStyles.keepInTouchText}>{t('home.contact')}</Text>
           <View style={homeStyles.socialIcons}>
